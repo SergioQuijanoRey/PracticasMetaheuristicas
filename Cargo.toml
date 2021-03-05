@@ -8,4 +8,4 @@ edition = "2018"
 
 [dependencies]
 simple-error="0.2.3"
-
+csv = "1.1"
