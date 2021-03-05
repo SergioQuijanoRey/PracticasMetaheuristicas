@@ -56,7 +56,11 @@ fn parse_data_file_to_struct(data_path: &str) -> Result<DataPoints, Box<dyn Erro
         // Mapear StringRecord a un vector de floats
         let data: Vec<&str> = current_line.iter().collect();
         let data: Vec<String> = data.into_iter().map(|x| x.to_string()).collect();
-        let data: Vec<f32> = data.into_iter().map(|x| x.parse::<f32>().expect("TODO -- handle this error")).collect();
+
+        // Si algun elemento no se puede parsear, se devuelve un error
+        // En otro caso, me tomo los datos
+        let data: Result<Vec<f32>, _> = data.into_iter().map(|x| x.parse::<f32>()).collect();
+        let data = data?;
 
         // Añadir el punto al vector de puntos
         let point = Point{coordinates: data};
