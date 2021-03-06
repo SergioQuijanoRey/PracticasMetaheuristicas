@@ -45,5 +45,33 @@ fn main() {
         }
     };
 
-    println!("{:#?}", constraints);
+    println!("Datos del problema cargados con exito, procediendo a calcular las soluciones");
+    println!("================================================================================");
+    println!("");
+
+    let max_iterations = 100000;
+    //let max_iterations = 100; // TODO -- para debuggear
+
+    // TODO -- read this from cli args
+    let number_of_clusters = 7;
+
+    let mut current_solution = problem_datatypes::Solution::generate_random_solution(data_points, constraints, number_of_clusters);
+    println!("Initial solution is {:?}", current_solution.get_cluster_indexes());
+
+    for i in 0..max_iterations{
+        let new_solution = current_solution.get_neighbour();
+
+        if new_solution.fitness() < current_solution.fitness(){
+            println!("Fitness got better, from {} to {}", current_solution.fitness(), new_solution.fitness());
+            current_solution = new_solution;
+        }
+
+        // No podemos mejorar mas el fitness
+        if current_solution.fitness() == 0.0{
+            println!("Saved {} iterations", max_iterations - i);
+            break;
+        }
+    }
+
+    println!("Final solution is: {:?}",current_solution.get_cluster_indexes());
 }
