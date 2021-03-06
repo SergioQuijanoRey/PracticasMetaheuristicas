@@ -1,18 +1,9 @@
-use std::env;
 use std::error::Error;
 use std::boxed::Box;
 use std::process::exit;
-use simple_error::bail; // Devuelve errores simples con un string descriptivo
 use csv;
 
-/// Representa los parametros del programa
-/// Estos son los que ha introducido el dato por la linea de comandos
-#[derive(Debug)]
-struct ProgramParameters{
-    data_file: String,
-    constraints_file: String,
-    seed: i32
-}
+mod arg_parser;
 
 /// Representa el conjunto de puntos que hay que agrupar
 #[derive(Debug)]
@@ -24,23 +15,6 @@ struct DataPoints{
 #[derive(Debug)]
 struct Point{
     coordinates: Vec<f32>
-}
-
-/// Toma los parametros de entrada por linea de comandos y los parsea a la
-/// estructura de datos
-fn parse_args(args: Vec<String>) -> Result<ProgramParameters, Box<dyn Error>>{
-    if args.len() != 4{
-        bail!("3 parameters expected, {} given", args.len() - 1)
-    }
-
-    let data_file = args[1].parse::<String>()?;
-    let constraints_file = args[2].parse::<String>()?;
-    let seed = args[3].parse::<i32>()?;
-
-    return Ok(ProgramParameters{
-        data_file, constraints_file, seed
-    });
-
 }
 
 /// Toma un fichero de datos y los parsea a la estructura de datos
@@ -103,6 +77,8 @@ fn parse_constraints_file_to_struct(constraint_file_path: &str) -> Result<Vec<Co
         .from_path(constraint_file_path)?;
 
 
+    // TODO -- estamos repitiendo restricciones
+    // Por ejemplo: Must link 1, 2 and Must link 2, 1
     for (index, current_line) in reader.records().enumerate(){
         // Unwrap el result
         let current_line = current_line?;
@@ -140,9 +116,7 @@ fn show_help(){
 
 fn main() {
 
-    // Tomamos los datos de entrada por linea de comandos
-    let args: Vec<String> = env::args().collect();
-    let program_arguments = match parse_args(args){
+    let program_arguments = match arg_parser::ProgramParameters::new(){
         Ok(value) => value,
         Err(err) => {
             eprintln!("No se pudo leer los parametros dados por terminal");
@@ -153,20 +127,20 @@ fn main() {
     };
 
     // Parseamos los datos del archivo de datos
-    let data_points = match parse_data_file_to_struct(&program_arguments.data_file){
+    let data_points = match parse_data_file_to_struct(&program_arguments.get_data_file()){
         Ok(value) => value,
         Err(err) => {
-            eprintln!("No se pudieron leer los datos del fichero {}", program_arguments.data_file);
+            eprintln!("No se pudieron leer los datos del fichero {}", program_arguments.get_data_file());
             eprintln!("[Errcode]: {}", err);
             exit(-1);
         }
     };
 
     // Parseamos los datos del archivo de restricciones
-    let constraints = match parse_constraints_file_to_struct(&program_arguments.constraints_file){
+    let constraints = match parse_constraints_file_to_struct(&program_arguments.get_constraints_file()){
         Ok(value) => value,
         Err(err) => {
-            eprintln!("No se pudieron leer los datos de restricciones del fichero {}", program_arguments.constraints_file);
+            eprintln!("No se pudieron leer los datos de restricciones del fichero {}", program_arguments.get_constraints_file());
             eprintln!("[Errcode]: {}", err);
             exit(-1);
         }
