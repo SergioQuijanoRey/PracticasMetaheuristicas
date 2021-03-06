@@ -45,3 +45,44 @@ impl Constraint{
         return Self{first_index, second_index, constraint_type};
     }
 }
+
+/// Estructura que representa una solucion del problema
+///
+/// La solucion viene representada como un vector de indices
+/// En dicho vector, la posicion i-esima indica el cluster al que pertenece el i-esimo
+/// punto del conjunto de datos
+pub struct Solution{
+    cluster_indexes: Vec<i32>,
+    number_of_clusters: i32,
+    number_of_elements: i32,
+}
+
+/// TODO -- falta por implementar
+impl Solution{
+    pub fn new(cluster_indexes: Vec<i32>, number_of_clusters: i32, number_of_elements: i32) -> Self{
+        return Self{cluster_indexes, number_of_clusters, number_of_elements};
+    }
+
+    /// Comprueba si la solucion es valida o no
+    // TODO -- ¿tiene que ser publico?
+    pub fn is_valid(&self) -> bool{
+        return false;
+    }
+
+    /// Calcula el valor de fitness de la solucion
+    pub fn fitness(&self) -> f32{
+        return 0.0;
+    }
+
+    /// Devuelve un vecino de la solucion
+    // TODO -- no puede dejar clusters vacios
+    pub fn get_neighbour(&self) -> Self{
+        return Self{cluster_indexes: vec![], number_of_clusters: 0, number_of_elements: 0};
+    }
+
+    /// Genera una solucion inicial aleatoria, como punto de partida de las busquedas
+    // TODO -- no puede dejar clusters vacios
+    pub fn generate_random_solution(number_of_clusters, number_of_elements) -> Self{
+        return Self{cluster_indexes: vec![], number_of_clusters: 0, number_of_elements: 0};
+    }
+}
