@@ -30,11 +30,11 @@ pub fn parse_data_file_to_struct(data_path: &str) -> Result<DataPoints, Box<dyn 
         let data = data?;
 
         // Añadir el punto al vector de puntos
-        let point = Point { coordinates: data };
+        let point = Point::new(data);
         points.push(point)
     }
 
-    return Ok(DataPoints { points });
+    return Ok(DataPoints::new(points));
 }
 
 /// Toma un fichero de restricciones y los parsea a la correspondiente estructura de datos
@@ -67,20 +67,20 @@ pub fn parse_constraints_file_to_struct(constraint_file_path: &str) -> Result<Ve
         // Recorremos el vetor de restricciones y añadimos las restricciones que nos encontremos
         for (second_index, value) in data.into_iter().enumerate() {
             if value == 1 {
-                let constraint = Constraint {
-                    first_index: index as i32,
-                    second_index: second_index as i32,
-                    constraint_type: ConstraintType::MustLink,
-                };
+                let constraint = Constraint::new(
+                    index as i32,
+                    second_index as i32,
+                    ConstraintType::MustLink,
+                );
                 constraints.push(constraint);
             }
 
             if value == -1 {
-                let constraint = Constraint {
-                    first_index: index as i32,
-                    second_index: second_index as i32,
-                    constraint_type: ConstraintType::CannotLink,
-                };
+                let constraint = Constraint::new(
+                    index as i32,
+                    second_index as i32,
+                    ConstraintType::CannotLink,
+                );
                 constraints.push(constraint);
             }
         }
