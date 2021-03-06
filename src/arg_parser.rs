@@ -16,6 +16,7 @@ impl ProgramParameters{
     /// Toma los parametros de entrada por linea de comandos y los parsea a la
     /// estructura de datos
     pub fn new() -> Result<Self, Box<dyn Error>>{
+        // Tomamos los argumentos pasados por la linea de comandos
         let args: Vec<String> = env::args().collect();
 
         if args.len() != 4{
