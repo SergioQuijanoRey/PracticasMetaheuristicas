@@ -46,6 +46,27 @@ impl Point {
         return diff.scalar_sum().sqrt();
     }
 
+
+    /// Dado un conjunto de puntos, calcula su centroide
+    // TODO -- TEST -- muy facil de testear
+    pub fn calculate_centroid(points: Vec<&Self>) -> Self{
+        // Condicion de seguridad
+        if points.len() == 0{
+            panic!("No se puede calcular el centroide de un conjunto vacio de puntos")
+        }
+
+        // Array de zeros con el mismo shape que el primer punto que le pasemos
+        let mut sum_point = ndarray::Array1::zeros(points[0].coordinates.len());
+
+        // Calculamos el centroide
+        for point in &points{
+            sum_point = sum_point + &point.coordinates;
+        }
+        sum_point = sum_point / points.len() as f32;
+
+        return Self{coordinates: sum_point};
+    }
+
 }
 
 #[derive(Debug, Clone)]
@@ -194,5 +215,40 @@ impl Solution {
             number_of_clusters
         };
 
+    }
+
+    /// Dado un cluster (representado por el entero que los identifica), calcula
+    /// la distancia intracluster en la solucion actual
+    // TODO -- comprobar que no estemos dividiendo por cero, ya sea con un result
+    // o con un panic!
+    pub fn get_intra_cluster_distance(&self, cluster: i32) -> f32{
+        // Calculamos el vector de puntos que estan en el cluster
+        let cluster_points = self.get_points_in_cluster(cluster);
+
+        // Calculamos el centroide de dicho conjunto de puntos
+        let centroid = Point::calculate_centroid(cluster_points.clone());
+
+        // Calculamos la distancia intracluster
+        let mut cum_sum = 0.0;
+        for point in &cluster_points{
+            cum_sum += Point::distance(point, &centroid);
+        }
+        return cum_sum / cluster_points.len() as f32;
+
+    }
+
+    /// Dado un cluster indicado por el indice que lo representa, devuelve los puntos
+    /// que componen dicho cluster
+    // TODO -- TEST -- esta funcion es muy facil de testear
+    fn get_points_in_cluster(&self, cluster: i32) -> Vec<&Point>{
+        let mut cluster_points = vec![];
+
+        for (index, curr_cluster) in self.cluster_indexes.iter().enumerate(){
+            if *curr_cluster == cluster{
+                cluster_points.push(&self.data_points.points[index]);
+            }
+        }
+
+        return cluster_points;
     }
 }
