@@ -2,7 +2,7 @@ use std::boxed::Box;
 use std::error::Error;
 
 // Para no tener que poner el path del modulo de los datatypes
-use crate::problem_datatypes::{Constraint, ConstraintType, DataPoints, Point};
+use crate::problem_datatypes::{Constraints, ConstraintType, DataPoints, Point};
 
 /// Toma un fichero de datos y los parsea a la estructura de datos correspondiente
 pub fn parse_data_file_to_struct(data_path: &str) -> Result<DataPoints, Box<dyn Error>> {
@@ -38,9 +38,9 @@ pub fn parse_data_file_to_struct(data_path: &str) -> Result<DataPoints, Box<dyn 
 }
 
 /// Toma un fichero de restricciones y los parsea a la correspondiente estructura de datos
-pub fn parse_constraints_file_to_struct(constraint_file_path: &str) -> Result<Vec<Constraint>, Box<dyn Error>> {
+pub fn parse_constraints_file_to_struct(constraint_file_path: &str) -> Result<Constraints, Box<dyn Error>> {
     // El vector de restricciones que vamos a construir
-    let mut constraints: Vec<Constraint> = vec![];
+    let mut constraints = Constraints::new();
 
     // Tiene que ser mutable para poder iterar
     // El proceso de tomar el siguiente elemento se considera una mutacion de
@@ -49,8 +49,6 @@ pub fn parse_constraints_file_to_struct(constraint_file_path: &str) -> Result<Ve
         .has_headers(false) // Nuestro fichero no tiene headers
         .from_path(constraint_file_path)?;
 
-    // TODO -- estamos repitiendo restricciones
-    // Por ejemplo: Must link 1, 2 and Must link 2, 1
     for (index, current_line) in reader.records().enumerate() {
         // Unwrap el result
         let current_line = current_line?;
@@ -67,21 +65,11 @@ pub fn parse_constraints_file_to_struct(constraint_file_path: &str) -> Result<Ve
         // Recorremos el vetor de restricciones y añadimos las restricciones que nos encontremos
         for (second_index, value) in data.into_iter().enumerate() {
             if value == 1 {
-                let constraint = Constraint::new(
-                    index as i32,
-                    second_index as i32,
-                    ConstraintType::MustLink,
-                );
-                constraints.push(constraint);
+                constraints.add_constraint(index as i32, second_index as i32, ConstraintType::MustLink);
             }
 
             if value == -1 {
-                let constraint = Constraint::new(
-                    index as i32,
-                    second_index as i32,
-                    ConstraintType::CannotLink,
-                );
-                constraints.push(constraint);
+                constraints.add_constraint(index as i32, second_index as i32, ConstraintType::CannotLink);
             }
         }
     }

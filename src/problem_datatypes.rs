@@ -76,29 +76,12 @@ pub enum ConstraintType {
     CannotLink,
 }
 
-/// Estructura de datos que representa una restriccion
-/// Una restriccion viene dada por los dos indices de los elementos que se
-/// restringen y el tipo de restriccion
-// TODO -- pasar esta estructura de datos a un hash para tener acceso directo
-#[derive(Debug, Clone)]
-pub struct Constraint {
-    first_index: i32,
-    second_index: i32,
-    constraint_type: ConstraintType,
-}
-
-impl Constraint {
-    pub fn new(first_index: i32, second_index: i32, constraint_type: ConstraintType) -> Self {
-        return Self {
-            first_index,
-            second_index,
-            constraint_type,
-        };
-    }
-}
-
 // TODO -- sobrescribir el tipo de dato (i32, i32) para que sea lo mismo (1, 2) que (2, 1)
-#[derive(Debug)]
+/// Estructura de datos que representa las restricciones del problema
+/// Usamos un hashmap por motivos de eficiencia la hora de guardar y acceder a los datos
+/// Una restriccion viene dada por los dos indices de los elementos que se restringen
+/// y el tipo de restriccion
+#[derive(Debug, Clone)]
 pub struct Constraints{
     data: HashMap<(i32, i32), ConstraintType>,
 }
@@ -117,8 +100,6 @@ impl Constraints{
             self.data.insert((first_index, second_index), constraint_type);
         }
     }
-
-
 
     // Comprueba si tenemos el elemento dado por los indices
     // A mano se comprueba que (a, b) == (b, a) a la hora de mirar las claves
@@ -150,7 +131,7 @@ impl Constraints{
 pub struct Solution {
     cluster_indexes: Vec<i32>,
     data_points: DataPoints,
-    constraints: Vec<Constraint>,
+    constraints: Constraints,
     number_of_clusters: i32,
 }
 
@@ -159,7 +140,7 @@ impl Solution {
     pub fn new(
         cluster_indexes: Vec<i32>,
         data_points: DataPoints,
-        constraints: Vec<Constraint>,
+        constraints: Constraints,
         number_of_clusters: i32
     ) -> Self {
         return Self {
@@ -242,7 +223,7 @@ impl Solution {
     // TODO -- no puede dejar clusters vacios
     pub fn generate_random_solution(
         data_points: DataPoints,
-        constraints: Vec<Constraint>,
+        constraints: Constraints,
         number_of_clusters: i32
     ) -> Self {
         // Generador de numeros aleatorios

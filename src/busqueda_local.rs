@@ -1,9 +1,9 @@
 use crate::problem_datatypes::Solution;
 use crate::problem_datatypes::DataPoints;
-use crate::problem_datatypes::Constraint;
+use crate::problem_datatypes::Constraints;
 
 /// Ejecuta la metaheuristica de busqueda local y devuelve la solucion encontrada
-pub fn run(data_points: DataPoints, constraints: Vec<Constraint>, number_of_clusters: i32, max_iterations: i32) -> Solution{
+pub fn run(data_points: DataPoints, constraints: Constraints, number_of_clusters: i32, max_iterations: i32) -> Solution{
 
     // Partimos de una solucion inicial aleatoria
     let mut current_solution = Solution::generate_random_solution(data_points, constraints, number_of_clusters);
