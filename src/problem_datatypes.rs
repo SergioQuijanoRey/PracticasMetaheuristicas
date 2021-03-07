@@ -16,13 +16,20 @@ impl DataPoints {
 /// Representa un punto
 #[derive(Debug, Clone)]
 pub struct Point {
-    coordinates: Vec<f32>,
+    coordinates: ndarray::Array1<f32>,
 }
 
 impl Point {
-    pub fn new(coordinates: Vec<f32>) -> Self {
-        return Self { coordinates };
+    pub fn new(coordinates: ndarray::Array1<f32>) -> Self{
+        return Self{coordinates};
+
     }
+
+    /// Genera un punto a partir de sus coordenadas dadas en un vector de flotantes
+    pub fn from_vec(coordinates: Vec<f32>) -> Self {
+        return Self { coordinates: Array::from(coordinates) };
+    }
+
 
     /// Dados dos puntos, devuelve su distancia euclidea
     pub fn distance(first: &Self, second: &Self) -> f32{
@@ -31,14 +38,10 @@ impl Point {
 
     // Dado otro punto, devuelve su distancia euclidea al punto dado
     fn distance_to(&self, other: &Self) -> f32{
-        // TODO -- pasar el tipo de dato a ser nativamente un ndarray
-        let first_coordinates = Array::from(self.coordinates.clone());
-        let second_coordinates = Array::from(other.coordinates.clone());
-
         // Hacemos la diferencia en coordenadas
         // Elevamos al cuadrado
         // Sumamos y devolvemos la raiz cuadrada
-        let diff = first_coordinates - second_coordinates;
+        let diff = &self.coordinates - &other.coordinates;
         let diff = diff.mapv(|x| x*x);
         return diff.scalar_sum().sqrt();
     }

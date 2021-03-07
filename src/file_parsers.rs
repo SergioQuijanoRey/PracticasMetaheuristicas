@@ -30,7 +30,7 @@ pub fn parse_data_file_to_struct(data_path: &str) -> Result<DataPoints, Box<dyn 
         let data = data?;
 
         // Añadir el punto al vector de puntos
-        let point = Point::new(data);
+        let point = Point::from_vec(data);
         points.push(point)
     }
 
