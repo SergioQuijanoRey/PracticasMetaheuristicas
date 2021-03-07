@@ -79,7 +79,7 @@ fn main() {
     let distance = crate::problem_datatypes::Point::distance(&first, &second);
     println!("Distance is {:?}", distance);
 
-    println!("Intra cluster distance for index 0 is: {}", current_solution.get_intra_cluster_distance(0));
 
-    println!("Final solution is: {:?}",current_solution.get_cluster_indexes());
+    println!("La distancia global instracluster de la solucion es: {}", current_solution.global_cluster_mean_distance());
+
 }

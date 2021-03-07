@@ -157,12 +157,7 @@ impl Solution {
     /// Calcula el valor de fitness de la solucion
     // TODO -- no es la funcion que deberia ser
     pub fn fitness(&self) -> f32 {
-        let mut fitness = 0.0;
-        for value in &self.cluster_indexes{
-            fitness = fitness + (*value as f32)
-        }
-
-        return fitness;
+        return self.global_cluster_mean_distance();
     }
 
     /// Devuelve un vecino de la solucion
@@ -221,7 +216,7 @@ impl Solution {
     /// la distancia intracluster en la solucion actual
     // TODO -- comprobar que no estemos dividiendo por cero, ya sea con un result
     // o con un panic!
-    pub fn get_intra_cluster_distance(&self, cluster: i32) -> f32{
+    pub fn intra_cluster_distance(&self, cluster: i32) -> f32{
         // Calculamos el vector de puntos que estan en el cluster
         let cluster_points = self.get_points_in_cluster(cluster);
 
@@ -240,7 +235,7 @@ impl Solution {
     /// Dado un cluster indicado por el indice que lo representa, devuelve los puntos
     /// que componen dicho cluster
     // TODO -- TEST -- esta funcion es muy facil de testear
-    fn get_points_in_cluster(&self, cluster: i32) -> Vec<&Point>{
+    pub fn get_points_in_cluster(&self, cluster: i32) -> Vec<&Point>{
         let mut cluster_points = vec![];
 
         for (index, curr_cluster) in self.cluster_indexes.iter().enumerate(){
@@ -250,5 +245,16 @@ impl Solution {
         }
 
         return cluster_points;
+    }
+
+    /// Calcula la media de distancias intracluster sobre todos los clusters
+    /// Esto representa una de las componentes de la funcion fitness
+    pub fn global_cluster_mean_distance(&self) -> f32{
+        let mut cum_sum = 0.0;
+        for i in 0 .. self.number_of_clusters{
+            cum_sum += self.intra_cluster_distance(i);
+        }
+
+        return cum_sum / self.number_of_clusters as f32;
     }
 }
