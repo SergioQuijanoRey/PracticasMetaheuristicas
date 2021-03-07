@@ -1,6 +1,7 @@
 use std::error::Error;
 use std::boxed::Box;
 use std::process::exit;
+use std::collections::HashMap;
 use csv;
 
 // Ficheros en los que separo mi codigo
@@ -8,6 +9,8 @@ mod arg_parser;
 mod file_parsers;
 mod problem_datatypes;
 mod busqueda_local;
+
+use crate::problem_datatypes::ConstraintType;
 
 fn show_help(){
     println!("Modo de uso del programa:");

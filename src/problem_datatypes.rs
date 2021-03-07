@@ -1,5 +1,6 @@
 use rand::Rng;
 use ndarray::Array;
+use std::collections::HashMap;
 
 /// Representa el conjunto de puntos que hay que agrupar
 #[derive(Debug, Clone)]
@@ -93,6 +94,50 @@ impl Constraint {
             second_index,
             constraint_type,
         };
+    }
+}
+
+// TODO -- sobrescribir el tipo de dato (i32, i32) para que sea lo mismo (1, 2) que (2, 1)
+#[derive(Debug)]
+pub struct Constraints{
+    data: HashMap<(i32, i32), ConstraintType>,
+}
+
+impl Constraints{
+    /// Genera una nueva estructura de restricciones con los datos vacios
+    /// Es importante usar las funcionalidades de la estructura para no introducir
+    /// datos repetidos
+    pub fn new() -> Self{
+        return Self{data: HashMap::new()};
+    }
+
+    /// Añadimos una restriccion, comprobando si ya estaba anteriormente inicializada
+    pub fn add_constraint(&mut self, first_index: i32, second_index: i32, constraint_type: ConstraintType){
+        if self.has_element(first_index, second_index) == false {
+            self.data.insert((first_index, second_index), constraint_type);
+        }
+    }
+
+
+
+    // Comprueba si tenemos el elemento dado por los indices
+    // A mano se comprueba que (a, b) == (b, a) a la hora de mirar las claves
+    pub fn has_element(&self, first_index: i32, second_index: i32) -> bool{
+        return self.data.contains_key(&(first_index, second_index)) || self.data.contains_key(&(second_index, first_index));
+    }
+
+    pub fn get_constraint(&self, first_index: i32, second_index: i32) -> Option<&ConstraintType>{
+        // Hacemos los dos if porque no es lo mismo (1, 2) que (2, 1)
+        if self.has_element(first_index, second_index) {
+            return self.data.get(&(first_index, second_index));
+
+        }
+        if self.has_element(second_index, first_index) {
+            return self.data.get(&(second_index, first_index));
+        }
+
+        // No esta el elemento
+        return None;
     }
 }
 
