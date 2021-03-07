@@ -3,10 +3,10 @@ use crate::problem_datatypes::DataPoints;
 use crate::problem_datatypes::Constraints;
 
 /// Ejecuta la metaheuristica de busqueda local y devuelve la solucion encontrada
-pub fn run(data_points: DataPoints, constraints: Constraints, number_of_clusters: i32, max_iterations: i32) -> Solution{
+pub fn run(data_points: DataPoints, constraints: Constraints, number_of_clusters: i32, max_iterations: i32, seed: i32) -> Solution{
 
     // Partimos de una solucion inicial aleatoria
-    let mut current_solution = Solution::generate_random_solution(data_points, constraints, number_of_clusters);
+    let mut current_solution = Solution::generate_random_solution(data_points, constraints, number_of_clusters, seed);
     println!("Solucion inicial aleatoria: {:?}", current_solution.get_cluster_indexes());
 
     let mut iterations_since_improvement = 0;
@@ -24,6 +24,8 @@ pub fn run(data_points: DataPoints, constraints: Constraints, number_of_clusters
         // Si el vecino mejora el fitness, lo tomamos como nueva solucion actual
         if new_solution.fitness() < current_solution.fitness(){
             println!("Mejoramos el fitness de {} a {}", current_solution.fitness(), new_solution.fitness());
+            println!("\tPasamos de infea {} a {}", current_solution.infeasibility(), new_solution.infeasibility());
+            println!("\tPasamos de distancia {} a {}", current_solution.global_cluster_mean_distance(), new_solution.global_cluster_mean_distance());
             current_solution = new_solution;
 
             // TODO -- BUG -- esto hay que gestionarlo en el struct solucion

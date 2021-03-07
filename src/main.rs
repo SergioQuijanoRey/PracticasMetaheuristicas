@@ -10,11 +10,9 @@ mod file_parsers;
 mod problem_datatypes;
 mod busqueda_local;
 
-use crate::problem_datatypes::ConstraintType;
-
 fn show_help(){
     println!("Modo de uso del programa:");
-    println!("\t./PracticasMetaheuristicas <data_file> <constraints_file> <seed>")
+    println!("\t./PracticasMetaheuristicas <data_file> <constraints_file> <seed> <number_of_clusters>")
 }
 
 fn main() {
@@ -54,11 +52,10 @@ fn main() {
     println!("");
 
     let max_iterations = 100000;
-    //let max_iterations = 100; // TODO -- para debuggear
+    let solucion_local = busqueda_local::run(data_points, constraints, program_arguments.get_number_of_clusters(), max_iterations, program_arguments.get_seed());
 
-    // TODO -- read this from cli args
-    let number_of_clusters = 7;
-
-    let solucion_local = busqueda_local::run(data_points, constraints, number_of_clusters, max_iterations);
     println!("La distancia global instracluster de la solucion es: {}", solucion_local.global_cluster_mean_distance());
+    println!("El numero de restricciones violadas es: {}", solucion_local.infeasibility());
+    println!("El valor de fitness es: {}", solucion_local.fitness());
+    eprintln!("El valor de lambda es: {}", solucion_local.get_lambda());
 }

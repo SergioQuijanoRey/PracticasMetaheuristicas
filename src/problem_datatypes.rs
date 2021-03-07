@@ -1,6 +1,9 @@
-use rand::Rng;
 use ndarray::Array;
 use std::collections::HashMap;
+
+// Para fijar la semilla de numeros aleatorios
+use rand::{Rng,SeedableRng};
+use rand::rngs::StdRng;
 
 /// Representa el conjunto de puntos que hay que agrupar
 #[derive(Debug, Clone)]
@@ -68,6 +71,23 @@ impl Point {
         return Self{coordinates: sum_point};
     }
 
+    /// Dado un conjunto de puntos, calcula la maxima distancia entre dos de ellos
+    pub fn max_distance_among_two(points: &Vec<Point>) -> f32{
+        let mut max_dist = 0.0;
+
+        for i in 0 .. points.len(){
+            for j in i .. points.len(){
+                let curr_dist = Self::distance(&points[i], &points[j]);
+
+                if curr_dist > max_dist{
+                    max_dist = curr_dist;
+                }
+            }
+        }
+
+        return max_dist;
+
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -120,6 +140,10 @@ impl Constraints{
         // No esta el elemento
         return None;
     }
+
+    pub fn get_data(&self) -> HashMap<(i32, i32), ConstraintType>{
+        return self.data.clone();
+    }
 }
 
 /// Estructura que representa una solucion del problema
@@ -133,21 +157,36 @@ pub struct Solution {
     data_points: DataPoints,
     constraints: Constraints,
     number_of_clusters: i32,
+
+    /// Representa el peso de infeasibility en el calculo de fitness
+    /// Solo se calcula una vez al invocar a Solution::new
+    lambda: f32,
+
+    /// Necesitamos poder establecer el valor de la semilla para hacer comparaciones
+    seed: i32,
 }
 
-/// TODO -- falta por implementar
 impl Solution {
+    /// Util cuando no conocemos el valor de lambda, pues se calcula en esta llamada
+    /// En otro caso, se puede construir el struct de forma directa
     pub fn new(
         cluster_indexes: Vec<i32>,
         data_points: DataPoints,
         constraints: Constraints,
-        number_of_clusters: i32
+        number_of_clusters: i32,
+        seed: i32,
     ) -> Self {
+
+        // Calculamos el valor de lambda
+        let lambda = Point::max_distance_among_two(&data_points.points) / constraints.data.len() as f32;
+
         return Self {
             cluster_indexes,
             data_points,
             constraints,
-            number_of_clusters
+            number_of_clusters,
+            lambda,
+            seed,
         };
     }
 
@@ -155,8 +194,11 @@ impl Solution {
         return self.cluster_indexes.clone();
     }
 
+    pub fn get_lambda(&self) -> f32{
+        return self.lambda;
+    }
+
     /// Comprueba si la solucion es valida o no
-    // TODO -- siempre devuelve true, lo cual no es valido
     fn is_valid(&self) -> bool {
 
         // Condicion de seguridad que nunca deberia ocurrir
@@ -181,15 +223,16 @@ impl Solution {
     }
 
     /// Calcula el valor de fitness de la solucion
-    // TODO -- no es la funcion que deberia ser
     pub fn fitness(&self) -> f32 {
-        return self.global_cluster_mean_distance();
+        return self.global_cluster_mean_distance() + self.lambda * self.infeasibility() as f32;
     }
 
     /// Devuelve un vecino de la solucion
     // TODO -- genera muchas soluciones no validas
     pub fn get_neighbour(&self) -> Self {
         // Generador de numeros aleatorios
+        // TODO -- da problemas el fijar la semilla aleatoria
+        let mut rng = Self::fix_random_seed(self.seed);
         let mut rng = rand::thread_rng();
 
         // Indice que queremos cambiar
@@ -207,7 +250,9 @@ impl Solution {
             cluster_indexes: new_cluster_indexes,
             data_points: self.data_points.clone(),
             constraints: self.constraints.clone(),
-            number_of_clusters: self.number_of_clusters
+            number_of_clusters: self.number_of_clusters,
+            lambda: self.lambda,
+            seed: self.seed,
         };
 
         // Volvemos a generar un nuevo vecino
@@ -224,17 +269,21 @@ impl Solution {
     pub fn generate_random_solution(
         data_points: DataPoints,
         constraints: Constraints,
-        number_of_clusters: i32
+        number_of_clusters: i32,
+        seed: i32
     ) -> Self {
         // Generador de numeros aleatorios
+        // TODO -- da problemas fijar la semilla aleatoria
+        let mut rng = Self::fix_random_seed(seed);
         let mut rng = rand::thread_rng();
 
-        return Self {
-            cluster_indexes: (0..data_points.points.len()).map(|_| rng.gen_range(0..number_of_clusters)).collect(),
+        return Self::new(
+            (0..data_points.points.len()).map(|_| rng.gen_range(0..number_of_clusters)).collect(),
             data_points,
             constraints,
-            number_of_clusters
-        };
+            number_of_clusters,
+            seed,
+        );
 
     }
 
@@ -282,5 +331,41 @@ impl Solution {
         }
 
         return cum_sum / self.number_of_clusters as f32;
+    }
+
+    /// Calcula el numero de restricciones que se violan en la solucion actual
+    pub fn infeasibility(&self) -> i32{
+        let mut infea = 0;
+        for ((first_index, second_index), value) in &self.constraints.get_data(){
+
+            // Tomamos los dos indices de cluster para compararlos
+            let first_cluster = self.cluster_indexes[*first_index as usize];
+            let second_cluster  = self.cluster_indexes[*second_index as usize];
+
+            match value{
+                ConstraintType::MustLink => {
+                    // Sumamos cuando no estan en el mismo cluster
+                    if first_cluster != second_cluster{
+                        infea += 1;
+                    }
+                }
+
+                ConstraintType::CannotLink => {
+                    // Sumamos cuando estan en el mismo cluster
+                    if first_cluster == second_cluster{
+                        infea += 1;
+                    }
+                }
+            }
+        }
+
+        return infea;
+    }
+
+    // TODO -- no funciona como deberia
+    // Cada vez que lo llamo, genera una nueva semilla. Deberia guardar el generador
+    // de numeros aleatorios en un campo propio
+    fn fix_random_seed(seed: i32) -> rand::rngs::StdRng{
+        return StdRng::seed_from_u64(seed as u64);
     }
 }

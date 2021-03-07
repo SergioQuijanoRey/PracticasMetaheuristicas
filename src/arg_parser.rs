@@ -9,7 +9,8 @@ use simple_error::bail; // Devuelve errores simples con un string descriptivo
 pub struct ProgramParameters{
     data_file: String,
     constraints_file: String,
-    seed: i32
+    seed: i32,
+    number_of_clusters: i32,
 }
 
 impl ProgramParameters{
@@ -19,16 +20,17 @@ impl ProgramParameters{
         // Tomamos los argumentos pasados por la linea de comandos
         let args: Vec<String> = env::args().collect();
 
-        if args.len() != 4{
-            bail!("3 parameters expected, {} given", args.len() - 1)
+        if args.len() != 5{
+            bail!("4 parameters expected, {} given", args.len() - 1)
         }
 
         let data_file = args[1].parse::<String>()?;
         let constraints_file = args[2].parse::<String>()?;
         let seed = args[3].parse::<i32>()?;
+        let number_of_clusters = args[4].parse::<i32>()?;
 
         return Ok(ProgramParameters{
-            data_file, constraints_file, seed
+            data_file, constraints_file, seed, number_of_clusters
         });
     }
 
@@ -42,5 +44,9 @@ impl ProgramParameters{
 
     pub fn get_seed(&self) -> i32{
         return self.seed;
+    }
+
+    pub fn get_number_of_clusters(&self) -> i32{
+        return self.number_of_clusters;
     }
 }
