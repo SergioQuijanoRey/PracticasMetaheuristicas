@@ -1,4 +1,5 @@
 use rand::Rng;
+use ndarray::Array;
 
 /// Representa el conjunto de puntos que hay que agrupar
 #[derive(Debug, Clone)]
@@ -13,7 +14,6 @@ impl DataPoints {
 }
 
 /// Representa un punto
-// TODO -- no deberia tener campos publicos
 #[derive(Debug, Clone)]
 pub struct Point {
     coordinates: Vec<f32>,
@@ -23,6 +23,26 @@ impl Point {
     pub fn new(coordinates: Vec<f32>) -> Self {
         return Self { coordinates };
     }
+
+    /// Dados dos puntos, devuelve su distancia euclidea
+    pub fn distance(first: &Self, second: &Self) -> f32{
+        return first.distance_to(second);
+    }
+
+    // Dado otro punto, devuelve su distancia euclidea al punto dado
+    fn distance_to(&self, other: &Self) -> f32{
+        // TODO -- pasar el tipo de dato a ser nativamente un ndarray
+        let first_coordinates = Array::from(self.coordinates.clone());
+        let second_coordinates = Array::from(other.coordinates.clone());
+
+        // Hacemos la diferencia en coordenadas
+        // Elevamos al cuadrado
+        // Sumamos y devolvemos la raiz cuadrada
+        let diff = first_coordinates - second_coordinates;
+        let diff = diff.mapv(|x| x*x);
+        return diff.scalar_sum().sqrt();
+    }
+
 }
 
 #[derive(Debug, Clone)]

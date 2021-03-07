@@ -7,6 +7,7 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-simple-error="0.2.3"
-csv = "1.1"
-rand = "0.8.3"
+simple-error="0.2.3"    # Raising simple errors
+csv = "1.1"             # Read csv files
+rand = "0.8.3"          # Generate random numbers
+ndarray = "0.14.0"      # Work with matrices and vectors

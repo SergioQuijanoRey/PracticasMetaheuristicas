@@ -73,5 +73,11 @@ fn main() {
         }
     }
 
+    let first = crate::problem_datatypes::Point::new(vec![1.23, 1.133, 2.22]);
+    let second = crate::problem_datatypes::Point::new(vec![5.0, 1.133, 2.22]);
+
+    let distance = crate::problem_datatypes::Point::distance(&first, &second);
+    println!("Distance is {:?}", distance);
+
     println!("Final solution is: {:?}",current_solution.get_cluster_indexes());
 }
