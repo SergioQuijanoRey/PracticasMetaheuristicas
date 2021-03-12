@@ -115,7 +115,14 @@ impl Constraints{
     }
 
     /// Añadimos una restriccion, comprobando si ya estaba anteriormente inicializada
+    /// Ademas, las restricciones triviales MustLink (i, i) no se consideran
     pub fn add_constraint(&mut self, first_index: i32, second_index: i32, constraint_type: ConstraintType){
+
+        // No añadimos las restricciones triviales MustLink
+        if first_index == second_index{
+            return ();
+        }
+
         if self.has_element(first_index, second_index) == false {
             self.data.insert((first_index, second_index), constraint_type);
         }
@@ -137,7 +144,7 @@ impl Constraints{
             return self.data.get(&(second_index, first_index));
         }
 
-        // No esta el elemento
+        // No hay una restriccion entre los dos elementos pasados como parametros
         return None;
     }
 
