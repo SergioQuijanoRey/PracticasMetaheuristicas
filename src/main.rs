@@ -8,7 +8,7 @@ use csv;
 mod arg_parser;
 mod file_parsers;
 mod problem_datatypes;
-mod busqueda_local;
+mod local_search;
 
 fn show_help(){
     println!("Modo de uso del programa:");
@@ -52,7 +52,7 @@ fn main() {
     println!("");
 
     let max_iterations = 100000;
-    let solucion_local = busqueda_local::run(data_points, constraints, program_arguments.get_number_of_clusters(), max_iterations, program_arguments.get_seed());
+    let solucion_local = local_search::run(data_points, constraints, program_arguments.get_number_of_clusters(), max_iterations, program_arguments.get_seed());
 
     println!("La distancia global instracluster de la solucion es: {}", solucion_local.global_cluster_mean_distance());
     println!("El numero de restricciones violadas es: {}", solucion_local.infeasibility());

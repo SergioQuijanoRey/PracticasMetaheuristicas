@@ -5,6 +5,10 @@ use std::collections::HashMap;
 use rand::{Rng,SeedableRng};
 use rand::rngs::StdRng;
 
+// Para hacer shuffle de un vector
+use rand::thread_rng;
+use rand::seq::SliceRandom;
+
 /// Representa el conjunto de puntos que hay que agrupar
 #[derive(Debug, Clone)]
 pub struct DataPoints {
@@ -14,6 +18,10 @@ pub struct DataPoints {
 impl DataPoints {
     pub fn new(points: Vec<Point>) -> Self {
         return Self { points };
+    }
+
+    pub fn len(&self) -> usize{
+        return self.points.len();
     }
 }
 
@@ -234,41 +242,38 @@ impl Solution {
         return self.global_cluster_mean_distance() + self.lambda * self.infeasibility() as f32;
     }
 
-    /// Devuelve un vecino de la solucion
-    // TODO -- genera muchas soluciones no validas
-    pub fn get_neighbour(&self) -> Self {
+    /// Devuelve el primer vecino de la solucion valido que mejora la solucion
+    /// actual (el primero mejor)
+    pub fn get_neighbour(&self) -> Option<Self> {
         // Generador de numeros aleatorios
         // TODO -- da problemas el fijar la semilla aleatoria
         let mut rng = Self::fix_random_seed(self.seed);
         let mut rng = rand::thread_rng();
 
-        // Indice que queremos cambiar
-        let index_to_change = rng.gen_range(0..self.cluster_indexes.len());
+        // Tomo los generadores de vecinos
+        let mut neighbours_generator = NeighbourGenerator::generate_all_neighbours(self.data_points.len() as i32, self.number_of_clusters);
 
-        // Nuevo valor del indice
-        let new_index = rng.gen_range(0..self.number_of_clusters);
+        // Mezclo los generadores de vecinos
+        neighbours_generator.shuffle(&mut rng);
 
-        // Tomamos el nuevo vector de indices con el cambio
-        let mut new_cluster_indexes = self.cluster_indexes.clone();
-        new_cluster_indexes[index_to_change] = new_index;
+        for current_generator in neighbours_generator{
+            let current_solution = self.generate_solution_from(current_generator);
 
-
-        let neighbour = Self {
-            cluster_indexes: new_cluster_indexes,
-            data_points: self.data_points.clone(),
-            constraints: self.constraints.clone(),
-            number_of_clusters: self.number_of_clusters,
-            lambda: self.lambda,
-            seed: self.seed,
-        };
-
-        // Volvemos a generar un nuevo vecino
-        // TODO -- no se si esto afecta demasiado a la eficiencia
-        if neighbour.is_valid() == false{
-            return self.get_neighbour();
+            if current_solution.is_valid() && current_solution.fitness() < self.fitness(){
+                return Some(current_solution);
+            }
         }
 
-        return neighbour;
+        // No hemos encontrado un vecino mejor
+        return None;
+    }
+
+    /// A partir de un NeighbourGenerator, genera la solucion que representa el
+    /// generador aplicado a la solucion &self
+    fn generate_solution_from(&self, generator: NeighbourGenerator) -> Self{
+        let mut new_solution = self.clone();
+        new_solution.cluster_indexes[generator.element_index as usize] = generator.new_cluster;
+        return new_solution;
     }
 
     /// Genera una solucion inicial aleatoria, como punto de partida de las busquedas
@@ -374,5 +379,40 @@ impl Solution {
     // de numeros aleatorios en un campo propio
     fn fix_random_seed(seed: i32) -> rand::rngs::StdRng{
         return StdRng::seed_from_u64(seed as u64);
+    }
+}
+
+/// Representa un generador resumido de vecinos
+#[derive(Debug)]
+pub struct NeighbourGenerator{
+
+    /// El elemento que queremos mover de cluster
+    element_index: i32,
+
+    /// El nuevo cluster al que asignamos el elemento
+    new_cluster: i32,
+}
+
+impl NeighbourGenerator{
+    pub fn new(element_index: i32, new_cluster: i32) -> Self{
+        return Self {element_index, new_cluster};
+    }
+
+    /// Genera todos los posibles vecinos, aunque estos no sean validos, dados
+    /// el numero de elementos del dataset y el numero de clusters en los que
+    /// queremos dividir dichos elementos
+    pub fn generate_all_neighbours(number_of_elements: i32, number_of_clusters: i32) -> Vec<Self>{
+        let mut neighbours = vec![];
+
+        for current_element in 0..number_of_elements{
+            for current_cluster in 0..number_of_clusters{
+                neighbours.push(NeighbourGenerator{
+                    element_index: current_element,
+                    new_cluster: current_cluster,
+                });
+            }
+        }
+
+        return neighbours;
     }
 }
