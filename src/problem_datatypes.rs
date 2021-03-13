@@ -23,10 +23,28 @@ impl DataPoints {
     pub fn len(&self) -> usize{
         return self.points.len();
     }
+
+    /// Devuelve la dimension de los puntos del problema
+    /// Es decir, el numero de coordenadas de cada punto
+    // TODO -- es necesaria esta funcion? Porque podria usar directamente el punto primero
+    // de la estructura
+    pub fn point_dimension(&self) -> Option<usize>{
+        // No tenemos puntos para decir cual es su dimension
+        if self.points.len() == 0{
+            return None;
+        }
+
+        return Some(self.points[0].dimension());
+    }
+
+    /// Devuelve una referencia a los puntos que componen el conjunto
+    pub fn get_points(&self) -> &Vec<Point>{
+        return &self.points;
+    }
 }
 
 /// Representa un punto
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Point {
     coordinates: ndarray::Array1<f32>,
 }
@@ -46,6 +64,21 @@ impl Point {
     /// Dados dos puntos, devuelve su distancia euclidea
     pub fn distance(first: &Self, second: &Self) -> f32{
         return first.distance_to(second);
+    }
+
+    /// Genera un punto aleatorio cuyas coordenadas se encuentran siempre en
+    /// el intervalo [0, 1]
+    pub fn random_point(number_of_coordinates: i32) -> Self{
+        let mut rng = rand::thread_rng();
+
+        // Array de ceros
+        let coordinates: ndarray::Array1<f32> = ndarray::Array1::zeros(number_of_coordinates as usize);
+
+        // En cada elemento colocamos un valor aleatorio
+        let coordinates = coordinates.mapv(|_| rng.gen_range(0.0 .. 1.0));
+
+        return Self{coordinates};
+
     }
 
     // Dado otro punto, devuelve su distancia euclidea al punto dado
@@ -95,6 +128,12 @@ impl Point {
 
         return max_dist;
 
+    }
+
+    /// Devuelve la dimension del punto
+    /// Es decir, el numero de coordenadas del punto
+    pub fn dimension(&self) -> usize {
+        return self.coordinates.len();
     }
 }
 
