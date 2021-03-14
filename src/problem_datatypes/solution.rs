@@ -39,7 +39,7 @@ impl Solution {
     ) -> Self {
 
         // Calculamos el valor de lambda
-        let lambda = Point::max_distance_among_two(&data_points.get_points()) / constraints.data.len() as f32;
+        let lambda = Point::max_distance_among_two(&data_points.get_points()) / constraints.get_data().len() as f32;
 
         return Self {
             cluster_indexes,
@@ -194,7 +194,7 @@ impl Solution {
     /// Calcula el numero de restricciones que se violan en la solucion actual
     pub fn infeasibility(&self) -> i32{
         let mut infea = 0;
-        for ((first_index, second_index), value) in &self.constraints.get_data(){
+        for ((first_index, second_index), value) in self.constraints.get_data(){
 
             // Tomamos los dos indices de cluster para compararlos
             let first_cluster = self.cluster_indexes[*first_index as usize];
