@@ -1,7 +1,7 @@
 pub use crate::problem_datatypes::Point;
 
 /// Representa el conjunto de puntos que hay que agrupar
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub struct DataPoints {
     points: Vec<Point>,
 }

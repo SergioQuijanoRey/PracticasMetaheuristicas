@@ -5,7 +5,7 @@ use rand::Rng;
 use ndarray::Array;
 
 /// Representa un punto
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, PartialEq)]
 pub struct Point {
     coordinates: ndarray::Array1<f32>,
 }

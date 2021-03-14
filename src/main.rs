@@ -51,7 +51,6 @@ fn main() {
     println!("");
 
     // Realizamos la busqueda greedy
-    // TODO -- borrar los clones
     println!("Corriendo busqueda greedy");
     let before = Instant::now();
     let greedy_solution = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), program_arguments.get_seed());

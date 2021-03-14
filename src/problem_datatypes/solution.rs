@@ -12,7 +12,7 @@ use crate::problem_datatypes::{DataPoints, Constraints, Point, ConstraintType, N
 /// La solucion viene representada como un vector de indices
 /// En dicho vector, la posicion i-esima indica el cluster al que pertenece el i-esimo
 /// punto del conjunto de datos
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub struct Solution<'a, 'b> {
     cluster_indexes: Vec<i32>,
     data_points: &'a DataPoints,
@@ -117,7 +117,15 @@ impl<'a, 'b> Solution<'a, 'b> {
     /// A partir de un NeighbourGenerator, genera la solucion que representa el
     /// generador aplicado a la solucion &self
     fn generate_solution_from(&self, generator: NeighbourGenerator) -> Self{
-        let mut new_solution = self.clone();
+        let mut new_solution = Self{
+            cluster_indexes: self.cluster_indexes.clone(),
+            data_points: &self.data_points,
+            constraints: &self.constraints,
+            number_of_clusters: self.number_of_clusters,
+            lambda: self.lambda,
+            seed: self.seed,
+        };
+
         new_solution.cluster_indexes[generator.get_element_index() as usize] = generator.get_new_cluster();
         return new_solution;
     }

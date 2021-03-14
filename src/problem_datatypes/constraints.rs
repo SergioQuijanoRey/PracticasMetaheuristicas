@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub enum ConstraintType {
     MustLink,
     CannotLink,
@@ -11,7 +11,7 @@ pub enum ConstraintType {
 /// Usamos un hashmap por motivos de eficiencia la hora de guardar y acceder a los datos
 /// Una restriccion viene dada por los dos indices de los elementos que se restringen
 /// y el tipo de restriccion
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub struct Constraints{
     data: HashMap<(i32, i32), ConstraintType>,
 }
