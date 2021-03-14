@@ -68,35 +68,14 @@ pub fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, nu
             eprintln!("Generamos nuevos centroides aleatorios y volvemos a empezar");
 
             // Nuevos centroides aleatorios y borramos la asignacion de clusters
+            // TODO -- no es una buena forma de asegurar que la siguiente asignacio
+            // de clusters va a ser buena
             current_centroids = generate_random_centroids(number_of_clusters, point_dimension);
             current_cluster_indixes = vec![0; data_points.len() as usize];
 
             // No realizamos el resto de la iteracion
             continue;
 
-        }
-
-        // Calculamos los clusters sin puntos
-        let mut cluster_without_point_indixes: Vec<i32> = (0..number_of_clusters).into_iter().collect();
-        for cluster in &new_cluster_indixes{
-            cluster_without_point_indixes[*cluster as usize] = -1;
-        }
-        let cluster_without_point_indixes: Vec<i32> = cluster_without_point_indixes.into_iter().filter(|&value| value != -1 ).collect();
-
-        // Si cluster_without_point_indixes no es vacio, tenemos un problema
-        // Politica: generamos otra asigacion de clusters aleatoria y volvemos
-        // a empezar
-        if cluster_without_point_indixes.len() > 0{
-            eprintln!("[Err] La solucion greedy actual ha dejado clusters sin puntos");
-            eprintln!("Estos clusters vacios son: {:?}", cluster_without_point_indixes);
-            eprintln!("Generamos nuevos centroides aleatorios y volvemos a empezar");
-
-            // Nuevos centroides aleatorios y borramos la asignacion de clusters
-            current_centroids = generate_random_centroids(number_of_clusters, point_dimension);
-            current_cluster_indixes = vec![0; data_points.len() as usize];
-
-            // No realizamos el resto de la iteracion
-            continue;
         }
 
         // Calculamos los nuevos centroides
