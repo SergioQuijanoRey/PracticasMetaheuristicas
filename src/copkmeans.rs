@@ -8,40 +8,11 @@ use rand::seq::SliceRandom; // Para hacer shuffle de un vector
 
 // TODO -- TEST -- este modulo puede tener muchos errores porque es muy enrrevesado
 
-/// Genera los centroides de forma aleatoria
-/// Como los puntos del problema estan normalizados en el intervalo [0, 1]^2, los
-/// centroides aleatorios estarán en dicho intervalo
-/// El cluster i-esimo tiene centroide el punto i-esimo del vector
-fn generate_random_centroids(number_of_clusters: i32, point_dimension: i32) -> Vec<Point>{
-    let mut centroids = vec![];
-
-    for _ in 0..number_of_clusters{
-        // Genero un punto aleatorio que sera el centroide actual
-        let current_centroid = Point::random_point(point_dimension);
-
-        // Lo añado al vector de centroides
-        centroids.push(current_centroid);
-    }
-
-    return centroids;
-}
-
 /// Ejecuta la metaheuristica de busqueda local y devuelve la solucion encontrada
 pub fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, number_of_clusters: i32, seed: i32) -> Solution<'a, 'b>{
     // Necesitamos generar numeros aleatorios para recorrer los puntos en un
     // orden aleatorio
     let mut rng = rand::thread_rng();
-
-    // TODO -- borrar estas indicaciones
-    // Pasos para desarrollar el algoritmo:
-    // 1. Tomar number_of_clusters centroides aleatorios
-    // 2. Mientras los centroides no cambien
-    //      2.1 Recorremos los elementos en orden aleatorio
-    //      2.2 Por cada elemento, lo asignamos a un cluster
-    //          2.2.1 Preferencia por numero de restricciones violadas
-    //          2.2.2 Desempate por distancia al centroide
-    //      2.3 Recalcular los nuevos centroides
-    //
 
     // Numero de coordenadas que componen cada uno de los puntos
     // Necesario para saber cuantas coordenadas debe tener nuestros centroides aleatorios
@@ -115,30 +86,10 @@ pub fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, nu
         }
 
         // Calculamos los nuevos centroides
-        // Para ello, generamos una solucion para usar sus funcionalidades
-        // TODO -- separarlo en otra funcion
-        let new_cluster_indixes: Vec<i32> = new_cluster_indixes.into_iter().map(|x| x as i32).collect();
-        let tmp_solution = Solution::new(new_cluster_indixes.clone(), data_points, &constraints, number_of_clusters, seed);
-        let mut new_centroids = vec![];
-        for cluster in 0 .. number_of_clusters{
-            // Tomamos los puntos que pertenecen a este cluster
-            let cluster_points = tmp_solution.get_points_in_cluster(cluster);
-
-            // Añadimos el centroide de ese conjunto de puntos
-            // TODO -- BUG -- en ocasiones hace panic! porque no se puede calcular
-            // el centroide de un conjunto vacio de puntos
-            new_centroids.push(Point::calculate_centroid(&cluster_points));
-        }
+        let new_centroids = calculate_new_centroids(&new_cluster_indixes, &data_points, number_of_clusters);
 
         // Comprobamos si los centroides han cambiado
-        // TODO -- separarlo en una funcion
-        centroids_have_changed = false;
-        for index in 0 .. new_centroids.len(){
-            if (new_centroids[index] == current_centroids[index]) == false{
-                centroids_have_changed = true;
-                break;
-            }
-        }
+        centroids_have_changed = centroids_are_different(&current_centroids, &new_centroids);
 
         // Cambiamos a la nueva asignacion de clusters y los nuevos centroides
         current_cluster_indixes = new_cluster_indixes;
@@ -151,6 +102,19 @@ pub fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, nu
 
     // Devuelvo la solucion a partir del vector de asignacion de clusters
     return Solution::new(current_cluster_indixes, data_points, constraints, number_of_clusters, seed);
+}
+
+
+/// Comprueba si dados dos conjuntos de centroides, estos son diferentes o no
+/// Esto es util para saber si alguno de los centroides ha cambiado en el proceso,
+/// y por tanto, si alguna asignacion de cluster ha cambiado o no
+fn centroids_are_different(past_centroids: &Vec<Point>, new_centroids: &Vec<Point>) -> bool{
+    for index in 0 .. past_centroids.len(){
+        if (new_centroids[index] == past_centroids[index]) == false{
+            return true;
+        }
+    }
+    return false;
 }
 
 /// Dado un punto y una configuracion de puntos actual, elige el mejor cluster posible
@@ -249,4 +213,45 @@ fn select_best_cluster(current_cluster_indixes: &Vec<i32>, number_of_clusters: i
 
     // Devuelvo el indice que da la minima distancia
     return min_cluster_indixes[min_index as usize];
+}
+
+/// Genera los centroides de forma aleatoria
+/// Como los puntos del problema estan normalizados en el intervalo [0, 1]^2, los
+/// centroides aleatorios estarán en dicho intervalo
+/// El cluster i-esimo tiene centroide el punto i-esimo del vector
+fn generate_random_centroids(number_of_clusters: i32, point_dimension: i32) -> Vec<Point>{
+    let mut centroids = vec![];
+
+    for _ in 0..number_of_clusters{
+        // Genero un punto aleatorio que sera el centroide actual
+        let current_centroid = Point::random_point(point_dimension);
+
+        // Lo añado al vector de centroides
+        centroids.push(current_centroid);
+    }
+
+    return centroids;
+}
+
+/// A partir de una asignacion de clusters y un conjunto de datos, calcula los
+/// centroides correspondientes a dicha asignacion con dichos puntos
+fn calculate_new_centroids(cluster_indixes: &Vec<i32>, data_points: &DataPoints, number_of_clusters: i32) -> Vec<Point>{
+
+    // Generamos un struct Solution para usar algunos de sus metodos
+    // Las restricciones no me interesan para estos metodos, por tanto las dejo vacias
+    // Tampoco me interesa la semilla
+    let constraints = Constraints::new();
+    let seed = 1;
+    let tmp_solution = Solution::new(cluster_indixes.clone(), data_points, &constraints, number_of_clusters, seed);
+
+    let mut new_centroids = vec![];
+    for cluster in 0 .. number_of_clusters{
+        // Tomamos los puntos que pertenecen a este cluster
+        let cluster_points = tmp_solution.get_points_in_cluster(cluster);
+
+        // Añadimos el centroide de ese conjunto de puntos
+        new_centroids.push(Point::calculate_centroid(&cluster_points));
+    }
+
+    return new_centroids;
 }
