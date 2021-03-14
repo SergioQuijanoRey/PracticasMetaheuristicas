@@ -6,6 +6,8 @@ use crate::problem_datatypes::Point;
 use std::process::exit;
 use rand::seq::SliceRandom; // Para hacer shuffle de un vector
 
+// TODO -- TEST -- este modulo puede tener muchos errores porque es muy enrrevesado
+
 /// Genera los centroides de forma aleatoria
 /// Como los puntos del problema estan normalizados en el intervalo [0, 1]^2, los
 /// centroides aleatorios estarán en dicho intervalo
@@ -84,6 +86,34 @@ pub fn run(data_points: DataPoints, constraints: Constraints, number_of_clusters
                 &current_centroids);
         }
 
+        // Antes de calcular los centroides debemos comprobar que no haya ningun
+        // cluster sin puntos. Esto puede ocurrir en la primera pasada en la que
+        // generamos centroides aleatorios. No se si esto es exclusivo de la primera
+        // iteracion con centroides aleatorios
+
+        // Calculamos los clusters sin puntos
+        let mut cluster_without_point_indixes: Vec<i32> = (0..number_of_clusters).into_iter().collect();
+        for cluster in &new_cluster_indixes{
+            cluster_without_point_indixes[*cluster as usize] = -1;
+        }
+        let cluster_without_point_indixes: Vec<i32> = cluster_without_point_indixes.into_iter().filter(|&value| value != -1 ).collect();
+
+        // Si cluster_without_point_indixes no es vacio, tenemos un problema
+        // Politica: generamos otra asigacion de clusters aleatoria y volvemos
+        // a empezar
+        if cluster_without_point_indixes.len() > 0{
+            eprintln!("[Err] La solucion greedy actual ha dejado clusters sin puntos");
+            eprintln!("Estos clusters vacios son: {:?}", cluster_without_point_indixes);
+            eprintln!("Generamos nuevos centroides aleatorios y volvemos a empezar");
+
+            // Nuevos centroides aleatorios y borramos la asignacion de clusters
+            current_centroids = generate_random_centroids(number_of_clusters, point_dimension);
+            current_cluster_indixes = vec![0; data_points.len() as usize];
+
+            // No realizamos el resto de la iteracion
+            continue;
+        }
+
         // Calculamos los nuevos centroides
         // Para ello, generamos una solucion para usar sus funcionalidades
         // TODO -- separarlo en otra funcion
@@ -96,6 +126,8 @@ pub fn run(data_points: DataPoints, constraints: Constraints, number_of_clusters
             let cluster_points = tmp_solution.get_points_in_cluster(cluster);
 
             // Añadimos el centroide de ese conjunto de puntos
+            // TODO -- BUG -- en ocasiones hace panic! porque no se puede calcular
+            // el centroide de un conjunto vacio de puntos
             new_centroids.push(Point::calculate_centroid(cluster_points));
         }
 
@@ -104,6 +136,7 @@ pub fn run(data_points: DataPoints, constraints: Constraints, number_of_clusters
         centroids_have_changed = false;
         for index in 0 .. new_centroids.len(){
             if (new_centroids[index] == current_centroids[index]) == false{
+                // TODO -- quitarlo porque mete mucha basura en pantalla
                 println!("Punto {:?} es distinto a punto {:?}", new_centroids[index], current_centroids[index]);
                 centroids_have_changed = true;
                 break;
@@ -185,7 +218,7 @@ fn select_best_cluster(current_cluster_indixes: &Vec<i32>, number_of_clusters: i
     // Calculo los clusters cuya asignacion produce el minimo numero de violaciones
     // Este vector guarda los indices de los ya mencionados clusters, por ejemplo:
     // min_cluster_indixes = vec![3, 4, 8]
-    let min_cluster_indixes: Vec<i32> = vec![];
+    let mut min_cluster_indixes: Vec<i32> = vec![];
     for cluster in 0 .. number_of_clusters{
         if violated_constraints[cluster as usize] == *min_value{
             min_cluster_indixes.push(cluster);
@@ -201,8 +234,8 @@ fn select_best_cluster(current_cluster_indixes: &Vec<i32>, number_of_clusters: i
     // No hay un unico elemento, tengo que calcular las distancias y quedarme con la minima
     // Calculo las distancias
     let mut distances = vec![];
-    for cluster_candidate in min_cluster_indixes{
-        let distance_to_centroid = Point::distance(current_point, &centroids[cluster_candidate as usize]);
+    for cluster_candidate in &min_cluster_indixes{
+        let distance_to_centroid = Point::distance(current_point, &centroids[*cluster_candidate as usize]);
         distances.push(distance_to_centroid);
     }
 
@@ -219,5 +252,4 @@ fn select_best_cluster(current_cluster_indixes: &Vec<i32>, number_of_clusters: i
 
     // Devuelvo el indice que da la minima distancia
     return min_cluster_indixes[min_index as usize];
-
 }
