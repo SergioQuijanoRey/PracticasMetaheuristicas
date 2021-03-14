@@ -1,7 +1,6 @@
 use crate::problem_datatypes::Solution;
 use crate::problem_datatypes::DataPoints;
 use crate::problem_datatypes::Constraints;
-use crate::problem_datatypes::NeighbourGenerator;
 
 /// Ejecuta la metaheuristica de busqueda local y devuelve la solucion encontrada
 pub fn run(data_points: DataPoints, constraints: Constraints, number_of_clusters: i32, max_iterations: i32, seed: i32) -> Solution{

@@ -1,8 +1,4 @@
-use std::error::Error;
-use std::boxed::Box;
 use std::process::exit;
-use std::collections::HashMap;
-use csv;
 
 // Ficheros en los que separo mi codigo
 mod arg_parser;
