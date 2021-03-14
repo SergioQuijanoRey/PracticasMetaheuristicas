@@ -1,16 +1,16 @@
-use ndarray::Array;
 use std::collections::HashMap;
 
-// Para fijar la semilla de numeros aleatorios
-use rand::Rng;
 
 // Reimportamos modulos para poder usar paths como:
 // crate::problem_datatypes::Solution en vez de
 // crate::problem_datatypes::solution::Solution
 mod solution;
 mod point;
+mod neighbour_generator;
 pub use solution::Solution;
 pub use point::Point;
+pub use neighbour_generator::NeighbourGenerator;
+
 
 /// Representa el conjunto de puntos que hay que agrupar
 #[derive(Debug, Clone)]
@@ -106,40 +106,5 @@ impl Constraints{
 
     pub fn get_data(&self) -> HashMap<(i32, i32), ConstraintType>{
         return self.data.clone();
-    }
-}
-
-/// Representa un generador resumido de vecinos
-#[derive(Debug)]
-pub struct NeighbourGenerator{
-
-    /// El elemento que queremos mover de cluster
-    element_index: i32,
-
-    /// El nuevo cluster al que asignamos el elemento
-    new_cluster: i32,
-}
-
-impl NeighbourGenerator{
-    pub fn new(element_index: i32, new_cluster: i32) -> Self{
-        return Self {element_index, new_cluster};
-    }
-
-    /// Genera todos los posibles vecinos, aunque estos no sean validos, dados
-    /// el numero de elementos del dataset y el numero de clusters en los que
-    /// queremos dividir dichos elementos
-    pub fn generate_all_neighbours(number_of_elements: i32, number_of_clusters: i32) -> Vec<Self>{
-        let mut neighbours = vec![];
-
-        for current_element in 0..number_of_elements{
-            for current_cluster in 0..number_of_clusters{
-                neighbours.push(NeighbourGenerator{
-                    element_index: current_element,
-                    new_cluster: current_cluster,
-                });
-            }
-        }
-
-        return neighbours;
     }
 }

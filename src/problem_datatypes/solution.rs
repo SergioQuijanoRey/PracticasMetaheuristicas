@@ -118,7 +118,7 @@ impl Solution {
     /// generador aplicado a la solucion &self
     fn generate_solution_from(&self, generator: NeighbourGenerator) -> Self{
         let mut new_solution = self.clone();
-        new_solution.cluster_indexes[generator.element_index as usize] = generator.new_cluster;
+        new_solution.cluster_indexes[generator.get_element_index() as usize] = generator.get_new_cluster();
         return new_solution;
     }
 
