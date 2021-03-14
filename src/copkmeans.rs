@@ -62,6 +62,20 @@ pub fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, nu
         // generamos centroides aleatorios. No se si esto es exclusivo de la primera
         // iteracion con centroides aleatorios
 
+        if valid_cluster_configuration(&new_cluster_indixes, number_of_clusters) == false{
+            eprintln!("[Err] La solucion greedy actual ha dejado clusters sin puntos");
+            eprintln!("Estos clusters vacios son: {:?}", get_cluster_without_point_indixes(&new_cluster_indixes, number_of_clusters));
+            eprintln!("Generamos nuevos centroides aleatorios y volvemos a empezar");
+
+            // Nuevos centroides aleatorios y borramos la asignacion de clusters
+            current_centroids = generate_random_centroids(number_of_clusters, point_dimension);
+            current_cluster_indixes = vec![0; data_points.len() as usize];
+
+            // No realizamos el resto de la iteracion
+            continue;
+
+        }
+
         // Calculamos los clusters sin puntos
         let mut cluster_without_point_indixes: Vec<i32> = (0..number_of_clusters).into_iter().collect();
         for cluster in &new_cluster_indixes{
@@ -254,4 +268,30 @@ fn calculate_new_centroids(cluster_indixes: &Vec<i32>, data_points: &DataPoints,
     }
 
     return new_centroids;
+}
+
+/// Comprueba que una configuracion de clusters sea valida
+/// Una configuracion es invalida cuando hay un cluster sin puntos
+/// Es decir, cuando un elemento de {0, 1, ..., number_of_clusters} no aparece
+/// en ninguna posicion de cluster_indixes
+fn valid_cluster_configuration(cluster_indixes: &Vec<i32>, number_of_clusters: i32) -> bool{
+    let cluster_without_point_indixes = get_cluster_without_point_indixes(&cluster_indixes, number_of_clusters);
+    return cluster_without_point_indixes.len() == 0;
+}
+
+/// Toma los indices de clusters que no tienen puntos asignados
+/// Por ejemplo, {3, 4} porque ambos clusters no tienen ni un solo punto asignado
+fn get_cluster_without_point_indixes(cluster_indixes: &Vec<i32>, number_of_clusters: i32) -> Vec<i32>{
+    // Generamos todos los clusters en un vector
+    let mut cluster_without_point_indixes: Vec<i32> = (0..number_of_clusters).into_iter().collect();
+
+    // Marcamos los clusters con elementos con un -1
+    for cluster in cluster_indixes{
+        cluster_without_point_indixes[*cluster as usize] = -1;
+    }
+
+    // Devolvemos los clusters que no han sido marcados, y por tanto, que no tienen puntos
+    // asociados
+    let cluster_without_point_indixes: Vec<i32> = cluster_without_point_indixes.into_iter().filter(|&value| value != -1 ).collect();
+    return cluster_without_point_indixes;
 }
