@@ -27,7 +27,7 @@ fn generate_random_centroids(number_of_clusters: i32, point_dimension: i32) -> V
 }
 
 /// Ejecuta la metaheuristica de busqueda local y devuelve la solucion encontrada
-pub fn run(data_points: DataPoints, constraints: Constraints, number_of_clusters: i32, seed: i32) -> Solution{
+pub fn run(data_points: &DataPoints, constraints: Constraints, number_of_clusters: i32, seed: i32) -> Solution{
     // Necesitamos generar numeros aleatorios para recorrer los puntos en un
     // orden aleatorio
     let mut rng = rand::thread_rng();
@@ -119,7 +119,7 @@ pub fn run(data_points: DataPoints, constraints: Constraints, number_of_clusters
         // TODO -- separarlo en otra funcion
         // TODO -- borrar los clones
         let new_cluster_indixes: Vec<i32> = new_cluster_indixes.into_iter().map(|x| x as i32).collect();
-        let tmp_solution = Solution::new(new_cluster_indixes.clone(), data_points.clone(), constraints.clone(), number_of_clusters, seed);
+        let tmp_solution = Solution::new(new_cluster_indixes.clone(), data_points, constraints.clone(), number_of_clusters, seed);
         let mut new_centroids = vec![];
         for cluster in 0 .. number_of_clusters{
             // Tomamos los puntos que pertenecen a este cluster

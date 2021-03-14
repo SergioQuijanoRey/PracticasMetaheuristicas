@@ -54,7 +54,7 @@ fn main() {
     // TODO -- borrar los clones
     println!("Corriendo busqueda greedy");
     let before = Instant::now();
-    let greedy_solution = copkmeans::run(data_points.clone(), constraints.clone(), program_arguments.get_number_of_clusters(), program_arguments.get_seed());
+    let greedy_solution = copkmeans::run(&data_points, constraints.clone(), program_arguments.get_number_of_clusters(), program_arguments.get_seed());
     let after = Instant::now();
     let duration = after.duration_since(before);
     let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
@@ -74,7 +74,7 @@ fn main() {
 
     println!("Corriendo busqueda local");
     let before = Instant::now();
-    let solucion_local = local_search::run(data_points.clone(), constraints.clone(), program_arguments.get_number_of_clusters(), max_iterations, program_arguments.get_seed());
+    let solucion_local = local_search::run(&data_points, constraints.clone(), program_arguments.get_number_of_clusters(), max_iterations, program_arguments.get_seed());
     let after = Instant::now();
     let duration = after.duration_since(before);
     let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;

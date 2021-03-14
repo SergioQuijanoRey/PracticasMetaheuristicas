@@ -13,9 +13,9 @@ use crate::problem_datatypes::{DataPoints, Constraints, Point, ConstraintType, N
 /// En dicho vector, la posicion i-esima indica el cluster al que pertenece el i-esimo
 /// punto del conjunto de datos
 #[derive(Debug, Clone)]
-pub struct Solution {
+pub struct Solution<'a> {
     cluster_indexes: Vec<i32>,
-    data_points: DataPoints,
+    data_points: &'a DataPoints,
     constraints: Constraints,
     number_of_clusters: i32,
 
@@ -27,12 +27,12 @@ pub struct Solution {
     seed: i32,
 }
 
-impl Solution {
+impl<'a> Solution<'a> {
     /// Util cuando no conocemos el valor de lambda, pues se calcula en esta llamada
     /// En otro caso, se puede construir el struct de forma directa
     pub fn new(
         cluster_indexes: Vec<i32>,
-        data_points: DataPoints,
+        data_points: &'a DataPoints,
         constraints: Constraints,
         number_of_clusters: i32,
         seed: i32,
@@ -125,7 +125,7 @@ impl Solution {
     /// Genera una solucion inicial aleatoria, como punto de partida de las busquedas
     // TODO -- no puede dejar clusters vacios
     pub fn generate_random_solution(
-        data_points: DataPoints,
+        data_points: &'a DataPoints,
         constraints: Constraints,
         number_of_clusters: i32,
         seed: i32
