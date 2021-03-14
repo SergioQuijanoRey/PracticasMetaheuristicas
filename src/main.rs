@@ -1,4 +1,5 @@
 use std::process::exit;
+use std::time::{Duration, Instant};
 
 // Ficheros en los que separo mi codigo
 mod arg_parser;
@@ -49,26 +50,41 @@ fn main() {
     println!("================================================================================");
     println!("");
 
+    // Realizamos la busqueda greedy
+    // TODO -- borrar los clones
+    println!("Corriendo busqueda greedy");
+    let before = Instant::now();
+    let greedy_solution = copkmeans::run(data_points.clone(), constraints.clone(), program_arguments.get_number_of_clusters(), program_arguments.get_seed());
+    let after = Instant::now();
+    let duration = after.duration_since(before);
+    let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
+
+
+    println!("==> Busqueda greedy");
+    println!("La distancia global instracluster de la solucion es: {}", greedy_solution.global_cluster_mean_distance());
+    println!("El numero de restricciones violadas es: {}", greedy_solution.infeasibility());
+    println!("El valor de fitness es: {}", greedy_solution.fitness());
+    println!("El valor de lambda es: {}", greedy_solution.get_lambda());
+    println!("Tiempo transcurrido (segundos): {}", duration_numeric);
+    println!("");
+
+    // Realizamos la busqueda local
     let max_iterations = 100000;
-    let max_iterations = 10; // TODO -- esto hay que borrarlo
+    //let max_iterations = 10; // TODO -- esto hay que borrarlo
 
     println!("Corriendo busqueda local");
+    let before = Instant::now();
     let solucion_local = local_search::run(data_points.clone(), constraints.clone(), program_arguments.get_number_of_clusters(), max_iterations, program_arguments.get_seed());
+    let after = Instant::now();
+    let duration = after.duration_since(before);
+    let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
 
     println!("==> Busqueda local");
     println!("La distancia global instracluster de la solucion es: {}", solucion_local.global_cluster_mean_distance());
     println!("El numero de restricciones violadas es: {}", solucion_local.infeasibility());
     println!("El valor de fitness es: {}", solucion_local.fitness());
     println!("El valor de lambda es: {}", solucion_local.get_lambda());
+    println!("Tiempo transcurrido (segundos): {}", duration_numeric);
     println!("");
 
-    // Realizamos la busqueda greedy
-    println!("Corriendo busqueda greedy");
-    let greedy_solution = copkmeans::run(data_points, constraints, program_arguments.get_number_of_clusters(), program_arguments.get_seed());
-
-    println!("==> Busqueda greedy");
-    println!("La distancia global instracluster de la solucion es: {}", greedy_solution.global_cluster_mean_distance());
-    println!("El numero de restricciones violadas es: {}", greedy_solution.infeasibility());
-    println!("El valor de fitness es: {}", greedy_solution.fitness());
-    eprintln!("El valor de lambda es: {}", greedy_solution.get_lambda());
 }
