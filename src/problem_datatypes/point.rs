@@ -54,7 +54,7 @@ impl Point {
 
     /// Dado un conjunto de puntos, calcula su centroide
     // TODO -- TEST -- muy facil de testear
-    pub fn calculate_centroid(points: Vec<&Self>) -> Self{
+    pub fn calculate_centroid(points: &Vec<&Self>) -> Self{
         // Condicion de seguridad
         if points.len() == 0{
             panic!("No se puede calcular el centroide de un conjunto vacio de puntos")
@@ -64,7 +64,7 @@ impl Point {
         let mut sum_point = ndarray::Array1::zeros(points[0].coordinates.len());
 
         // Calculamos el centroide
-        for point in &points{
+        for point in points{
             sum_point = sum_point + &point.coordinates;
         }
         sum_point = sum_point / points.len() as f32;

@@ -154,7 +154,7 @@ impl Solution {
         let cluster_points = self.get_points_in_cluster(cluster);
 
         // Calculamos el centroide de dicho conjunto de puntos
-        let centroid = Point::calculate_centroid(cluster_points.clone());
+        let centroid = Point::calculate_centroid(&cluster_points);
 
         // Calculamos la distancia intracluster
         let mut cum_sum = 0.0;
