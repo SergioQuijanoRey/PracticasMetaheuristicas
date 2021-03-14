@@ -39,7 +39,7 @@ impl Solution {
     ) -> Self {
 
         // Calculamos el valor de lambda
-        let lambda = Point::max_distance_among_two(&data_points.points) / constraints.data.len() as f32;
+        let lambda = Point::max_distance_among_two(&data_points.get_points()) / constraints.data.len() as f32;
 
         return Self {
             cluster_indexes,
@@ -64,7 +64,7 @@ impl Solution {
 
         // Condicion de seguridad que nunca deberia ocurrir
         // Por eso pongo el panic!, porque es un problema de probramacion
-        if self.cluster_indexes.len() != self.data_points.points.len(){
+        if self.cluster_indexes.len() != self.data_points.get_points().len(){
             panic!("No puede ocurrir que la longitud de los indices sea distinta al numero de puntos");
         }
 
@@ -136,7 +136,7 @@ impl Solution {
         let mut rng = rand::thread_rng();
 
         return Self::new(
-            (0..data_points.points.len()).map(|_| rng.gen_range(0..number_of_clusters)).collect(),
+            (0..data_points.get_points().len()).map(|_| rng.gen_range(0..number_of_clusters)).collect(),
             data_points,
             constraints,
             number_of_clusters,
@@ -173,7 +173,7 @@ impl Solution {
 
         for (index, curr_cluster) in self.cluster_indexes.iter().enumerate(){
             if *curr_cluster == cluster{
-                cluster_points.push(&self.data_points.points[index]);
+                cluster_points.push(&self.data_points.get_points()[index]);
             }
         }
 
