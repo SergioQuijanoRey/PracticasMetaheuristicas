@@ -13,10 +13,10 @@ use crate::problem_datatypes::{DataPoints, Constraints, Point, ConstraintType, N
 /// En dicho vector, la posicion i-esima indica el cluster al que pertenece el i-esimo
 /// punto del conjunto de datos
 #[derive(Debug, Clone)]
-pub struct Solution<'a> {
+pub struct Solution<'a, 'b> {
     cluster_indexes: Vec<i32>,
     data_points: &'a DataPoints,
-    constraints: Constraints,
+    constraints: &'b Constraints,
     number_of_clusters: i32,
 
     /// Representa el peso de infeasibility en el calculo de fitness
@@ -27,13 +27,13 @@ pub struct Solution<'a> {
     seed: i32,
 }
 
-impl<'a> Solution<'a> {
+impl<'a, 'b> Solution<'a, 'b> {
     /// Util cuando no conocemos el valor de lambda, pues se calcula en esta llamada
     /// En otro caso, se puede construir el struct de forma directa
     pub fn new(
         cluster_indexes: Vec<i32>,
         data_points: &'a DataPoints,
-        constraints: Constraints,
+        constraints: &'b Constraints,
         number_of_clusters: i32,
         seed: i32,
     ) -> Self {
@@ -126,7 +126,7 @@ impl<'a> Solution<'a> {
     // TODO -- no puede dejar clusters vacios
     pub fn generate_random_solution(
         data_points: &'a DataPoints,
-        constraints: Constraints,
+        constraints: &'b Constraints,
         number_of_clusters: i32,
         seed: i32
     ) -> Self {
