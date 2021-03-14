@@ -128,7 +128,7 @@ pub fn run(data_points: DataPoints, constraints: Constraints, number_of_clusters
             // Añadimos el centroide de ese conjunto de puntos
             // TODO -- BUG -- en ocasiones hace panic! porque no se puede calcular
             // el centroide de un conjunto vacio de puntos
-            new_centroids.push(Point::calculate_centroid(cluster_points));
+            new_centroids.push(Point::calculate_centroid(&cluster_points));
         }
 
         // Comprobamos si los centroides han cambiado
@@ -136,8 +136,6 @@ pub fn run(data_points: DataPoints, constraints: Constraints, number_of_clusters
         centroids_have_changed = false;
         for index in 0 .. new_centroids.len(){
             if (new_centroids[index] == current_centroids[index]) == false{
-                // TODO -- quitarlo porque mete mucha basura en pantalla
-                println!("Punto {:?} es distinto a punto {:?}", new_centroids[index], current_centroids[index]);
                 centroids_have_changed = true;
                 break;
             }
