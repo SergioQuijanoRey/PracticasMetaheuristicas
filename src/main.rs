@@ -1,5 +1,5 @@
 use std::process::exit;
-use std::time::{Duration, Instant};
+use std::time::{Instant, Duration};
 
 // Ficheros en los que separo mi codigo
 mod arg_parser;
@@ -51,14 +51,40 @@ fn main() {
     println!("");
 
     // Realizamos la busqueda greedy
+    // Si devuelve None, es porque la generacion aleatoria de centroides ha dejado
+    // clusters sin elementos, y hay que repetir el algoritmo
+    // De momento, no estoy contabilizando el tiempo perdido por esa situacion
+    //
+    // TODO -- preguntar si hay que contabilizar el tiempo que perdemos cuando la primera solucion
+    // aleatoria nos genera clusters vacios o simplemente considerar el tiempo de la ejecucion
+    // buena del algoritmo
     println!("Corriendo busqueda greedy");
-    let before = Instant::now();
-    let greedy_solution = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), program_arguments.get_seed());
-    let after = Instant::now();
-    let duration = after.duration_since(before);
-    let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
+    let mut greedy_solution: Option<problem_datatypes::Solution>;
+    let mut duration_numeric;
+    loop {
+        let before = Instant::now();
+        greedy_solution = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), program_arguments.get_seed());
+        let after = Instant::now();
+        let duration = after.duration_since(before);
+        duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
 
+        match greedy_solution {
+            // Hemos contrado solucion, paramos de iterar
+            Some(_) => break,
 
+            // No hemos encontrado solucion, por lo que no hacemos nada, lo que provoca que sigamos
+            // iterando
+            None => (),
+        }
+    }
+
+    // Tomamos la solucion del Option
+    let greedy_solution = greedy_solution.expect("En el bucle anterior nos aseguramos de que no seas None");
+
+    // Para que no sea mutable
+    let duration_numeric = duration_numeric;
+
+    // Mostramos los resultados
     println!("==> Busqueda greedy");
     println!("La distancia global instracluster de la solucion es: {}", greedy_solution.global_cluster_mean_distance());
     println!("El numero de restricciones violadas es: {}", greedy_solution.infeasibility());
@@ -69,7 +95,6 @@ fn main() {
 
     // Realizamos la busqueda local
     let max_iterations = 100000;
-    //let max_iterations = 10; // TODO -- esto hay que borrarlo
 
     println!("Corriendo busqueda local");
     let before = Instant::now();
