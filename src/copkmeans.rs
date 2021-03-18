@@ -16,10 +16,6 @@ pub fn run<'a, 'b>(
     seed: i32,
 ) -> Option<Solution<'a, 'b>> {
 
-    // Necesitamos generar numeros aleatorios para recorrer los puntos en un
-    // orden aleatorio
-    let mut rng = rand::thread_rng();
-
     // Numero de coordenadas que componen cada uno de los puntos
     // Necesario para saber cuantas coordenadas debe tener nuestros centroides aleatorios
     let point_dimension = match data_points.point_dimension() {
@@ -38,38 +34,27 @@ pub fn run<'a, 'b>(
 
     // Solucion inicial que en cuanto iteremos una vez vamos a sobreescribir
     // Ahora solo nos interesa considerar los indices de los clusters
+    //
     // Notar que esta solucion no es valida porque deja todos los clusters
     // menos uno vacio
+    //
+    // Lo que vamos a hacer es ir modificando esta solucion. Necesitamos dos variables para ir
+    // comparando como cambian, y parar en caso de que no cambien
     let mut current_cluster_indixes = vec![0; data_points.len() as usize];
 
     // Iteramos hasta que los centroides no cambien
     let mut centroids_have_changed = true;
     while centroids_have_changed == true {
-        // Realizamos una nueva asignacion de clusters
-        // -1 para saber que puntos todavia no han sido asignados a un cluster
-        let mut new_cluster_indixes: Vec<i32> = vec![-1; data_points.len() as usize];
 
-        // Recorremos aleatoriamente los puntos para irlos asignando a cada cluster
-        let mut point_indexes: Vec<u32> = (0..data_points.len() as u32).collect();
-        point_indexes.shuffle(&mut rng);
-
-        for index in point_indexes {
-            // Calculo el cluster al que asignamos el punto actual
-            new_cluster_indixes[index as usize] = select_best_cluster(
-                &current_cluster_indixes,
-                number_of_clusters,
-                &constraints,
-                index as i32,
-                &data_points.get_points()[index as usize],
-                &current_centroids,
-            );
-        }
+        // Realizamos una nueva asignacion de clusters. Recorremos los puntos aleatoriamente y
+        // asignando al cluster que menos restricciones viole en esa iteracion. En caso de empates,
+        // se toma el cluster con centroide mas cercano
+        let new_cluster_indixes = assign_points_to_clusters(&data_points, &constraints, &current_centroids, &current_cluster_indixes, number_of_clusters);
 
         // Antes de calcular los centroides debemos comprobar que no haya ningun
         // cluster sin puntos. Esto puede ocurrir en la primera pasada en la que
         // generamos centroides aleatorios. No se si esto es exclusivo de la primera
         // iteracion con centroides aleatorios
-
         if valid_cluster_configuration(&new_cluster_indixes, number_of_clusters) == false {
             eprintln!("[Err] La solucion greedy actual ha dejado clusters sin puntos");
             eprintln!(
@@ -311,4 +296,36 @@ fn get_cluster_without_point_indixes(
         .filter(|&value| value != -1)
         .collect();
     return cluster_without_point_indixes;
+}
+
+/// Asigna, en orden aleatorio, los puntos a los clusters asociados a los centroides que pasamos
+/// como parametro. Para ello, da prioridad a las restricciones que se violan en cada paso. En caso
+/// de empate, se toma el cluster con el centroide mas cercano
+fn assign_points_to_clusters(data_points: &DataPoints, constraints: &Constraints, current_centroids: &Vec<Point>, current_cluster_indixes: &Vec<i32>, number_of_clusters: i32) -> Vec<i32>{
+    // Necesitamos generar numeros aleatorios para recorrer los puntos en un
+    // orden aleatorio
+    let mut rng = rand::thread_rng();
+
+    // Realizamos una nueva asignacion de clusters
+    // -1 para saber que puntos todavia no han sido asignados a un cluster
+    let mut new_cluster_indixes: Vec<i32> = vec![-1; data_points.len() as usize];
+
+
+    // Recorremos aleatoriamente los puntos para irlos asignando a cada cluster
+    let mut point_indexes: Vec<u32> = (0..data_points.len() as u32).collect();
+    point_indexes.shuffle(&mut rng);
+
+    for index in point_indexes {
+        // Calculo el cluster al que asignamos el punto actual
+        new_cluster_indixes[index as usize] = select_best_cluster(
+            &current_cluster_indixes,
+            number_of_clusters,
+            &constraints,
+            index as i32,
+            &data_points.get_points()[index as usize],
+            &current_centroids,
+            );
+    }
+
+    return new_cluster_indixes;
 }
