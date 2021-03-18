@@ -3,10 +3,10 @@ use crate::problem_datatypes::DataPoints;
 use crate::problem_datatypes::Constraints;
 
 /// Ejecuta la metaheuristica de busqueda local y devuelve la solucion encontrada
-pub fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, number_of_clusters: i32, max_iterations: i32, seed: i32) -> Solution<'a, 'b>{
+pub fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, number_of_clusters: i32, max_iterations: i32) -> Solution<'a, 'b>{
 
     // Partimos de una solucion inicial aleatoria
-    let mut current_solution = Solution::generate_random_solution(data_points, constraints, number_of_clusters, seed);
+    let mut current_solution = Solution::generate_random_solution(data_points, constraints, number_of_clusters);
     println!("Solucion inicial aleatoria: {:?}", current_solution.get_cluster_indexes());
 
     // Realizamos las iteraciones pertinentes

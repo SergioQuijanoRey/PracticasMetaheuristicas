@@ -13,7 +13,6 @@ pub fn run<'a, 'b>(
     data_points: &'a DataPoints,
     constraints: &'b Constraints,
     number_of_clusters: i32,
-    seed: i32,
 ) -> Option<Solution<'a, 'b>> {
 
     // Numero de coordenadas que componen cada uno de los puntos
@@ -95,7 +94,6 @@ pub fn run<'a, 'b>(
         data_points,
         constraints,
         number_of_clusters,
-        seed,
     ));
 }
 
@@ -242,15 +240,12 @@ fn calculate_new_centroids(
 ) -> Vec<Point> {
     // Generamos un struct Solution para usar algunos de sus metodos
     // Las restricciones no me interesan para estos metodos, por tanto las dejo vacias
-    // Tampoco me interesa la semilla
     let constraints = Constraints::new();
-    let seed = 1;
     let tmp_solution = Solution::new(
         cluster_indixes.clone(),
         data_points,
         &constraints,
         number_of_clusters,
-        seed,
     );
 
     let mut new_centroids = vec![];

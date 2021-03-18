@@ -63,7 +63,7 @@ fn main() {
     let mut duration_numeric;
     loop {
         let before = Instant::now();
-        greedy_solution = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), program_arguments.get_seed());
+        greedy_solution = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters());
         let after = Instant::now();
         let duration = after.duration_since(before);
         duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
@@ -98,7 +98,7 @@ fn main() {
 
     println!("Corriendo busqueda local");
     let before = Instant::now();
-    let solucion_local = local_search::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), max_iterations, program_arguments.get_seed());
+    let solucion_local = local_search::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), max_iterations);
     let after = Instant::now();
     let duration = after.duration_since(before);
     let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;

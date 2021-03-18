@@ -22,9 +22,6 @@ pub struct Solution<'a, 'b> {
     /// Representa el peso de infeasibility en el calculo de fitness
     /// Solo se calcula una vez al invocar a Solution::new
     lambda: f32,
-
-    /// Necesitamos poder establecer el valor de la semilla para hacer comparaciones
-    seed: i32,
 }
 
 impl<'a, 'b> Solution<'a, 'b> {
@@ -35,7 +32,6 @@ impl<'a, 'b> Solution<'a, 'b> {
         data_points: &'a DataPoints,
         constraints: &'b Constraints,
         number_of_clusters: i32,
-        seed: i32,
     ) -> Self {
 
         // Calculamos el valor de lambda
@@ -47,7 +43,6 @@ impl<'a, 'b> Solution<'a, 'b> {
             constraints,
             number_of_clusters,
             lambda,
-            seed,
         };
     }
 
@@ -92,8 +87,6 @@ impl<'a, 'b> Solution<'a, 'b> {
     /// actual (el primero mejor)
     pub fn get_neighbour(&self) -> Option<Self> {
         // Generador de numeros aleatorios
-        // TODO -- da problemas el fijar la semilla aleatoria
-        let mut rng = Self::fix_random_seed(self.seed);
         let mut rng = rand::thread_rng();
 
         // Tomo los generadores de vecinos
@@ -123,7 +116,6 @@ impl<'a, 'b> Solution<'a, 'b> {
             constraints: &self.constraints,
             number_of_clusters: self.number_of_clusters,
             lambda: self.lambda,
-            seed: self.seed,
         };
 
         new_solution.cluster_indexes[generator.get_element_index() as usize] = generator.get_new_cluster();
@@ -136,11 +128,8 @@ impl<'a, 'b> Solution<'a, 'b> {
         data_points: &'a DataPoints,
         constraints: &'b Constraints,
         number_of_clusters: i32,
-        seed: i32
     ) -> Self {
         // Generador de numeros aleatorios
-        // TODO -- da problemas fijar la semilla aleatoria
-        let mut rng = Self::fix_random_seed(seed);
         let mut rng = rand::thread_rng();
 
         return Self::new(
@@ -148,7 +137,6 @@ impl<'a, 'b> Solution<'a, 'b> {
             data_points,
             constraints,
             number_of_clusters,
-            seed,
         );
 
     }
@@ -226,12 +214,5 @@ impl<'a, 'b> Solution<'a, 'b> {
         }
 
         return infea;
-    }
-
-    // TODO -- no funciona como deberia
-    // Cada vez que lo llamo, genera una nueva semilla. Deberia guardar el generador
-    // de numeros aleatorios en un campo propio
-    fn fix_random_seed(seed: i32) -> rand::rngs::StdRng{
-        return StdRng::seed_from_u64(seed as u64);
     }
 }
