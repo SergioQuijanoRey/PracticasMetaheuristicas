@@ -5,6 +5,7 @@ name = "PracticasMetaheuristicas"
 version = "0.1.0"
 dependencies = [
  "csv",
+ "lazy_static",
  "ndarray",
  "rand",
  "simple-error",

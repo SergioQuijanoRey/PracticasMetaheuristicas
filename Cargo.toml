@@ -11,3 +11,4 @@ simple-error="0.2.3"    # Raising simple errors
 csv = "1.1"             # Read csv files
 rand = "0.8.3"          # Generate random numbers
 ndarray = "0.14.0"      # Work with matrices and vectors
+lazy_static = "1.4.0"   # Create a singleton
