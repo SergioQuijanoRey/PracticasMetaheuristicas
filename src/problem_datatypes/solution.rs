@@ -1,5 +1,5 @@
 // Para fijar la semilla de numeros aleatorios
-use rand::{Rng,SeedableRng};
+use rand::Rng;
 use rand::rngs::StdRng;
 
 // Para hacer shuffle de un vector
