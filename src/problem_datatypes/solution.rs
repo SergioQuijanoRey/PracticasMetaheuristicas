@@ -85,15 +85,13 @@ impl<'a, 'b> Solution<'a, 'b> {
 
     /// Devuelve el primer vecino de la solucion valido que mejora la solucion
     /// actual (el primero mejor)
-    pub fn get_neighbour(&self) -> Option<Self> {
-        // Generador de numeros aleatorios
-        let mut rng = rand::thread_rng();
+    pub fn get_neighbour(&self, rng: &mut StdRng) -> Option<Self> {
 
         // Tomo los generadores de vecinos
         let mut neighbours_generator = NeighbourGenerator::generate_all_neighbours(self.data_points.len() as i32, self.number_of_clusters);
 
         // Mezclo los generadores de vecinos
-        neighbours_generator.shuffle(&mut rng);
+        neighbours_generator.shuffle(rng);
 
         for current_generator in neighbours_generator{
             let current_solution = self.generate_solution_from(current_generator);
@@ -128,9 +126,8 @@ impl<'a, 'b> Solution<'a, 'b> {
         data_points: &'a DataPoints,
         constraints: &'b Constraints,
         number_of_clusters: i32,
+        rng: &mut StdRng
     ) -> Self {
-        // Generador de numeros aleatorios
-        let mut rng = rand::thread_rng();
 
         return Self::new(
             (0..data_points.get_points().len()).map(|_| rng.gen_range(0..number_of_clusters)).collect(),
