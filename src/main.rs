@@ -102,6 +102,11 @@ fn main() {
     println!("");
 
     // Realizamos la busqueda local
+    // Volvemos a generar la semilla, porque el profesor nos indica que dos algoritmos distintos
+    // deben tener la misma secuencia aleatoria
+    let mut rng = StdRng::seed_from_u64(program_arguments.get_seed() as u64);
+
+    // Numero maximo de iteraciones para la busqueda local
     let max_iterations = 100000;
 
     println!("Corriendo busqueda local");
