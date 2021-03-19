@@ -104,19 +104,19 @@ fn main() {
     // Realizamos la busqueda local
     let max_iterations = 100000;
 
-    println!("Corriendo busqueda local");
-    let before = Instant::now();
-    let solucion_local = local_search::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), max_iterations);
-    let after = Instant::now();
-    let duration = after.duration_since(before);
-    let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
+    //println!("Corriendo busqueda local");
+    //let before = Instant::now();
+    //let solucion_local = local_search::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), max_iterations);
+    //let after = Instant::now();
+    //let duration = after.duration_since(before);
+    //let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
 
-    println!("==> Busqueda local");
-    println!("La distancia global instracluster de la solucion es: {}", solucion_local.global_cluster_mean_distance());
-    println!("El numero de restricciones violadas es: {}", solucion_local.infeasibility());
-    println!("El valor de fitness es: {}", solucion_local.fitness());
-    println!("El valor de lambda es: {}", solucion_local.get_lambda());
-    println!("Tiempo transcurrido (segundos): {}", duration_numeric);
-    println!("");
+    //println!("==> Busqueda local");
+    //println!("La distancia global instracluster de la solucion es: {}", solucion_local.global_cluster_mean_distance());
+    //println!("El numero de restricciones violadas es: {}", solucion_local.infeasibility());
+    //println!("El valor de fitness es: {}", solucion_local.fitness());
+    //println!("El valor de lambda es: {}", solucion_local.get_lambda());
+    //println!("Tiempo transcurrido (segundos): {}", duration_numeric);
+    //println!("");
 
 }

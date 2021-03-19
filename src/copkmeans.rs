@@ -31,7 +31,7 @@ pub fn run<'a, 'b>(
     };
 
     // Tomamos los centroides aleatorios
-    let mut current_centroids = generate_random_centroids(number_of_clusters, point_dimension);
+    let mut current_centroids = generate_random_centroids(number_of_clusters, point_dimension, rng);
 
     // Solucion inicial que en cuanto iteremos una vez vamos a sobreescribir
     // Ahora solo nos interesa considerar los indices de los clusters
@@ -219,12 +219,12 @@ fn select_best_cluster(
 /// Como los puntos del problema estan normalizados en el intervalo [0, 1]^2, los
 /// centroides aleatorios estarán en dicho intervalo
 /// El cluster i-esimo tiene centroide el punto i-esimo del vector
-fn generate_random_centroids(number_of_clusters: i32, point_dimension: i32) -> Vec<Point> {
+fn generate_random_centroids(number_of_clusters: i32, point_dimension: i32, rng: &mut StdRng) -> Vec<Point> {
     let mut centroids = vec![];
 
     for _ in 0..number_of_clusters {
         // Genero un punto aleatorio que sera el centroide actual
-        let current_centroid = Point::random_point(point_dimension);
+        let current_centroid = Point::random_point(point_dimension, rng);
 
         // Lo añado al vector de centroides
         centroids.push(current_centroid);

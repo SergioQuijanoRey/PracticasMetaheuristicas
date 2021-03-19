@@ -1,5 +1,6 @@
 // Para fijar la semilla de numeros aleatorios
 use rand::Rng;
+use rand::rngs::StdRng;
 
 // Modulo para manejar arrays
 use ndarray::Array;
@@ -28,8 +29,7 @@ impl Point {
 
     /// Genera un punto aleatorio cuyas coordenadas se encuentran siempre en
     /// el intervalo [0, 1]
-    pub fn random_point(number_of_coordinates: i32) -> Self{
-        let mut rng = rand::thread_rng();
+    pub fn random_point(number_of_coordinates: i32, rng: &mut StdRng) -> Self{
 
         // Array de ceros
         let coordinates: ndarray::Array1<f32> = ndarray::Array1::zeros(number_of_coordinates as usize);
