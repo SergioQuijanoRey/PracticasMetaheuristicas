@@ -5,6 +5,7 @@ use crate::problem_datatypes::Point;
 use crate::problem_datatypes::Solution;
 use rand::seq::SliceRandom;
 use std::process::exit; // Para hacer shuffle de un vector
+use rand::rngs::StdRng;
 
 // TODO -- TEST -- este modulo puede tener muchos errores porque es muy enrrevesado
 
@@ -13,6 +14,7 @@ pub fn run<'a, 'b>(
     data_points: &'a DataPoints,
     constraints: &'b Constraints,
     number_of_clusters: i32,
+    rng: &mut StdRng
 ) -> Option<Solution<'a, 'b>> {
 
     // Numero de coordenadas que componen cada uno de los puntos
@@ -48,7 +50,7 @@ pub fn run<'a, 'b>(
         // Realizamos una nueva asignacion de clusters. Recorremos los puntos aleatoriamente y
         // asignando al cluster que menos restricciones viole en esa iteracion. En caso de empates,
         // se toma el cluster con centroide mas cercano
-        let new_cluster_indixes = assign_points_to_clusters(&data_points, &constraints, &current_centroids, &current_cluster_indixes, number_of_clusters);
+        let new_cluster_indixes = assign_points_to_clusters(&data_points, &constraints, &current_centroids, &current_cluster_indixes, number_of_clusters, rng);
 
         // Antes de calcular los centroides debemos comprobar que no haya ningun
         // cluster sin puntos. Esto puede ocurrir en la primera pasada en la que
@@ -296,11 +298,7 @@ fn get_cluster_without_point_indixes(
 /// Asigna, en orden aleatorio, los puntos a los clusters asociados a los centroides que pasamos
 /// como parametro. Para ello, da prioridad a las restricciones que se violan en cada paso. En caso
 /// de empate, se toma el cluster con el centroide mas cercano
-fn assign_points_to_clusters(data_points: &DataPoints, constraints: &Constraints, current_centroids: &Vec<Point>, current_cluster_indixes: &Vec<i32>, number_of_clusters: i32) -> Vec<i32>{
-    // Necesitamos generar numeros aleatorios para recorrer los puntos en un
-    // orden aleatorio
-    let mut rng = rand::thread_rng();
-
+fn assign_points_to_clusters(data_points: &DataPoints, constraints: &Constraints, current_centroids: &Vec<Point>, current_cluster_indixes: &Vec<i32>, number_of_clusters: i32, rng: &mut StdRng) -> Vec<i32>{
     // Realizamos una nueva asignacion de clusters
     // -1 para saber que puntos todavia no han sido asignados a un cluster
     let mut new_cluster_indixes: Vec<i32> = vec![-1; data_points.len() as usize];
@@ -308,7 +306,7 @@ fn assign_points_to_clusters(data_points: &DataPoints, constraints: &Constraints
 
     // Recorremos aleatoriamente los puntos para irlos asignando a cada cluster
     let mut point_indexes: Vec<u32> = (0..data_points.len() as u32).collect();
-    point_indexes.shuffle(&mut rng);
+    point_indexes.shuffle(rng);
 
     for index in point_indexes {
         // Calculo el cluster al que asignamos el punto actual

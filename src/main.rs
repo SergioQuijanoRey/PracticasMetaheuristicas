@@ -1,6 +1,9 @@
 use std::process::exit;
 use std::time::{Instant, Duration};
 
+use rand::{Rng,SeedableRng};
+use rand::rngs::StdRng;
+
 // Ficheros en los que separo mi codigo
 mod arg_parser;
 mod file_parsers;
@@ -15,6 +18,7 @@ fn show_help(){
 
 fn main() {
 
+    // Argumentos del programa que recibimos de la terminal
     let program_arguments = match arg_parser::ProgramParameters::new(){
         Ok(value) => value,
         Err(err) => {
@@ -45,6 +49,10 @@ fn main() {
         }
     };
 
+    // Tomamos un generador de numeros aleatorios, que debe ser una referencia
+    // mutable para poder generar numeros aleatorios
+    let mut rng = StdRng::seed_from_u64(program_arguments.get_seed() as u64);
+
     // Realizamos la busqueda local
     println!("Datos del problema cargados con exito, procediendo a realizar las busquedas");
     println!("================================================================================");
@@ -63,7 +71,7 @@ fn main() {
     let mut duration_numeric;
     loop {
         let before = Instant::now();
-        greedy_solution = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters());
+        greedy_solution = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), &mut rng);
         let after = Instant::now();
         let duration = after.duration_since(before);
         duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
