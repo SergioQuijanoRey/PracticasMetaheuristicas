@@ -8,7 +8,6 @@ pub fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, nu
 
     // Partimos de una solucion inicial aleatoria
     let mut current_solution = Solution::generate_random_solution(data_points, constraints, number_of_clusters, rng);
-    println!("Solucion inicial aleatoria: {:?}", current_solution.get_cluster_indexes());
 
     // Realizamos las iteraciones pertinentes
     for i in 0..max_iterations{
@@ -24,9 +23,6 @@ pub fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, nu
                 break;
             },
         };
-
-        // Mostramos algunas estadisticas
-        println!("Mejoramos el fitness de {} a {}", current_solution.fitness(), new_solution.fitness());
 
         // Hacemos el cambio de solucion ahora que ya hemos mostrado la mejora de fitness
         current_solution = new_solution;

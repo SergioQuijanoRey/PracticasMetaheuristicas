@@ -63,7 +63,7 @@ pub fn run<'a, 'b>(
                 get_cluster_without_point_indixes(&new_cluster_indixes, number_of_clusters)
             );
             eprintln!("Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios");
-            eprintln!("Este contratiempo no lo contamos en el tiempo de ejecucion");
+            eprintln!("Este contratiempo cuenta en el tiempo de ejecucion del algoritmo");
 
             // Devuelvo Option::None para que desde el punto en el que se llama
             // al algoritmo, se reinicie la búsqueda y se tome la decision de si
