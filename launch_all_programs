@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+# Script bash para lanzar todos los algoritmos.
+# La ejecución de un programa lanza todos los algoritmos, asi que solo tenemos
+# que especificar como parametro de entrada el fichero de datos, el fichero de
+# restricciones y la semilla aleatoria.
+# Este script primero intenta hacer build del programa antes de lanzar las
+# ejecuciones. El build se hace en modo --release para el maximo rendimiento.
+
+# Construimos el binario
+echo "Compilando el programa..."
+cargo build --release
+program="./target/release/PracticasMetaheuristicas"
+echo ""
+
+# Parametros del script
+small_number_of_clusters=7
+big_number_of_clusters=11
+
+# Lanzamos los algoritmos variando sobre las semillas
+for seed in 16226 53082 29546 79566 10118
+do
+    echo "Lanzando zoo en sus dos variantes de restricciones"
+    program ./data/zoo_set.dat ./data/zoo_set_const_10.const $seed $small_number_of_clusters
+    program ./data/zoo_set.dat ./data/zoo_set_const_20.const $seed $small_number_of_clusters
+    echo ""
+
+    echo "Lanzando glass en sus dos variantes de restricciones"
+    $program ./data/glass_set.dat ./data/glass_set_const_10.const $seed $small_number_of_clusters
+    $program ./data/glass_set.dat ./data/glass_set_const_20.const $seed $small_number_of_clusters
+    echo ""
+
+    echo "Lanzando bupa en sus dos variantes de restricciones"
+    $program ./data/bupa_set.dat ./data/bupa_set_const_10.const $seed $big_number_of_clusters
+    $program ./data/bupa_set.dat ./data/bupa_set_const_20.const $seed $big_number_of_clusters
+    echo ""
+
+done
