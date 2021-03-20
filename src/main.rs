@@ -49,32 +49,28 @@ fn main() {
         }
     };
 
-    // Tomamos un generador de numeros aleatorios, que debe ser una referencia
-    // mutable para poder generar numeros aleatorios
-    let mut rng = StdRng::seed_from_u64(program_arguments.get_seed() as u64);
-
     // Realizamos la busqueda local
     println!("Datos del problema cargados con exito, procediendo a realizar las busquedas");
     println!("================================================================================");
     println!("");
 
+    // Tomamos un generador de numeros aleatorios, que debe ser una referencia
+    // mutable para poder generar numeros aleatorios
+    let mut rng = StdRng::seed_from_u64(program_arguments.get_seed() as u64);
+
     // Realizamos la busqueda greedy
+    //
     // Si devuelve None, es porque la generacion aleatoria de centroides ha dejado
     // clusters sin elementos, y hay que repetir el algoritmo
-    // De momento, no estoy contabilizando el tiempo perdido por esa situacion
     //
-    // TODO -- preguntar si hay que contabilizar el tiempo que perdemos cuando la primera solucion
-    // aleatoria nos genera clusters vacios o simplemente considerar el tiempo de la ejecucion
-    // buena del algoritmo
+    // Estoy contabilizando el tiempo que perdemos cuando tenemos que repetir la asignacion de
+    // centroides aleatorios, pero gracias a que devolvemos Option<Solution> esto es muy facil de
+    // cambiar
     println!("Corriendo busqueda greedy");
+    let before = Instant::now();
     let mut greedy_solution: Option<problem_datatypes::Solution>;
-    let mut duration_numeric;
     loop {
-        let before = Instant::now();
         greedy_solution = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), &mut rng);
-        let after = Instant::now();
-        let duration = after.duration_since(before);
-        duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
 
         match greedy_solution {
             // Hemos contrado solucion, paramos de iterar
@@ -85,6 +81,11 @@ fn main() {
             None => (),
         }
     }
+    let after = Instant::now();
+
+    // Calculamos la duracion en el formato que se nos especifica
+    let duration = after.duration_since(before);
+    let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
 
     // Tomamos la solucion del Option
     let greedy_solution = greedy_solution.expect("En el bucle anterior nos aseguramos de que no seas None");
