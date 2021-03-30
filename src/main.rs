@@ -55,7 +55,7 @@ fn main() {
 
     // Tomamos un generador de numeros aleatorios, que debe ser una referencia
     // mutable para poder generar numeros aleatorios
-    let mut rng = StdRng::seed_from_u64(program_arguments.get_seed() as u64);
+    let mut rng = StdRng::seed_from_u64(program_arguments.get_seed());
 
     // Realizamos la busqueda greedy
     //
@@ -104,7 +104,7 @@ fn main() {
     // Realizamos la busqueda local
     // Volvemos a generar la semilla, porque el profesor nos indica que dos algoritmos distintos
     // deben tener la misma secuencia aleatoria
-    let mut rng = StdRng::seed_from_u64(program_arguments.get_seed() as u64);
+    let mut rng = StdRng::seed_from_u64(program_arguments.get_seed());
 
     // Numero maximo de iteraciones para la busqueda local
     let max_iterations = 100000;

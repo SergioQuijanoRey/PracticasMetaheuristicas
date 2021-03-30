@@ -9,7 +9,7 @@ use simple_error::bail; // Devuelve errores simples con un string descriptivo
 pub struct ProgramParameters{
     data_file: String,
     constraints_file: String,
-    seed: i32,
+    seed: u64,
     number_of_clusters: i32,
 }
 
@@ -26,7 +26,7 @@ impl ProgramParameters{
 
         let data_file = args[1].parse::<String>()?;
         let constraints_file = args[2].parse::<String>()?;
-        let seed = args[3].parse::<i32>()?;
+        let seed = args[3].parse::<u64>()?;
         let number_of_clusters = args[4].parse::<i32>()?;
 
         return Ok(ProgramParameters{
@@ -42,7 +42,7 @@ impl ProgramParameters{
         return self.constraints_file.clone();
     }
 
-    pub fn get_seed(&self) -> i32{
+    pub fn get_seed(&self) -> u64{
         return self.seed;
     }
 
