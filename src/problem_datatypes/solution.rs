@@ -14,7 +14,7 @@ use crate::problem_datatypes::{DataPoints, Constraints, Point, ConstraintType, N
 /// punto del conjunto de datos
 #[derive(Debug)]
 pub struct Solution<'a, 'b> {
-    cluster_indexes: Vec<i32>,
+    cluster_indexes: Vec<u32>,
     data_points: &'a DataPoints,
     constraints: &'b Constraints,
     number_of_clusters: i32,
@@ -28,7 +28,7 @@ impl<'a, 'b> Solution<'a, 'b> {
     /// Util cuando no conocemos el valor de lambda, pues se calcula en esta llamada
     /// En otro caso, se puede construir el struct de forma directa
     pub fn new(
-        cluster_indexes: Vec<i32>,
+        cluster_indexes: Vec<u32>,
         data_points: &'a DataPoints,
         constraints: &'b Constraints,
         number_of_clusters: i32,
@@ -46,7 +46,7 @@ impl<'a, 'b> Solution<'a, 'b> {
         };
     }
 
-    pub fn get_cluster_indexes(&self) -> Vec<i32>{
+    pub fn get_cluster_indexes(&self) -> Vec<u32>{
         return self.cluster_indexes.clone();
     }
 
@@ -65,7 +65,7 @@ impl<'a, 'b> Solution<'a, 'b> {
 
         // Comprobamos que no haya clusters vacios
         for cluster in 0..self.number_of_clusters{
-            match self.cluster_indexes.iter().find(|&&x| x == cluster){
+            match self.cluster_indexes.iter().find(|&&x| x == cluster as u32){
                 // Se ha encontrado, no hacemos nada
                 Some(_) =>(),
 
@@ -130,7 +130,7 @@ impl<'a, 'b> Solution<'a, 'b> {
     ) -> Self {
 
         return Self::new(
-            (0..data_points.get_points().len()).map(|_| rng.gen_range(0..number_of_clusters)).collect(),
+            (0..data_points.get_points().len()).into_iter().map(|_| rng.gen_range(0..number_of_clusters) as u32).collect(),
             data_points,
             constraints,
             number_of_clusters,
@@ -142,7 +142,7 @@ impl<'a, 'b> Solution<'a, 'b> {
     /// la distancia intracluster en la solucion actual
     // TODO -- comprobar que no estemos dividiendo por cero, ya sea con un result
     // o con un panic!
-    pub fn intra_cluster_distance(&self, cluster: i32) -> f64{
+    pub fn intra_cluster_distance(&self, cluster: u32) -> f64{
         // Calculamos el vector de puntos que estan en el cluster
         let cluster_points = self.get_points_in_cluster(cluster);
 
@@ -161,7 +161,7 @@ impl<'a, 'b> Solution<'a, 'b> {
     /// Dado un cluster indicado por el indice que lo representa, devuelve los puntos
     /// que componen dicho cluster
     // TODO -- TEST -- esta funcion es muy facil de testear
-    pub fn get_points_in_cluster(&self, cluster: i32) -> Vec<&Point>{
+    pub fn get_points_in_cluster(&self, cluster: u32) -> Vec<&Point>{
         let mut cluster_points = vec![];
 
         for (index, curr_cluster) in self.cluster_indexes.iter().enumerate(){
@@ -177,7 +177,7 @@ impl<'a, 'b> Solution<'a, 'b> {
     /// Esto representa una de las componentes de la funcion fitness
     pub fn global_cluster_mean_distance(&self) -> f64{
         let mut cum_sum = 0.0;
-        for i in 0 .. self.number_of_clusters{
+        for i in 0 .. self.number_of_clusters as u32 {
             cum_sum += self.intra_cluster_distance(i);
         }
 

@@ -41,7 +41,7 @@ pub fn run<'a, 'b>(
     //
     // Lo que vamos a hacer es ir modificando esta solucion. Necesitamos dos variables para ir
     // comparando como cambian, y parar en caso de que no cambien
-    let mut current_cluster_indixes = vec![0; data_points.len() as usize];
+    let mut current_cluster_indixes: Vec<u32> = vec![0; data_points.len() as usize];
 
     // Iteramos hasta que los centroides no cambien
     let mut centroids_have_changed = true;
@@ -87,7 +87,7 @@ pub fn run<'a, 'b>(
     // Convierto los tipos del vector de clusters
     let current_cluster_indixes = current_cluster_indixes
         .into_iter()
-        .map(|x| x as i32)
+        .map(|x| x as u32)
         .collect();
 
     // Devuelvo la solucion a partir del vector de asignacion de clusters
@@ -116,16 +116,16 @@ fn centroids_are_different(past_centroids: &Vec<Point>, new_centroids: &Vec<Poin
 // de los puntos
 // TODO -- BUG -- devuelve valores sin sentido, como 87
 fn select_best_cluster(
-    current_cluster_indixes: &Vec<i32>,
+    current_cluster_indixes: &Vec<u32>,
     number_of_clusters: i32,
     constraints: &Constraints,
-    current_point_index: i32,
+    current_point_index: u32,
     current_point: &Point,
     centroids: &Vec<Point>,
-) -> i32 {
+) -> u32 {
     // Calculo las restricciones que se violan por cada asignacion de cluster
     let mut violated_constraints = vec![];
-    for cluster_candidate in 0..number_of_clusters {
+    for cluster_candidate in 0..number_of_clusters as u32 {
         // Calculo el numero de restricciones violadas
         let mut current_violations = 0;
         for (point_index, point_cluster) in current_cluster_indixes.iter().enumerate() {
@@ -195,7 +195,7 @@ fn select_best_cluster(
     // Tomo la mejor asignaciom
     // Unico elemento con minimo valor
     if min_cluster_indixes.len() == 1 {
-        return min_cluster_indixes[0];
+        return min_cluster_indixes[0] as u32;
     }
 
     // No hay un unico elemento, tengo que calcular las distancias y quedarme con la minima
@@ -227,7 +227,7 @@ fn select_best_cluster(
     println!("");
 
     // Devuelvo el indice que da la minima distancia
-    return min_cluster_indixes[min_index as usize];
+    return min_cluster_indixes[min_index as usize] as u32;
 }
 
 /// Genera los centroides de forma aleatoria
@@ -251,7 +251,7 @@ fn generate_random_centroids(number_of_clusters: i32, point_dimension: i32, rng:
 /// A partir de una asignacion de clusters y un conjunto de datos, calcula los
 /// centroides correspondientes a dicha asignacion con dichos puntos
 fn calculate_new_centroids(
-    cluster_indixes: &Vec<i32>,
+    cluster_indixes: &Vec<u32>,
     data_points: &DataPoints,
     number_of_clusters: i32,
 ) -> Vec<Point> {
@@ -266,7 +266,7 @@ fn calculate_new_centroids(
     );
 
     let mut new_centroids = vec![];
-    for cluster in 0..number_of_clusters {
+    for cluster in 0..number_of_clusters as u32{
         // Tomamos los puntos que pertenecen a este cluster
         let cluster_points = tmp_solution.get_points_in_cluster(cluster);
 
@@ -281,7 +281,7 @@ fn calculate_new_centroids(
 /// Una configuracion es invalida cuando hay un cluster sin puntos
 /// Es decir, cuando un elemento de {0, 1, ..., number_of_clusters} no aparece
 /// en ninguna posicion de cluster_indixes
-fn valid_cluster_configuration(cluster_indixes: &Vec<i32>, number_of_clusters: i32) -> bool {
+fn valid_cluster_configuration(cluster_indixes: &Vec<u32>, number_of_clusters: i32) -> bool {
     let cluster_without_point_indixes =
         get_cluster_without_point_indixes(&cluster_indixes, number_of_clusters);
     return cluster_without_point_indixes.len() == 0;
@@ -290,7 +290,7 @@ fn valid_cluster_configuration(cluster_indixes: &Vec<i32>, number_of_clusters: i
 /// Toma los indices de clusters que no tienen puntos asignados
 /// Por ejemplo, {3, 4} porque ambos clusters no tienen ni un solo punto asignado
 fn get_cluster_without_point_indixes(
-    cluster_indixes: &Vec<i32>,
+    cluster_indixes: &Vec<u32>,
     number_of_clusters: i32,
 ) -> Vec<i32> {
     // Generamos todos los clusters en un vector
@@ -313,7 +313,8 @@ fn get_cluster_without_point_indixes(
 /// Asigna, en orden aleatorio, los puntos a los clusters asociados a los centroides que pasamos
 /// como parametro. Para ello, da prioridad a las restricciones que se violan en cada paso. En caso
 /// de empate, se toma el cluster con el centroide mas cercano
-fn assign_points_to_clusters(data_points: &DataPoints, constraints: &Constraints, current_centroids: &Vec<Point>, current_cluster_indixes: &Vec<i32>, number_of_clusters: i32, rng: &mut StdRng) -> Vec<i32>{
+/// Devuelve el vector que representa la asignacion de cada punto a su cluster
+fn assign_points_to_clusters(data_points: &DataPoints, constraints: &Constraints, current_centroids: &Vec<Point>, current_cluster_indixes: &Vec<u32>, number_of_clusters: i32, rng: &mut StdRng) -> Vec<u32>{
     // Realizamos una nueva asignacion de clusters
     // -1 para saber que puntos todavia no han sido asignados a un cluster
     let mut new_cluster_indixes: Vec<i32> = vec![-1; data_points.len() as usize];
@@ -329,11 +330,13 @@ fn assign_points_to_clusters(data_points: &DataPoints, constraints: &Constraints
             &current_cluster_indixes,
             number_of_clusters,
             &constraints,
-            index as i32,
+            index,
             &data_points.get_points()[index as usize],
             &current_centroids,
-            );
+            ) as i32;
     }
 
-    return new_cluster_indixes;
+    // Devuelvo los indices. Pero para ello primero tengo que hacer la conversion
+    // de vector de i32 a vector de u32
+    return new_cluster_indixes.into_iter().map(|x| x as u32).collect();
 }

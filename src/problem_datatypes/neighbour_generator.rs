@@ -3,14 +3,15 @@
 pub struct NeighbourGenerator{
 
     /// El elemento que queremos mover de cluster
+    // TODO -- deberia ser u32
     element_index: i32,
 
     /// El nuevo cluster al que asignamos el elemento
-    new_cluster: i32,
+    new_cluster: u32,
 }
 
 impl NeighbourGenerator{
-    pub fn new(element_index: i32, new_cluster: i32) -> Self{
+    pub fn new(element_index: i32, new_cluster: u32) -> Self{
         return Self {element_index, new_cluster};
     }
 
@@ -18,7 +19,7 @@ impl NeighbourGenerator{
         return self.element_index;
     }
 
-    pub fn get_new_cluster(&self) -> i32{
+    pub fn get_new_cluster(&self) -> u32{
         return self.new_cluster;
     }
 
@@ -32,7 +33,7 @@ impl NeighbourGenerator{
             for current_cluster in 0..number_of_clusters{
                 neighbours.push(NeighbourGenerator{
                     element_index: current_element,
-                    new_cluster: current_cluster,
+                    new_cluster: current_cluster as u32,
                 });
             }
         }
