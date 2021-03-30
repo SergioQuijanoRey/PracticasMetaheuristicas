@@ -21,7 +21,7 @@ pub struct Solution<'a, 'b> {
 
     /// Representa el peso de infeasibility en el calculo de fitness
     /// Solo se calcula una vez al invocar a Solution::new
-    lambda: f32,
+    lambda: f64,
 }
 
 impl<'a, 'b> Solution<'a, 'b> {
@@ -35,7 +35,7 @@ impl<'a, 'b> Solution<'a, 'b> {
     ) -> Self {
 
         // Calculamos el valor de lambda
-        let lambda = Point::max_distance_among_two(&data_points.get_points()) / constraints.get_data().len() as f32;
+        let lambda = Point::max_distance_among_two(&data_points.get_points()) / constraints.get_data().len() as f64;
 
         return Self {
             cluster_indexes,
@@ -50,7 +50,7 @@ impl<'a, 'b> Solution<'a, 'b> {
         return self.cluster_indexes.clone();
     }
 
-    pub fn get_lambda(&self) -> f32{
+    pub fn get_lambda(&self) -> f64{
         return self.lambda;
     }
 
@@ -79,8 +79,8 @@ impl<'a, 'b> Solution<'a, 'b> {
     }
 
     /// Calcula el valor de fitness de la solucion
-    pub fn fitness(&self) -> f32 {
-        return self.global_cluster_mean_distance() + self.lambda * self.infeasibility() as f32;
+    pub fn fitness(&self) -> f64 {
+        return self.global_cluster_mean_distance() + self.lambda * self.infeasibility() as f64;
     }
 
     /// Devuelve el primer vecino de la solucion valido que mejora la solucion
@@ -142,7 +142,7 @@ impl<'a, 'b> Solution<'a, 'b> {
     /// la distancia intracluster en la solucion actual
     // TODO -- comprobar que no estemos dividiendo por cero, ya sea con un result
     // o con un panic!
-    pub fn intra_cluster_distance(&self, cluster: i32) -> f32{
+    pub fn intra_cluster_distance(&self, cluster: i32) -> f64{
         // Calculamos el vector de puntos que estan en el cluster
         let cluster_points = self.get_points_in_cluster(cluster);
 
@@ -154,7 +154,7 @@ impl<'a, 'b> Solution<'a, 'b> {
         for point in &cluster_points{
             cum_sum += Point::distance(point, &centroid);
         }
-        return cum_sum / cluster_points.len() as f32;
+        return cum_sum / cluster_points.len() as f64;
 
     }
 
@@ -175,13 +175,13 @@ impl<'a, 'b> Solution<'a, 'b> {
 
     /// Calcula la media de distancias intracluster sobre todos los clusters
     /// Esto representa una de las componentes de la funcion fitness
-    pub fn global_cluster_mean_distance(&self) -> f32{
+    pub fn global_cluster_mean_distance(&self) -> f64{
         let mut cum_sum = 0.0;
         for i in 0 .. self.number_of_clusters{
             cum_sum += self.intra_cluster_distance(i);
         }
 
-        return cum_sum / self.number_of_clusters as f32;
+        return cum_sum / self.number_of_clusters as f64;
     }
 
     /// Calcula el numero de restricciones que se violan en la solucion actual

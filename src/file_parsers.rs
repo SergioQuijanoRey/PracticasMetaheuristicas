@@ -26,7 +26,7 @@ pub fn parse_data_file_to_struct(data_path: &str) -> Result<DataPoints, Box<dyn 
 
         // Si algun elemento no se puede parsear, se devuelve un error
         // En otro caso, me tomo los datos
-        let data: Result<Vec<f32>, _> = data.into_iter().map(|x| x.parse::<f32>()).collect();
+        let data: Result<Vec<f64>, _> = data.into_iter().map(|x| x.parse::<f64>()).collect();
         let data = data?;
 
         // Añadir el punto al vector de puntos

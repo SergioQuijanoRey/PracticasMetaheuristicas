@@ -8,22 +8,22 @@ use ndarray::Array;
 /// Representa un punto
 #[derive(Debug, PartialEq)]
 pub struct Point {
-    coordinates: ndarray::Array1<f32>,
+    coordinates: ndarray::Array1<f64>,
 }
 
 impl Point {
-    pub fn new(coordinates: ndarray::Array1<f32>) -> Self{
+    pub fn new(coordinates: ndarray::Array1<f64>) -> Self{
         return Self{coordinates};
     }
 
     /// Genera un punto a partir de sus coordenadas dadas en un vector de flotantes
-    pub fn from_vec(coordinates: Vec<f32>) -> Self {
+    pub fn from_vec(coordinates: Vec<f64>) -> Self {
         return Self { coordinates: Array::from(coordinates) };
     }
 
 
     /// Dados dos puntos, devuelve su distancia euclidea
-    pub fn distance(first: &Self, second: &Self) -> f32{
+    pub fn distance(first: &Self, second: &Self) -> f64{
         return first.distance_to(second);
     }
 
@@ -32,7 +32,7 @@ impl Point {
     pub fn random_point(number_of_coordinates: i32, rng: &mut StdRng) -> Self{
 
         // Array de ceros
-        let coordinates: ndarray::Array1<f32> = ndarray::Array1::zeros(number_of_coordinates as usize);
+        let coordinates: ndarray::Array1<f64> = ndarray::Array1::zeros(number_of_coordinates as usize);
 
         // En cada elemento colocamos un valor aleatorio
         let coordinates = coordinates.mapv(|_| rng.gen_range(0.0 .. 1.0));
@@ -42,7 +42,7 @@ impl Point {
     }
 
     // Dado otro punto, devuelve su distancia euclidea al punto dado
-    fn distance_to(&self, other: &Self) -> f32{
+    fn distance_to(&self, other: &Self) -> f64{
         // Hacemos la diferencia en coordenadas
         // Elevamos al cuadrado
         // Sumamos y devolvemos la raiz cuadrada
@@ -68,13 +68,13 @@ impl Point {
         for point in points{
             sum_point = sum_point + &point.coordinates;
         }
-        sum_point = sum_point / points.len() as f32;
+        sum_point = sum_point / points.len() as f64;
 
         return Self{coordinates: sum_point};
     }
 
     /// Dado un conjunto de puntos, calcula la maxima distancia entre dos de ellos
-    pub fn max_distance_among_two(points: &Vec<Point>) -> f32{
+    pub fn max_distance_among_two(points: &Vec<Point>) -> f64{
         let mut max_dist = 0.0;
 
         for i in 0 .. points.len(){
