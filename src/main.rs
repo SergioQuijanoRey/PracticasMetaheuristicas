@@ -1,7 +1,7 @@
 use std::process::exit;
-use std::time::{Instant, Duration};
+use std::time::Instant;
 
-use rand::{Rng,SeedableRng};
+use rand::SeedableRng;
 use rand::rngs::StdRng;
 
 // Ficheros en los que separo mi codigo
