@@ -54,6 +54,10 @@ impl<'a, 'b> Solution<'a, 'b> {
         return self.lambda;
     }
 
+    pub fn get_data_points(&self) -> &DataPoints{
+        return self.data_points;
+    }
+
     /// Comprueba si la solucion es valida o no
     fn is_valid(&self) -> bool {
 
@@ -212,4 +216,68 @@ impl<'a, 'b> Solution<'a, 'b> {
 
         return infea;
     }
+}
+
+#[cfg(test)]
+mod tests{
+    use crate::problem_datatypes::Solution;
+    use crate::problem_datatypes::DataPoints;
+    use crate::problem_datatypes::Point;
+    use crate::problem_datatypes::Constraints;
+    use crate::problem_datatypes::ConstraintType;
+
+    /// Para generar soluciones basicas para correr algunos tests
+    //fn generate_basic_solution() -> Solution<'static, 'static>{
+        // let cluster_indexes = vec![0, 1, 2, 3, 0, 1];
+        // let data_points = DataPoints::new(vec![
+        //     Point::from_vec(vec![1.0, 0.0, 0.0, 0.0, 0.0, 0.0]),
+        //     Point::from_vec(vec![0.0, 1.0, 0.0, 0.0, 0.0, 0.0]),
+        //     Point::from_vec(vec![0.0, 0.0, 1.0, 0.0, 0.0, 0.0]),
+        //     Point::from_vec(vec![0.0, 0.0, 0.0, 1.0, 0.0, 0.0]),
+        //     Point::from_vec(vec![0.0, 0.0, 0.0, 0.0, 1.0, 0.0]),
+        //     Point::from_vec(vec![0.0, 0.0, 0.0, 0.0, 0.0, 1.0]),
+        // ]);
+
+        // let mut constraints = Constraints::new();
+        // constraints.add_constraint(0, 1, ConstraintType::CannotLink);
+        // constraints.add_constraint(0, 2, ConstraintType::CannotLink);
+        // constraints.add_constraint(1, 3, ConstraintType::CannotLink);
+        // constraints.add_constraint(1, 4, ConstraintType::MustLink);
+        // constraints.add_constraint(2, 5, ConstraintType::MustLink);
+
+        // let number_of_clusters = 4;
+
+        // return Solution::new(cluster_indexes, &data_points, &constraints, number_of_clusters);
+    //}
+
+    #[test]
+    fn test_get_solutions_from_cluster(){
+        let cluster_indexes = vec![0, 1, 2, 3, 0, 1];
+        let data_points = DataPoints::new(vec![
+            Point::from_vec(vec![1.0, 0.0, 0.0, 0.0, 0.0, 0.0]),
+            Point::from_vec(vec![0.0, 1.0, 0.0, 0.0, 0.0, 0.0]),
+            Point::from_vec(vec![0.0, 0.0, 1.0, 0.0, 0.0, 0.0]),
+            Point::from_vec(vec![0.0, 0.0, 0.0, 1.0, 0.0, 0.0]),
+            Point::from_vec(vec![0.0, 0.0, 0.0, 0.0, 1.0, 0.0]),
+            Point::from_vec(vec![0.0, 0.0, 0.0, 0.0, 0.0, 1.0]),
+        ]);
+
+        let mut constraints = Constraints::new();
+        constraints.add_constraint(0, 1, ConstraintType::CannotLink);
+        constraints.add_constraint(0, 2, ConstraintType::CannotLink);
+        constraints.add_constraint(1, 3, ConstraintType::CannotLink);
+        constraints.add_constraint(1, 4, ConstraintType::MustLink);
+        constraints.add_constraint(2, 5, ConstraintType::MustLink);
+
+        let number_of_clusters = 4;
+
+        let solution = Solution::new(cluster_indexes, &data_points, &constraints, number_of_clusters);
+        let data_points = solution.get_data_points().get_points();
+
+        assert_eq!(solution.get_points_in_cluster(0), vec![&data_points[0], &data_points[4]]);
+        assert_eq!(solution.get_points_in_cluster(1), vec![&data_points[1], &data_points[5]]);
+        assert_eq!(solution.get_points_in_cluster(2), vec![&data_points[2]]);
+        assert_eq!(solution.get_points_in_cluster(3), vec![&data_points[3]]);
+    }
+
 }

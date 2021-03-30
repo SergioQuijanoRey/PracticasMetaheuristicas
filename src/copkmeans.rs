@@ -15,6 +15,8 @@ pub fn run<'a, 'b>(
     constraints: &'b Constraints,
     number_of_clusters: i32,
     rng: &mut StdRng,
+    forze_non_empty_cluster: bool   // Si es true, asigna a la fuerza los primeros
+                                    // clusters para evitar que estos se queden vacios
 ) -> Option<Solution<'a, 'b>> {
     // Numero de coordenadas que componen cada uno de los puntos
     // Necesario para saber cuantas coordenadas debe tener nuestros centroides aleatorios
@@ -42,6 +44,22 @@ pub fn run<'a, 'b>(
     // comparando como cambian, y parar en caso de que no cambien
     let mut current_cluster_indixes: Vec<u32> = vec![0; data_points.len() as usize];
 
+    // Si queremos forzar a que los centroides no se queden vacios, asignamos
+    // los valores a mano para los primeros centroides
+    if forze_non_empty_cluster == true{
+        println!("Asigno a cada cluster un punto aleatorio");
+
+        // Indices mezclados de los puntos. Esto me permite asignar aleatoriamente
+        // puntos a los primeros clusters sin tener que comprobar si estoy metiendo
+        // un punto en dos clusters, por ejemplo
+        let mut shuffled_point_indixes: Vec<u32> = (1..data_points.len() as u32).into_iter().collect();
+        shuffled_point_indixes.shuffle(rng);
+
+        for index in 0 .. number_of_clusters as u32{
+            current_cluster_indixes[index as usize] = shuffled_point_indixes[index as usize];
+        }
+    }
+
     // Iteramos hasta que los centroides no cambien
     let mut centroids_have_changed = true;
     while centroids_have_changed == true {
@@ -62,11 +80,16 @@ pub fn run<'a, 'b>(
         // generamos centroides aleatorios. No se si esto es exclusivo de la primera
         // iteracion con centroides aleatorios
         if valid_cluster_configuration(&new_cluster_indixes, number_of_clusters) == false {
+            // Para mostrar algunos datos de la solucion problematica
+            let tmp_solution = Solution::new(new_cluster_indixes.clone(), data_points, constraints, number_of_clusters);
+
             eprintln!("[Err] La solucion greedy actual ha dejado clusters sin puntos");
             eprintln!(
                 "Estos clusters vacios son: {:?}",
                 get_cluster_without_point_indixes(&new_cluster_indixes, number_of_clusters)
             );
+            eprintln!("La configuracion actual de asignacion de clusters es: {:?}", new_cluster_indixes);
+            eprintln!("Restricciones violadas: {:?}", tmp_solution.infeasibility());
             eprintln!("Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios");
             eprintln!("Este contratiempo cuenta en el tiempo de ejecucion del algoritmo");
 
@@ -75,6 +98,8 @@ pub fn run<'a, 'b>(
             // contabilizar el tiempo extra de volver a genera una primera solucion
             // aleatoria o si no contabilizarlo (mas control al caller)
             return None;
+        }else{
+            println!("=====> Buena config");
         }
 
         // Calculamos los nuevos centroides
