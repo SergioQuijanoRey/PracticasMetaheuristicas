@@ -122,7 +122,7 @@ fn centroids_are_different(past_centroids: &Vec<Point>, new_centroids: &Vec<Poin
 // de los puntos y tomar una decision en base a ello
 // Selecciona el cluster que menos aumento de violaciones de restricciones produce
 // En caso de que haya empate, se toma el cluster mas cercano al punto
-// TODO -- BUG -- devuelve valores sin sentido, como 87
+// TODO -- borrar las comprobaciones de seguridad
 fn select_best_cluster(
     current_cluster_indixes: &Vec<u32>,
     number_of_clusters: i32,
@@ -140,8 +140,6 @@ fn select_best_cluster(
         current_point_index,
     );
 
-    println!("TODO -- restricciones violadas: {:?}", violated_constraints);
-
     // Calculo el valor minimo de violaciones que produce una asignacion de cluster
     let min_value = match violated_constraints.iter().min() {
         Some(value) => value,
@@ -155,11 +153,6 @@ fn select_best_cluster(
         }
     };
 
-    println!(
-        "TODO -- valor minimo de restricciones violadas: {}",
-        min_value
-    );
-
     // Calculo los clusters cuya asignacion produce el minimo numero de violaciones
     // Este vector guarda los indices de los ya mencionados clusters, por ejemplo:
     // min_cluster_indixes = vec![3, 4, 8]
@@ -169,11 +162,6 @@ fn select_best_cluster(
             min_cluster_indixes.push(cluster);
         }
     }
-
-    println!(
-        "TODO -- candidatos a mejor cluster: {:?}",
-        min_cluster_indixes
-    );
 
     // Tomo la mejor asignaciom
     // Unico elemento con minimo valor
@@ -190,8 +178,6 @@ fn select_best_cluster(
         distances.push(distance_to_centroid);
     }
 
-    println!("Distancias a los candidatos: {:?}", distances);
-
     // Calculo la minima distancia y el indice del valor minimo
     // TODO -- mejorar el naming porque es algo lioso cuando hago el return
     let mut min_distance = distances[0];
@@ -202,12 +188,6 @@ fn select_best_cluster(
             min_index = index;
         }
     }
-
-    println!("Distancia minima: {}", min_distance);
-    println!("Valor del indice de distancia minima: {}", min_index);
-    println!("Se devuelve el cluster: {}", min_cluster_indixes[min_index]);
-    println!("");
-    println!("");
 
     // Devuelvo el indice que da la minima distancia
     return min_cluster_indixes[min_index as usize] as u32;
@@ -222,9 +202,13 @@ fn get_violated_constraints_per_cluster_assignment(
     constraints: &Constraints,
     current_point_index: u32,
 ) -> Vec<u32> {
+    // Vector que construimos con las restricciones violadas
     let mut violated_constraints = vec![];
+
     for cluster_candidate in 0..number_of_clusters as u32 {
-        // Calculo el numero de restricciones violadas
+        // Calculo el numero de restricciones violadas para este cluster en concreto
+        // Para ello, itero sobre los indices de los puntos y los clusters a los
+        // que estan asignados dichos puntos
         let mut current_violations = 0;
         for (point_index, point_cluster) in current_cluster_indixes.iter().enumerate() {
             // Miramos que restriccion tenemos entre los dos puntos
