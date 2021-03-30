@@ -53,6 +53,7 @@ impl Point {
 
 
     /// Dado un conjunto de puntos, calcula su centroide
+    /// El vector de puntos debe tener al menos un punto, en otro caso hace panic!
     // TODO -- TEST -- muy facil de testear
     pub fn calculate_centroid(points: &Vec<&Self>) -> Self{
         // Condicion de seguridad

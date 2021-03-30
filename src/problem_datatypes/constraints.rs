@@ -11,6 +11,8 @@ pub enum ConstraintType {
 /// Usamos un hashmap por motivos de eficiencia la hora de guardar y acceder a los datos
 /// Una restriccion viene dada por los dos indices de los elementos que se restringen
 /// y el tipo de restriccion
+/// Es lo mismo la restriccion sobre indices (i, j) que la restriccion sobre indices (j, i)
+/// Las restricciones MustLink del tipo (i, i) no se almacenan al ser triviales
 #[derive(Debug)]
 pub struct Constraints{
     data: HashMap<(i32, i32), ConstraintType>,

@@ -49,7 +49,6 @@ fn main() {
         }
     };
 
-    // Realizamos la busqueda local
     println!("Datos del problema cargados con exito, procediendo a realizar las busquedas");
     println!("================================================================================");
     println!("");
