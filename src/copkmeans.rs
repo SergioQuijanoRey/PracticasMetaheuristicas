@@ -3,9 +3,9 @@ use crate::problem_datatypes::Constraints;
 use crate::problem_datatypes::DataPoints;
 use crate::problem_datatypes::Point;
 use crate::problem_datatypes::Solution;
+use rand::rngs::StdRng;
 use rand::seq::SliceRandom;
 use std::process::exit; // Para hacer shuffle de un vector
-use rand::rngs::StdRng;
 
 // TODO -- TEST -- este modulo puede tener muchos errores porque es muy enrrevesado
 
@@ -14,9 +14,8 @@ pub fn run<'a, 'b>(
     data_points: &'a DataPoints,
     constraints: &'b Constraints,
     number_of_clusters: i32,
-    rng: &mut StdRng
+    rng: &mut StdRng,
 ) -> Option<Solution<'a, 'b>> {
-
     // Numero de coordenadas que componen cada uno de los puntos
     // Necesario para saber cuantas coordenadas debe tener nuestros centroides aleatorios
     let point_dimension = match data_points.point_dimension() {
@@ -46,11 +45,17 @@ pub fn run<'a, 'b>(
     // Iteramos hasta que los centroides no cambien
     let mut centroids_have_changed = true;
     while centroids_have_changed == true {
-
         // Realizamos una nueva asignacion de clusters. Recorremos los puntos aleatoriamente y
         // asignando al cluster que menos restricciones viole en esa iteracion. En caso de empates,
         // se toma el cluster con centroide mas cercano
-        let new_cluster_indixes = assign_points_to_clusters(&data_points, &constraints, &current_centroids, &current_cluster_indixes, number_of_clusters, rng);
+        let new_cluster_indixes = assign_points_to_clusters(
+            &data_points,
+            &constraints,
+            &current_centroids,
+            &current_cluster_indixes,
+            number_of_clusters,
+            rng,
+        );
 
         // Antes de calcular los centroides debemos comprobar que no haya ningun
         // cluster sin puntos. Esto puede ocurrir en la primera pasada en la que
@@ -112,8 +117,11 @@ fn centroids_are_different(past_centroids: &Vec<Point>, new_centroids: &Vec<Poin
 }
 
 /// Dado un punto y una configuracion de puntos actual, elige el mejor cluster posible
+/// para asignar al punto pasado
 // current_cluster_indixes lo necesito para saber cual es la configuracion actual
-// de los puntos
+// de los puntos y tomar una decision en base a ello
+// Selecciona el cluster que menos aumento de violaciones de restricciones produce
+// En caso de que haya empate, se toma el cluster mas cercano al punto
 // TODO -- BUG -- devuelve valores sin sentido, como 87
 fn select_best_cluster(
     current_cluster_indixes: &Vec<u32>,
@@ -123,45 +131,14 @@ fn select_best_cluster(
     current_point: &Point,
     centroids: &Vec<Point>,
 ) -> u32 {
-    // Calculo las restricciones que se violan por cada asignacion de cluster
-    let mut violated_constraints = vec![];
-    for cluster_candidate in 0..number_of_clusters as u32 {
-        // Calculo el numero de restricciones violadas
-        let mut current_violations = 0;
-        for (point_index, point_cluster) in current_cluster_indixes.iter().enumerate() {
-            // Miramos que restriccion tenemos entre los dos puntos
-            match constraints.get_constraint(point_index as i32, current_point_index as i32) {
-                // Hay restriccion
-                // Tenemos que comprobar con otro match segun el tipo de restriccion que sea
-                Some(constraint) => {
-                    match constraint {
-                        // Sumamos uno si el candidato a cluster no coincide
-                        // con el cluster del punto
-                        ConstraintType::MustLink => {
-                            if *point_cluster != cluster_candidate {
-                                current_violations += 1;
-                            }
-                        }
-
-                        // Sumamos uno si el candidato a cluster coincide con
-                        // el cluster del punto
-                        ConstraintType::CannotLink => {
-                            if *point_cluster == cluster_candidate {
-                                current_violations += 1;
-                            }
-                        }
-                    }
-                }
-
-                // No hay restricciones entre los dos puntos asi que no tenemos que hacer
-                // comprobaciones
-                None => (),
-            }
-        }
-
-        // Asigno el numero al vector
-        violated_constraints.push(current_violations);
-    }
+    // Calculo las restricciones que se violan cuando asinamos al punto representado
+    // por current_point_index a cada uno de los clusters
+    let violated_constraints = get_violated_constraints_per_cluster_assignment(
+        current_cluster_indixes,
+        number_of_clusters,
+        constraints,
+        current_point_index,
+    );
 
     println!("TODO -- restricciones violadas: {:?}", violated_constraints);
 
@@ -178,7 +155,10 @@ fn select_best_cluster(
         }
     };
 
-    println!("TODO -- valor minimo de restricciones violadas: {}", min_value);
+    println!(
+        "TODO -- valor minimo de restricciones violadas: {}",
+        min_value
+    );
 
     // Calculo los clusters cuya asignacion produce el minimo numero de violaciones
     // Este vector guarda los indices de los ya mencionados clusters, por ejemplo:
@@ -190,7 +170,10 @@ fn select_best_cluster(
         }
     }
 
-    println!("TODO -- candidatos a mejor cluster: {:?}", min_cluster_indixes);
+    println!(
+        "TODO -- candidatos a mejor cluster: {:?}",
+        min_cluster_indixes
+    );
 
     // Tomo la mejor asignaciom
     // Unico elemento con minimo valor
@@ -230,11 +213,66 @@ fn select_best_cluster(
     return min_cluster_indixes[min_index as usize] as u32;
 }
 
+/// Calcula un vector con las restricciones que se viola al realizar cada una
+/// de las asignaciones de un punto fijado (current_point_index) a cada uno de los
+/// posibles clusters
+fn get_violated_constraints_per_cluster_assignment(
+    current_cluster_indixes: &Vec<u32>,
+    number_of_clusters: i32,
+    constraints: &Constraints,
+    current_point_index: u32,
+) -> Vec<u32> {
+    let mut violated_constraints = vec![];
+    for cluster_candidate in 0..number_of_clusters as u32 {
+        // Calculo el numero de restricciones violadas
+        let mut current_violations = 0;
+        for (point_index, point_cluster) in current_cluster_indixes.iter().enumerate() {
+            // Miramos que restriccion tenemos entre los dos puntos
+            match constraints.get_constraint(point_index as i32, current_point_index as i32) {
+                // Hay restriccion
+                // Tenemos que comprobar con otro match segun el tipo de restriccion que sea
+                Some(constraint) => {
+                    match constraint {
+                        // Sumamos uno si el candidato a cluster no coincide
+                        // con el cluster del punto
+                        ConstraintType::MustLink => {
+                            if *point_cluster != cluster_candidate {
+                                current_violations += 1;
+                            }
+                        }
+
+                        // Sumamos uno si el candidato a cluster coincide con
+                        // el cluster del punto
+                        ConstraintType::CannotLink => {
+                            if *point_cluster == cluster_candidate {
+                                current_violations += 1;
+                            }
+                        }
+                    }
+                }
+
+                // No hay restricciones entre los dos puntos asi que no tenemos que hacer
+                // comprobaciones
+                None => (),
+            }
+        }
+
+        // Asigno el numero al vector
+        violated_constraints.push(current_violations);
+    }
+
+    return violated_constraints;
+}
+
 /// Genera los centroides de forma aleatoria
 /// Como los puntos del problema estan normalizados en el intervalo [0, 1]^2, los
 /// centroides aleatorios estarán en dicho intervalo
 /// El cluster i-esimo tiene centroide el punto i-esimo del vector
-fn generate_random_centroids(number_of_clusters: i32, point_dimension: i32, rng: &mut StdRng) -> Vec<Point> {
+fn generate_random_centroids(
+    number_of_clusters: i32,
+    point_dimension: i32,
+    rng: &mut StdRng,
+) -> Vec<Point> {
     let mut centroids = vec![];
 
     for _ in 0..number_of_clusters {
@@ -266,7 +304,7 @@ fn calculate_new_centroids(
     );
 
     let mut new_centroids = vec![];
-    for cluster in 0..number_of_clusters as u32{
+    for cluster in 0..number_of_clusters as u32 {
         // Tomamos los puntos que pertenecen a este cluster
         let cluster_points = tmp_solution.get_points_in_cluster(cluster);
 
@@ -314,11 +352,17 @@ fn get_cluster_without_point_indixes(
 /// como parametro. Para ello, da prioridad a las restricciones que se violan en cada paso. En caso
 /// de empate, se toma el cluster con el centroide mas cercano
 /// Devuelve el vector que representa la asignacion de cada punto a su cluster
-fn assign_points_to_clusters(data_points: &DataPoints, constraints: &Constraints, current_centroids: &Vec<Point>, current_cluster_indixes: &Vec<u32>, number_of_clusters: i32, rng: &mut StdRng) -> Vec<u32>{
+fn assign_points_to_clusters(
+    data_points: &DataPoints,
+    constraints: &Constraints,
+    current_centroids: &Vec<Point>,
+    current_cluster_indixes: &Vec<u32>,
+    number_of_clusters: i32,
+    rng: &mut StdRng,
+) -> Vec<u32> {
     // Realizamos una nueva asignacion de clusters
     // -1 para saber que puntos todavia no han sido asignados a un cluster
     let mut new_cluster_indixes: Vec<i32> = vec![-1; data_points.len() as usize];
-
 
     // Recorremos aleatoriamente los puntos para irlos asignando a cada cluster
     let mut point_indexes: Vec<u32> = (0..data_points.len() as u32).collect();
@@ -333,7 +377,7 @@ fn assign_points_to_clusters(data_points: &DataPoints, constraints: &Constraints
             index,
             &data_points.get_points()[index as usize],
             &current_centroids,
-            ) as i32;
+        ) as i32;
     }
 
     // Devuelvo los indices. Pero para ello primero tengo que hacer la conversion
