@@ -16,13 +16,14 @@ echo ""
 # Parametros del script
 small_number_of_clusters=7
 big_number_of_clusters=11
+seeds=(16226 53082 29546 79566 10118)
 
 # Lanzamos los algoritmos variando sobre las semillas
-for seed in 16226 53082 29546 79566 10118
+for seed in "${seeds[@]}"
 do
     echo "Lanzando zoo en sus dos variantes de restricciones"
-    program ./data/zoo_set.dat ./data/zoo_set_const_10.const $seed $small_number_of_clusters
-    program ./data/zoo_set.dat ./data/zoo_set_const_20.const $seed $small_number_of_clusters
+    $program ./data/zoo_set.dat ./data/zoo_set_const_10.const $seed $small_number_of_clusters
+    $program ./data/zoo_set.dat ./data/zoo_set_const_20.const $seed $small_number_of_clusters
     echo ""
 
     echo "Lanzando glass en sus dos variantes de restricciones"
