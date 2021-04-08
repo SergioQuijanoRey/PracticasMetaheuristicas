@@ -5,10 +5,6 @@ use rand::rngs::StdRng;
 // Para hacer shuffle de un vector
 use rand::seq::SliceRandom;
 
-// Para comprobar que dos soluciones son practicamente iguales (ignorando problemas
-// del punto flotante)
-use assert_approx_eq::assert_approx_eq;
-
 use crate::problem_datatypes::{DataPoints, Constraints, Point, ConstraintType, NeighbourGenerator};
 
 /// Estructura que representa una solucion del problema
@@ -228,6 +224,10 @@ mod tests{
     use crate::problem_datatypes::Point;
     use crate::problem_datatypes::Constraints;
     use crate::problem_datatypes::ConstraintType;
+
+    // Para comprobar que dos soluciones son practicamente iguales (ignorando problemas
+    // del punto flotante)
+    use assert_approx_eq::assert_approx_eq;
 
     /// Callback porque en otro caso tenemos que hacer clones de los datos
     /// que componen la solucion que devolvemos

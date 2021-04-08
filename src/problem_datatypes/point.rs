@@ -94,6 +94,42 @@ impl Point {
     /// Devuelve la dimension del punto
     /// Es decir, el numero de coordenadas del punto
     pub fn dimension(&self) -> usize {
-        return self.coordinates.len();
+            return self.coordinates.len();
+        }
+    }
+
+#[cfg(test)]
+mod tests{
+    use crate::problem_datatypes::Point;
+
+    // Para comprobar que dos soluciones son practicamente iguales (ignorando problemas
+    // del punto flotante)
+    use assert_approx_eq::assert_approx_eq;
+
+    #[test]
+    // Añado este test porque antes tenia un error logico, usando la raiz cuadrada
+    // para la distancia en vez de la raiz n-esima. Dejo este test para que
+    // no pueda volver a ocurrir
+    fn test_simple_distances_are_correct(){
+        struct TestCase{
+            first: Point,
+            second: Point,
+            expected_distance: f64
+        };
+
+
+        let test_cases = vec![
+            TestCase{
+                first: Point::from_vec(vec![1.0, 0.0, 0.0, 0.0, 0.0, 0.0]),
+                second: Point::from_vec(vec![0.0, 1.0, 0.0, 0.0, 0.0, 0.0]),
+                expected_distance: 1.122462048309373,
+            }
+        ];
+
+        for test_case in test_cases{
+            let calc_distance = Point::distance(&test_case.first, &test_case.second);
+            assert_approx_eq::assert_approx_eq!(calc_distance, test_case.expected_distance, 0.01);
+        }
+
     }
 }
