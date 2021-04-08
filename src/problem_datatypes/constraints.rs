@@ -38,7 +38,8 @@ impl Constraints{
         }
 
         if self.has_element(first_index, second_index) == false {
-            self.data.insert((first_index, second_index), constraint_type);
+            let (smaller, bigger) = Self::order_pair(first_index, second_index);
+            self.data.insert((smaller, bigger), constraint_type);
         }
     }
 
@@ -48,15 +49,14 @@ impl Constraints{
         return self.data.contains_key(&(first_index, second_index)) || self.data.contains_key(&(second_index, first_index));
     }
 
-    // TODO -- bug
     pub fn get_constraint(&self, first_index: i32, second_index: i32) -> Option<&ConstraintType>{
-        // Hacemos los dos if porque no es lo mismo (1, 2) que (2, 1)
+        // Tenemos el elemento
         if self.has_element(first_index, second_index) {
-            return self.data.get(&(first_index, second_index));
 
-        }
-        if self.has_element(second_index, first_index) {
-            return self.data.get(&(second_index, first_index));
+            // Guardamos siempre los datos en la forma (i, j) con i < j
+            let (smaller, bigger) = Self::order_pair(first_index, second_index);
+            return self.data.get(&(smaller, bigger));
+
         }
 
         // No hay una restriccion entre los dos elementos pasados como parametros
@@ -65,6 +65,16 @@ impl Constraints{
 
     pub fn get_data(&self) -> &HashMap<(i32, i32), ConstraintType>{
         return &self.data;
+    }
+
+    /// Toma dos enteros y devuelve el par ordenado en orden ascendente
+    fn order_pair(first: i32, second: i32) -> (i32, i32){
+        if first < second {
+            return (first, second);
+        }else{
+            return (second, first);
+        }
+
     }
 }
 
