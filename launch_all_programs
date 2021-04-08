@@ -22,18 +22,24 @@ seeds=(16226 53082 29546 79566 10118)
 for seed in "${seeds[@]}"
 do
     echo "Lanzando zoo en sus dos variantes de restricciones"
-    $program ./data/zoo_set.dat ./data/zoo_set_const_10.const $seed $small_number_of_clusters
-    $program ./data/zoo_set.dat ./data/zoo_set_const_20.const $seed $small_number_of_clusters
+    $program ./data/zoo_set.dat ./data/zoo_set_const_10.const $seed $small_number_of_clusters copkmeans
+    $program ./data/zoo_set.dat ./data/zoo_set_const_10.const $seed $small_number_of_clusters local_search
+    $program ./data/zoo_set.dat ./data/zoo_set_const_20.const $seed $small_number_of_clusters copkmeans
+    $program ./data/zoo_set.dat ./data/zoo_set_const_20.const $seed $small_number_of_clusters local_search
     echo ""
 
     echo "Lanzando glass en sus dos variantes de restricciones"
-    $program ./data/glass_set.dat ./data/glass_set_const_10.const $seed $small_number_of_clusters
-    $program ./data/glass_set.dat ./data/glass_set_const_20.const $seed $small_number_of_clusters
+    #$program ./data/glass_set.dat ./data/glass_set_const_10.const $seed $small_number_of_clusters copkmeans
+    $program ./data/glass_set.dat ./data/glass_set_const_10.const $seed $small_number_of_clusters local_search
+    #$program ./data/glass_set.dat ./data/glass_set_const_20.const $seed $small_number_of_clusters copkmeans
+    $program ./data/glass_set.dat ./data/glass_set_const_20.const $seed $small_number_of_clusters local_search
     echo ""
 
     echo "Lanzando bupa en sus dos variantes de restricciones"
-    $program ./data/bupa_set.dat ./data/bupa_set_const_10.const $seed $big_number_of_clusters
-    $program ./data/bupa_set.dat ./data/bupa_set_const_20.const $seed $big_number_of_clusters
+    #$program ./data/bupa_set.dat ./data/bupa_set_const_10.const $seed $big_number_of_clusters copkmeans
+    $program ./data/bupa_set.dat ./data/bupa_set_const_10.const $seed $big_number_of_clusters local_search
+    #$program ./data/bupa_set.dat ./data/bupa_set_const_20.const $seed $big_number_of_clusters copkmeans
+    $program ./data/bupa_set.dat ./data/bupa_set_const_20.const $seed $big_number_of_clusters local_search
     echo ""
 
 done

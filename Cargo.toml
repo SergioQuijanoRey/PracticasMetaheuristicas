@@ -13,3 +13,8 @@ rand = "0.8.3"              # Generate random numbers
 ndarray = "0.14.0"          # Work with matrices and vectors
 lazy_static = "1.4.0"       # Create a singleton
 assert_approx_eq = "1.1.0"  # Assert almost equals
+
+
+# Para que flamegraph mejore el grafico del perf
+[profile.release]
+debug = true

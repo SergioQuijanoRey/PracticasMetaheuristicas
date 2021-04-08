@@ -3,6 +3,32 @@ use std::error::Error;
 use std::boxed::Box;
 use simple_error::bail; // Devuelve errores simples con un string descriptivo
 
+/// Tipo de busqueda que el usuario quiere ejecutar
+#[derive(Debug, Clone, Copy)]
+pub enum SearchType{
+    Copkmeans,
+    LocalSearch,
+}
+
+impl SearchType{
+    /// Toma un string con el tipo de busqueda y lo convierte al struct
+    /// Los valores validos para code son:
+    ///     - "copkmeans"
+    ///     - "local_search"
+    pub fn from_str(code: &str) -> Result<Self, Box<dyn Error>>{
+        if code == "copkmeans"{
+            return Ok(SearchType::Copkmeans);
+        }
+
+        if code == "local_search"{
+            return Ok(SearchType::LocalSearch);
+        }
+
+        // Codigo no valido
+        bail!("Valor del string para seleccionar la busqueda no valido");
+    }
+}
+
 /// Representa los parametros del programa
 /// Estos son los que ha introducido el dato por la linea de comandos
 #[derive(Debug)]
@@ -11,6 +37,7 @@ pub struct ProgramParameters{
     constraints_file: String,
     seed: u64,
     number_of_clusters: i32,
+    search_type: SearchType,
 }
 
 impl ProgramParameters{
@@ -20,17 +47,19 @@ impl ProgramParameters{
         // Tomamos los argumentos pasados por la linea de comandos
         let args: Vec<String> = env::args().collect();
 
-        if args.len() != 5{
-            bail!("4 parameters expected, {} given", args.len() - 1)
+        if args.len() != 6{
+            bail!("5 parameters expected, {} given", args.len() - 1)
         }
 
         let data_file = args[1].parse::<String>()?;
         let constraints_file = args[2].parse::<String>()?;
         let seed = args[3].parse::<u64>()?;
         let number_of_clusters = args[4].parse::<i32>()?;
+        let search_type = args[5].parse::<String>()?;
+        let search_type = SearchType::from_str(&search_type)?;
 
         return Ok(ProgramParameters{
-            data_file, constraints_file, seed, number_of_clusters
+            data_file, constraints_file, seed, number_of_clusters, search_type
         });
     }
 
@@ -48,5 +77,9 @@ impl ProgramParameters{
 
     pub fn get_number_of_clusters(&self) -> i32{
         return self.number_of_clusters;
+    }
+
+    pub fn get_search_type(&self) -> SearchType{
+        return self.search_type;
     }
 }
