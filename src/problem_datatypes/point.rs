@@ -45,10 +45,10 @@ impl Point {
     fn distance_to(&self, other: &Self) -> f64{
         // Hacemos la diferencia en coordenadas
         // Elevamos al cuadrado
-        // Sumamos y devolvemos la raiz cuadrada
+        // Sumamos y devolvemos la raiz n-esima
         let diff = &self.coordinates - &other.coordinates;
         let diff = diff.mapv(|x| x*x);
-        return diff.scalar_sum().sqrt();
+        return diff.scalar_sum().powf(1.0 / self.dimension() as f64);
     }
 
 

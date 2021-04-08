@@ -5,6 +5,10 @@ use rand::rngs::StdRng;
 // Para hacer shuffle de un vector
 use rand::seq::SliceRandom;
 
+// Para comprobar que dos soluciones son practicamente iguales (ignorando problemas
+// del punto flotante)
+use assert_approx_eq::assert_approx_eq;
+
 use crate::problem_datatypes::{DataPoints, Constraints, Point, ConstraintType, NeighbourGenerator};
 
 /// Estructura que representa una solucion del problema
@@ -227,6 +231,7 @@ mod tests{
 
     /// Callback porque en otro caso tenemos que hacer clones de los datos
     /// que componen la solucion que devolvemos
+    /// FnOnce porque queremos tener ownership de la solucion que generamos
     fn generate_basic_solution(callback: impl FnOnce(&Solution)) {
         let cluster_indexes = vec![0, 1, 2, 3, 0, 1];
         let data_points = DataPoints::new(vec![
@@ -252,14 +257,25 @@ mod tests{
     }
 
     #[test]
-    fn test_get_solutions_from_cluster(){
+    // Simplemente comprobamos que estamos almacenando bien los puntos
+    fn test_solution_saves_properly_data_points(){
         generate_basic_solution(|solution| {
             let data_points = solution.get_data_points().get_points();
-
             assert_eq!(solution.get_points_in_cluster(0), vec![&data_points[0], &data_points[4]]);
             assert_eq!(solution.get_points_in_cluster(1), vec![&data_points[1], &data_points[5]]);
             assert_eq!(solution.get_points_in_cluster(2), vec![&data_points[2]]);
             assert_eq!(solution.get_points_in_cluster(3), vec![&data_points[3]]);
+        });
+    }
+
+    #[test]
+    // Comprobamos que la distancia maxima entre dos puntos es la que tiene que ser
+    fn test_lambda_is_correct(){
+        generate_basic_solution(|solution| {
+            let calculated_lambda = solution.get_lambda();
+            let expected_lambda = 1.122462048309373 / 5.0;
+            assert_approx_eq::assert_approx_eq!(calculated_lambda, expected_lambda, 0.01);
+
         });
     }
 
