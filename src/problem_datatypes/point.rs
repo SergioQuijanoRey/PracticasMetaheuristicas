@@ -105,6 +105,8 @@ mod tests{
     // Para comprobar que dos soluciones son practicamente iguales (ignorando problemas
     // del punto flotante)
     use assert_approx_eq::assert_approx_eq;
+    use rand::rngs::StdRng;
+    use rand::SeedableRng;
 
     #[test]
     // Añado este test porque antes tenia un error logico, usando la raiz cuadrada
@@ -131,5 +133,24 @@ mod tests{
             assert_approx_eq::assert_approx_eq!(calc_distance, test_case.expected_distance, 0.01);
         }
 
+    }
+
+    #[test]
+    // Propiedad muy facil de comprobar
+    fn test_distance_to_self_is_zero(){
+        // Generador de numeros aleatorios. No me hace falta que dependa de la
+        // semilla porque solo estamos haciendo tests
+        let mut rng = StdRng::seed_from_u64(123141241514);
+
+        let iterations = 1000;
+        let coordinates = 6;
+
+        for _ in 0 .. iterations{
+            let curr = Point::random_point(coordinates, &mut rng);
+            let calc_distance = Point::distance(&curr, &curr);
+            let exp_distance = 0.0;
+
+            assert_approx_eq::assert_approx_eq!(calc_distance, exp_distance, 0.01);
+        }
     }
 }
