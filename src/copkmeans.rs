@@ -377,3 +377,55 @@ fn assign_points_to_clusters(
     // de vector de i32 a vector de u32
     return new_cluster_indixes.into_iter().map(|x| x as u32).collect();
 }
+
+#[cfg(test)]
+mod tests{
+    use crate::copkmeans::centroids_are_different;
+    use crate::problem_datatypes::Point;
+
+
+    #[test]
+    fn test_centroids_are_different(){
+        let first_centroids = vec![
+            Point::from_vec(vec![0.0, 1.0, 0.0, 1.0]),
+            Point::from_vec(vec![1.0, 1.0, 0.0, 1.0]),
+            Point::from_vec(vec![1.0, 1.0, 1.0, 1.0]),
+        ];
+        let second_centroids = vec![
+            Point::from_vec(vec![0.0, 1.0, 0.0, 1.0]),
+            Point::from_vec(vec![1.0, 1.0, 0.0, 1.0]),
+            Point::from_vec(vec![1.0, 1.0, 1.0, 1.0]),
+        ];
+        let calc_diff = centroids_are_different(&first_centroids, &second_centroids);
+        let exp_diff = false;
+        assert_eq!(calc_diff, exp_diff);
+
+        let second_centroids = vec![
+            Point::from_vec(vec![1.0, 1.0, 0.0, 1.0]),
+            Point::from_vec(vec![1.0, 1.0, 0.0, 1.0]),
+            Point::from_vec(vec![1.0, 1.0, 1.0, 1.0]),
+        ];
+        let calc_diff = centroids_are_different(&first_centroids, &second_centroids);
+        let exp_diff = true;
+        assert_eq!(calc_diff, exp_diff);
+
+        let first_centroids = vec![
+            Point::from_vec(vec![1.0, 1.0, 0.0, 1.0]),
+            Point::from_vec(vec![1.0, 1.0, 0.0, 1.0]),
+            Point::from_vec(vec![1.0, 1.0, 1.0, 1.0]),
+        ];
+        let calc_diff = centroids_are_different(&first_centroids, &second_centroids);
+        let exp_diff = false;
+        assert_eq!(calc_diff, exp_diff);
+
+        let first_centroids = vec![
+            Point::from_vec(vec![1.0, 1.0, 0.0, 1.0]),
+            Point::from_vec(vec![1.0, 1.0, 0.0, 1.0]),
+            Point::from_vec(vec![1.0, 1.0, 1.1, 1.0]),
+        ];
+        let calc_diff = centroids_are_different(&first_centroids, &second_centroids);
+        let exp_diff = true;
+        assert_eq!(calc_diff, exp_diff);
+
+    }
+}
