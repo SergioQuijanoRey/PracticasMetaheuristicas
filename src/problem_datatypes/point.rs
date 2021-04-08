@@ -125,6 +125,12 @@ mod tests{
                 first: Point::from_vec(vec![1.0, 0.0, 0.0, 0.0, 0.0, 0.0]),
                 second: Point::from_vec(vec![0.0, 1.0, 0.0, 0.0, 0.0, 0.0]),
                 expected_distance: 1.122462048309373,
+            },
+
+            TestCase{
+                first: Point::from_vec(vec![1.0, 0.0, 0.0, 0.0, 0.0, 0.0]),
+                second: Point::from_vec(vec![0.5, 0. , 0. , 0. , 0.5, 0. ]),
+                expected_distance: 0.8908987181403393
             }
         ];
 

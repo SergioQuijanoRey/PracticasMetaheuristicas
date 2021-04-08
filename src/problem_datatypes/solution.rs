@@ -158,6 +158,7 @@ impl<'a, 'b> Solution<'a, 'b> {
         for point in &cluster_points{
             cum_sum += Point::distance(point, &centroid);
         }
+
         return cum_sum / cluster_points.len() as f64;
 
     }
@@ -228,6 +229,7 @@ mod tests{
     // Para comprobar que dos soluciones son practicamente iguales (ignorando problemas
     // del punto flotante)
     use assert_approx_eq::assert_approx_eq;
+    fn epsilon() -> f64{0.01}   // Tolerancia a fallos de punto flotante
 
     /// Callback porque en otro caso tenemos que hacer clones de los datos
     /// que componen la solucion que devolvemos
@@ -258,7 +260,7 @@ mod tests{
 
     #[test]
     // Simplemente comprobamos que estamos almacenando bien los puntos
-    fn test_solution_saves_properly_data_points(){
+    fn test_solution_saves_properly_data_points_over_basic_sol(){
         generate_basic_solution(|solution| {
             let data_points = solution.get_data_points().get_points();
             assert_eq!(solution.get_points_in_cluster(0), vec![&data_points[0], &data_points[4]]);
@@ -270,18 +272,18 @@ mod tests{
 
     #[test]
     // Comprobamos que la distancia maxima entre dos puntos es la que tiene que ser
-    fn test_lambda_is_correct(){
+    fn test_lambda_is_correct_over_basic_sol(){
         generate_basic_solution(|solution| {
             let calculated_lambda = solution.get_lambda();
             let expected_lambda = 1.122462048309373 / 5.0;
-            assert_approx_eq::assert_approx_eq!(calculated_lambda, expected_lambda, 0.01);
+            assert_approx_eq::assert_approx_eq!(calculated_lambda, expected_lambda, epsilon());
 
         });
     }
 
     #[test]
     // Comprobamos que estamos calculando bien el numero de restricciones violadas
-    fn test_infeasibility_is_correct(){
+    fn test_infeasibility_is_correct_over_basic_sol(){
         generate_basic_solution(|solution| {
             let calc_infea = solution.infeasibility();
             let exp_infea = 2; // Solo se violan las dos must link
@@ -298,6 +300,91 @@ mod tests{
             let exp_infea = 3; // Se violan las dos must link y una CannotLink
             assert_eq!(calc_infea, exp_infea);
         });
+    }
+
+    #[test]
+    fn test_centroids_over_basic_sol(){
+        generate_basic_solution(|solution| {
+            // Primer cluster
+            let cluster_points = solution.get_points_in_cluster(0);
+            let calc_centroid = Point::calculate_centroid(&cluster_points);
+            let exp_centroid = Point::from_vec(vec![0.5, 0. , 0. , 0. , 0.5, 0. ]);
+            assert_eq!(calc_centroid, exp_centroid);
+
+            // Segundo cluster
+            let cluster_points = solution.get_points_in_cluster(1);
+            let calc_centroid = Point::calculate_centroid(&cluster_points);
+            let exp_centroid = Point::from_vec(vec![0. , 0.5, 0. , 0. , 0. , 0.5]);
+            assert_eq!(calc_centroid, exp_centroid);
+
+            // Tercer cluster
+            let cluster_points = solution.get_points_in_cluster(2);
+            let calc_centroid = Point::calculate_centroid(&cluster_points);
+            let exp_centroid = Point::from_vec(vec![0.0, 0.0, 1.0, 0.0, 0.0, 0.0]);
+            assert_eq!(calc_centroid, exp_centroid);
+
+            // Cuarto cluster
+            let cluster_points = solution.get_points_in_cluster(3);
+            let calc_centroid = Point::calculate_centroid(&cluster_points);
+            let exp_centroid = Point::from_vec(vec![0.0, 0.0, 0.0, 1.0, 0.0, 0.0]);
+            assert_eq!(calc_centroid, exp_centroid);
+
+
+        });
+
+    }
+
+    #[test]
+    fn test_intracluser_distance_over_basic_sol(){
+        generate_basic_solution(|solution| {
+            // Distancia intracluster del primer cluster
+            let calc_intra = solution.intra_cluster_distance(0);
+            let exp_intra = 0.8908987181403393;
+            assert_approx_eq!(calc_intra, exp_intra, epsilon());
+
+            // Distancia intracluster del segundo cluster
+            let calc_intra = solution.intra_cluster_distance(1);
+            let exp_intra = 0.8908987181403393;
+            assert_approx_eq!(calc_intra, exp_intra, epsilon());
+
+            // Distancia intracluster del tercer cluster
+            let calc_intra = solution.intra_cluster_distance(2);
+            let exp_intra = 0.0;
+            assert_approx_eq!(calc_intra, exp_intra, epsilon());
+
+            // Distancia intracluster del cuarto cluster
+            let calc_intra = solution.intra_cluster_distance(3);
+            let exp_intra = 0.0;
+            assert_approx_eq!(calc_intra, exp_intra, epsilon());
+
+
+        });
+    }
+
+    #[test]
+    fn test_global_cluster_distance_over_basic_sol(){
+        generate_basic_solution(|solution| {
+            let calc_global_dist = solution.global_cluster_mean_distance();
+            let exp_global_dist = (0.8908987181403393 * 2.0) / 4.0;
+            assert_approx_eq!(calc_global_dist, exp_global_dist, epsilon());
+        });
+
+    }
+
+    #[test]
+    fn test_fitness_is_correct_over_basic_sol(){
+        generate_basic_solution(|solution| {
+            let calc_fitness = solution.fitness();
+
+            let exp_lambda = 1.122462048309373 / 5.0;
+            let exp_global_dist = (0.8908987181403393 * 2.0) / 4.0;
+            let exp_infea = 2;
+            let exp_fitness = exp_lambda * exp_infea as f64 + exp_global_dist;
+
+            assert_approx_eq::assert_approx_eq!(calc_fitness, exp_fitness, epsilon());
+
+        });
+
     }
 
 }
