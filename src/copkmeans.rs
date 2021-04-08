@@ -121,8 +121,6 @@ pub fn run<'a, 'b>(
 fn centroids_are_different(past_centroids: &Vec<Point>, new_centroids: &Vec<Point>) -> bool {
     for index in 0..past_centroids.len() {
         if (new_centroids[index] == past_centroids[index]) == false {
-            println!("Ha cambiado el centroide {}", index);
-            println!("\tPasa de {:?} a {:?}", past_centroids[index], new_centroids[index]);
             return true;
         }
     }
@@ -231,12 +229,10 @@ fn get_violated_constraints_per_cluster_assignment(
                 // Hay restriccion
                 // Tenemos que comprobar con otro match segun el tipo de restriccion que sea
                 Some(constraint) => {
-                    println!("HAY RESTRICCION");
                     match constraint {
                         // Sumamos uno si el candidato a cluster no coincide
                         // con el cluster del punto
                         ConstraintType::MustLink => {
-                            println!("\tRestriccion tipo debo entre {} y {}", point_cluster, cluster_candidate);
                             if *point_cluster != cluster_candidate {
                                 current_violations += 1;
                             }
@@ -245,7 +241,6 @@ fn get_violated_constraints_per_cluster_assignment(
                         // Sumamos uno si el candidato a cluster coincide con
                         // el cluster del punto
                         ConstraintType::CannotLink => {
-                            println!("\tRestriccion tipo no puedo entre {} y {}", point_cluster, cluster_candidate);
                             if *point_cluster == cluster_candidate {
                                 current_violations += 1;
                             }
@@ -255,7 +250,7 @@ fn get_violated_constraints_per_cluster_assignment(
 
                 // No hay restricciones entre los dos puntos asi que no tenemos que hacer
                 // comprobaciones
-                None => println!("No hay restriccion"),
+                None => (),
             }
         }
 
