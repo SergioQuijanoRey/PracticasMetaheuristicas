@@ -50,6 +50,10 @@ fn main() {
     };
 
     println!("Datos del problema cargados con exito, procediendo a realizar las busquedas");
+    println!("\tData file: {}", program_arguments.get_data_file());
+    println!("\tConstraints file: {}", program_arguments.get_constraints_file());
+    println!("\tNumber of clusters: {}", program_arguments.get_number_of_clusters());
+    println!("\tSeed: {}", program_arguments.get_seed());
     println!("================================================================================");
     println!("");
 
@@ -68,12 +72,8 @@ fn main() {
     println!("Corriendo busqueda greedy");
     let before = Instant::now();
     let mut greedy_solution: Option<problem_datatypes::Solution>;
-
-    // Si queremos forzar a que no se puedan dejar clusters vacios. En el primer
-    // intento no lo forzamos. Pero si en este intento falla el algoritmo, lo forzamos
-    let mut forze_non_empty_cluster = false;
     loop {
-        greedy_solution = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), &mut rng, forze_non_empty_cluster);
+        greedy_solution = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), &mut rng);
 
         match greedy_solution {
             // Hemos contrado solucion, paramos de iterar
@@ -81,10 +81,7 @@ fn main() {
 
             // No hemos encontrado solucion, por lo que no hacemos nada, lo que provoca que sigamos
             // iterando
-            None => {
-                // Ha fallado la busqueda asi que forzamos a que no se queden clusters vacios
-                forze_non_empty_cluster = true;
-            }
+            None => (),
         }
     }
     let after = Instant::now();
