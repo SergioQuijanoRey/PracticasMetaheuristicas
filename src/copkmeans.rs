@@ -15,8 +15,6 @@ pub fn run<'a, 'b>(
     constraints: &'b Constraints,
     number_of_clusters: i32,
     rng: &mut StdRng,
-    forze_non_empty_cluster: bool   // Si es true, asigna a la fuerza los primeros
-                                    // clusters para evitar que estos se queden vacios
 ) -> Option<Solution<'a, 'b>> {
     // Numero de coordenadas que componen cada uno de los puntos
     // Necesario para saber cuantas coordenadas debe tener nuestros centroides aleatorios
@@ -44,25 +42,13 @@ pub fn run<'a, 'b>(
     // comparando como cambian, y parar en caso de que no cambien
     let mut current_cluster_indixes: Vec<u32> = vec![0; data_points.len() as usize];
 
-    // Si queremos forzar a que los centroides no se queden vacios, asignamos
-    // los valores a mano para los primeros centroides
-    if forze_non_empty_cluster == true{
-        println!("Asigno a cada cluster un punto aleatorio");
-
-        // Indices mezclados de los puntos. Esto me permite asignar aleatoriamente
-        // puntos a los primeros clusters sin tener que comprobar si estoy metiendo
-        // un punto en dos clusters, por ejemplo
-        let mut shuffled_point_indixes: Vec<u32> = (1..data_points.len() as u32).into_iter().collect();
-        shuffled_point_indixes.shuffle(rng);
-
-        for index in 0 .. number_of_clusters as u32{
-            current_cluster_indixes[index as usize] = shuffled_point_indixes[index as usize];
-        }
-    }
-
     // Iteramos hasta que los centroides no cambien
     let mut centroids_have_changed = true;
+    let mut it = 0;
     while centroids_have_changed == true {
+        println!("Iteracion {} de copkmeans", it);
+        it += 1;
+
         // Realizamos una nueva asignacion de clusters. Recorremos los puntos aleatoriamente y
         // asignando al cluster que menos restricciones viole en esa iteracion. En caso de empates,
         // se toma el cluster con centroide mas cercano
@@ -98,8 +84,6 @@ pub fn run<'a, 'b>(
             // contabilizar el tiempo extra de volver a genera una primera solucion
             // aleatoria o si no contabilizarlo (mas control al caller)
             return None;
-        }else{
-            println!("=====> Buena config");
         }
 
         // Calculamos los nuevos centroides
