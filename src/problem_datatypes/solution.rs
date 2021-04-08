@@ -279,4 +279,25 @@ mod tests{
         });
     }
 
+    #[test]
+    // Comprobamos que estamos calculando bien el numero de restricciones violadas
+    fn test_infeasibility_is_correct(){
+        generate_basic_solution(|solution| {
+            let calc_infea = solution.infeasibility();
+            let exp_infea = 2; // Solo se violan las dos must link
+            assert_eq!(calc_infea, exp_infea);
+        });
+
+        // Hacemos una variacion de la solucion
+        generate_basic_solution(|solution| {
+            // Modifico la solucion
+            let cluster_indexes = vec![1, 1, 2, 3, 0, 1];
+            let other_solution = Solution::new(cluster_indexes, solution.data_points, solution.constraints, solution.number_of_clusters);
+
+            let calc_infea = other_solution.infeasibility();
+            let exp_infea = 3; // Se violan las dos must link y una CannotLink
+            assert_eq!(calc_infea, exp_infea);
+        });
+    }
+
 }
