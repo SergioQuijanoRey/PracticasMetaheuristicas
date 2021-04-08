@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum ConstraintType {
     MustLink,
     CannotLink,
@@ -13,6 +13,8 @@ pub enum ConstraintType {
 /// y el tipo de restriccion
 /// Es lo mismo la restriccion sobre indices (i, j) que la restriccion sobre indices (j, i)
 /// Las restricciones MustLink del tipo (i, i) no se almacenan al ser triviales
+/// Siempre vamos a trabajar con restricciones del tipo (i, j) con i < j para
+/// que sea mas facil de programar algunas funcionalidades
 #[derive(Debug)]
 pub struct Constraints{
     data: HashMap<(i32, i32), ConstraintType>,
@@ -46,6 +48,7 @@ impl Constraints{
         return self.data.contains_key(&(first_index, second_index)) || self.data.contains_key(&(second_index, first_index));
     }
 
+    // TODO -- bug
     pub fn get_constraint(&self, first_index: i32, second_index: i32) -> Option<&ConstraintType>{
         // Hacemos los dos if porque no es lo mismo (1, 2) que (2, 1)
         if self.has_element(first_index, second_index) {
@@ -63,4 +66,80 @@ impl Constraints{
     pub fn get_data(&self) -> &HashMap<(i32, i32), ConstraintType>{
         return &self.data;
     }
+}
+
+#[cfg(test)]
+mod test{
+    use crate::problem_datatypes::Constraints;
+    use crate::problem_datatypes::ConstraintType;
+
+    #[test]
+    fn test_has_element(){
+        let mut constraints = Constraints::new();
+        constraints.add_constraint(0, 1, ConstraintType::MustLink);
+        constraints.add_constraint(3, 4, ConstraintType::CannotLink);
+
+        let calc_inside = constraints.has_element(0, 1);
+        let exp_inside = true;
+        assert_eq!(calc_inside, exp_inside);
+
+        let calc_inside = constraints.has_element(1, 0);
+        let exp_inside = true;
+        assert_eq!(calc_inside, exp_inside);
+
+        let calc_inside = constraints.has_element(3, 4);
+        let exp_inside = true;
+        assert_eq!(calc_inside, exp_inside);
+
+        let calc_inside = constraints.has_element(4, 3);
+        let exp_inside = true;
+        assert_eq!(calc_inside, exp_inside);
+
+        let calc_inside = constraints.has_element(1, 3);
+        let exp_inside = false;
+        assert_eq!(calc_inside, exp_inside);
+    }
+
+    #[test]
+    fn test_correct_returned_constraints(){
+        let mut constraints = Constraints::new();
+        constraints.add_constraint(0, 1, ConstraintType::MustLink);
+        constraints.add_constraint(3, 4, ConstraintType::CannotLink);
+
+        let calc_returned_constraint = constraints.get_constraint(0, 1);
+        match calc_returned_constraint{
+            Some(ConstraintType::MustLink) => (),
+            Some(ConstraintType::CannotLink) => panic!("Should return MustLink, CannotLink returned"),
+            None => panic!("Should return MustLink, None returned"),
+        }
+
+        let calc_returned_constraint = constraints.get_constraint(1, 0);
+        match calc_returned_constraint{
+            Some(ConstraintType::MustLink) => (),
+            Some(ConstraintType::CannotLink) => panic!("Should return MustLink, CannotLink returned"),
+            None => panic!("Should return MustLink, None returned"),
+        }
+
+        let calc_returned_constraint = constraints.get_constraint(3, 4);
+        match calc_returned_constraint{
+            Some(ConstraintType::MustLink) => panic!("Should return CannotLink, MustLink returned"),
+            Some(ConstraintType::CannotLink) => (),
+            None => panic!("Should return CannotLink, None returned"),
+        }
+
+        let calc_returned_constraint = constraints.get_constraint(4, 3);
+        match calc_returned_constraint{
+            Some(ConstraintType::MustLink) => panic!("Should return CannotLink, MustLink returned"),
+            Some(ConstraintType::CannotLink) => (),
+            None => panic!("Should return CannotLink, None returned"),
+        }
+
+        let calc_returned_constraint = constraints.get_constraint(1, 3);
+        match calc_returned_constraint{
+            Some(ConstraintType::MustLink) => panic!("Should return None, MustLink returned"),
+            Some(ConstraintType::CannotLink) => panic!("Should return None, CannotLink returned"),
+            None => (),
+        }
+    }
+
 }

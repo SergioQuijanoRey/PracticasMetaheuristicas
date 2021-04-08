@@ -44,6 +44,8 @@ pub fn run<'a, 'b>(
 
     // Iteramos hasta que los centroides no cambien
     let mut centroids_have_changed = true;
+
+    // TODO -- quitar esto porque mete mucha suciedad en pantalla
     let mut it = 0;
     while centroids_have_changed == true {
         println!("Iteracion {} de copkmeans", it);
@@ -119,6 +121,8 @@ pub fn run<'a, 'b>(
 fn centroids_are_different(past_centroids: &Vec<Point>, new_centroids: &Vec<Point>) -> bool {
     for index in 0..past_centroids.len() {
         if (new_centroids[index] == past_centroids[index]) == false {
+            println!("Ha cambiado el centroide {}", index);
+            println!("\tPasa de {:?} a {:?}", past_centroids[index], new_centroids[index]);
             return true;
         }
     }
@@ -205,6 +209,8 @@ fn select_best_cluster(
 /// Calcula un vector con las restricciones que se viola al realizar cada una
 /// de las asignaciones de un punto fijado (current_point_index) a cada uno de los
 /// posibles clusters
+/// Es decir, vector de violaciones consecuencia de asgnar el punto current_point_index
+/// al cluster i-esimo
 fn get_violated_constraints_per_cluster_assignment(
     current_cluster_indixes: &Vec<u32>,
     number_of_clusters: i32,
@@ -225,10 +231,12 @@ fn get_violated_constraints_per_cluster_assignment(
                 // Hay restriccion
                 // Tenemos que comprobar con otro match segun el tipo de restriccion que sea
                 Some(constraint) => {
+                    println!("HAY RESTRICCION");
                     match constraint {
                         // Sumamos uno si el candidato a cluster no coincide
                         // con el cluster del punto
                         ConstraintType::MustLink => {
+                            println!("\tRestriccion tipo debo entre {} y {}", point_cluster, cluster_candidate);
                             if *point_cluster != cluster_candidate {
                                 current_violations += 1;
                             }
@@ -237,6 +245,7 @@ fn get_violated_constraints_per_cluster_assignment(
                         // Sumamos uno si el candidato a cluster coincide con
                         // el cluster del punto
                         ConstraintType::CannotLink => {
+                            println!("\tRestriccion tipo no puedo entre {} y {}", point_cluster, cluster_candidate);
                             if *point_cluster == cluster_candidate {
                                 current_violations += 1;
                             }
@@ -246,7 +255,7 @@ fn get_violated_constraints_per_cluster_assignment(
 
                 // No hay restricciones entre los dos puntos asi que no tenemos que hacer
                 // comprobaciones
-                None => (),
+                None => println!("No hay restriccion"),
             }
         }
 
@@ -381,8 +390,11 @@ fn assign_points_to_clusters(
 #[cfg(test)]
 mod tests{
     use crate::copkmeans::centroids_are_different;
+    use crate::copkmeans::get_violated_constraints_per_cluster_assignment;
+    use crate::copkmeans::select_best_cluster;
     use crate::problem_datatypes::Point;
-
+    use crate::problem_datatypes::Constraints;
+    use crate::problem_datatypes::ConstraintType;
 
     #[test]
     fn test_centroids_are_different(){
@@ -427,5 +439,36 @@ mod tests{
         let exp_diff = true;
         assert_eq!(calc_diff, exp_diff);
 
+    }
+
+    #[test]
+    fn test_get_violated_constraints_per_cluster_assignment(){
+        let current_cluster_indixes = vec![2, 0, 1, 2, 3];
+        let number_of_clusters = 4;
+        let mut constraints = Constraints::new();
+        constraints.add_constraint(0, 1, ConstraintType::MustLink);
+        constraints.add_constraint(3, 4, ConstraintType::CannotLink);
+
+        let calc_violated_constraints_per_cluster = get_violated_constraints_per_cluster_assignment(&current_cluster_indixes, number_of_clusters, &constraints, 1);
+        let exp_violated_constraints_per_cluster = vec![1, 1, 0, 1];
+        assert_eq!(calc_violated_constraints_per_cluster, exp_violated_constraints_per_cluster);
+
+        let calc_violated_constraints_per_cluster = get_violated_constraints_per_cluster_assignment(&current_cluster_indixes, number_of_clusters, &constraints, 3);
+        let exp_violated_constraints_per_cluster = vec![0, 0, 0, 1];
+        assert_eq!(calc_violated_constraints_per_cluster, exp_violated_constraints_per_cluster);
+    }
+
+    #[test]
+    fn test_select_best_cluster(){
+        let current_cluster_indixes = vec![0, 1, 1, 2, 3];
+        let number_of_clusters = 4;
+        let mut constraints = Constraints::new();
+        constraints.add_constraint(0, 1, ConstraintType::MustLink);
+        let current_point_index = 0;
+        let centroids = vec![Point::from_vec(vec![0.0]),Point::from_vec(vec![0.0]),Point::from_vec(vec![0.0]),Point::from_vec(vec![0.0]),Point::from_vec(vec![0.0])];
+
+        let calc_best_cluster = select_best_cluster(&current_cluster_indixes, number_of_clusters, &constraints, current_point_index, &centroids[0], &centroids);
+        let exp_best_cluster = 1;
+        assert_eq!(calc_best_cluster, exp_best_cluster);
     }
 }
