@@ -170,11 +170,15 @@ impl<'a, 'b> Solution<'a, 'b> {
 
     /// Dado un cluster (representado por el entero que los identifica), calcula
     /// la distancia intracluster en la solucion actual
-    // TODO -- comprobar que no estemos dividiendo por cero, ya sea con un result
-    // o con un panic!
     pub fn intra_cluster_distance(&self, cluster: u32) -> f64{
+
         // Calculamos el vector de puntos que estan en el cluster
         let cluster_points = self.get_points_in_cluster(cluster);
+
+        // Comprobacion de seguridad
+        if cluster_points.len() == 0{
+            panic!("[Err: Solution::intra_cluster_distance] Cluster without points");
+        }
 
         // Calculamos el centroide de dicho conjunto de puntos
         let centroid = Point::calculate_centroid(&cluster_points);

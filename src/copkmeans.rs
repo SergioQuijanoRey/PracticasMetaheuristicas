@@ -48,11 +48,12 @@ pub fn run<'a, 'b>(
     // Iteramos hasta que los centroides no cambien
     let mut centroids_have_changed = true;
 
-    // TODO -- quitar esto porque mete mucha suciedad en pantalla
-    let mut it = 0;
-    while centroids_have_changed == true {
-        println!("Iteracion {} de copkmeans", it);
-        it += 1;
+    // Controlamos las iteracione en caso de que robust = true
+    // En otro caso, iteramos hasta que los centroides no cambien
+    let max_iterations = 50;
+    let mut curr_iteration = 0;
+
+    while centroids_have_changed == true && curr_iteration < max_iterations{
 
         // Realizamos una nueva asignacion de clusters. Recorremos los puntos aleatoriamente y
         // asignando al cluster que menos restricciones viole en esa iteracion. En caso de empates,
@@ -119,6 +120,18 @@ pub fn run<'a, 'b>(
         );
 
         println!("==> El fitness de esta solucion es: {}", curr_sol.fitness());
+
+        // En caso de que robust = true, acotamos el numero de iteraciones de forma
+        // efectiva aumentando el contador. En otro caso, al no tocar el contador
+        // no estamos teniendo en cuenta este parametro
+        if robust == true{
+            curr_iteration = curr_iteration + 1;
+        }
+    }
+
+    // Mostramos si hemos acabado por agotar las iteraciones cuando robust = true
+    if robust == true && curr_iteration == max_iterations - 1{
+        println!("--> Hemos acabado copkmeans al agotar las {} iteraciones maximas", max_iterations);
     }
 
     // Convierto los tipos del vector de clusters
