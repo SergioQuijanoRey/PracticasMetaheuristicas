@@ -7,6 +7,7 @@ use simple_error::bail; // Devuelve errores simples con un string descriptivo
 #[derive(Debug, Clone, Copy)]
 pub enum SearchType{
     Copkmeans,
+    CopkmeansRobust,
     LocalSearch,
 }
 
@@ -14,10 +15,15 @@ impl SearchType{
     /// Toma un string con el tipo de busqueda y lo convierte al struct
     /// Los valores validos para code son:
     ///     - "copkmeans"
+    ///     - "copkmeans_robust"
     ///     - "local_search"
     pub fn from_str(code: &str) -> Result<Self, Box<dyn Error>>{
         if code == "copkmeans"{
             return Ok(SearchType::Copkmeans);
+        }
+
+        if code == "copkmeans_robust"{
+            return Ok(SearchType::CopkmeansRobust);
         }
 
         if code == "local_search"{

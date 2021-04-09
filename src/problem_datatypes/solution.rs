@@ -5,6 +5,9 @@ use rand::rngs::StdRng;
 // Para hacer shuffle de un vector
 use rand::seq::SliceRandom;
 
+// Para tener mutabilidad interior
+use std::cell::RefCell;
+
 use crate::problem_datatypes::{DataPoints, Constraints, Point, ConstraintType, NeighbourGenerator};
 
 /// Estructura que representa una solucion del problema
@@ -22,6 +25,12 @@ pub struct Solution<'a, 'b> {
     /// Representa el peso de infeasibility en el calculo de fitness
     /// Solo se calcula una vez al invocar a Solution::new
     lambda: f64,
+
+    // Para cachear el valor de fitness pues es un calculo costoso de realizar
+    // Como los datos del struct no cambian, podemos hacer el cacheo sin miedo
+    // Usamos RefCell para tener un patron de mutabilidad interior
+    fitness: RefCell<Option<f64>>,
+
 }
 
 impl<'a, 'b> Solution<'a, 'b> {
@@ -43,6 +52,7 @@ impl<'a, 'b> Solution<'a, 'b> {
             constraints,
             number_of_clusters,
             lambda,
+            fitness: RefCell::new(None),
         };
     }
 
@@ -82,9 +92,23 @@ impl<'a, 'b> Solution<'a, 'b> {
         return true;
     }
 
-    /// Calcula el valor de fitness de la solucion
+    /// Devuelve el valor de fitness. Si ya ha sido calculado antes, devuelve
+    /// el valor cacheado sin repetir los calculos
     pub fn fitness(&self) -> f64 {
-        return self.global_cluster_mean_distance() + self.lambda * self.infeasibility() as f64;
+        let fit_opt = *self.fitness.borrow();
+
+        match fit_opt{
+            // Tenemos el valor cacheado del fitness, no repetimos calculos
+            Some(fitness) => return fitness,
+
+            // No hemos calculado todavia el valor de fitness
+            // Lo calculamos, lo guardamos y lo devolvemos
+            None => {
+                let calc_fitness = self.global_cluster_mean_distance() + self.lambda * self.infeasibility() as f64;
+                *self.fitness.borrow_mut() = Some(calc_fitness);
+                return calc_fitness;
+            }
+        }
     }
 
     /// Devuelve el primer vecino de la solucion valido que mejora la solucion
@@ -118,6 +142,8 @@ impl<'a, 'b> Solution<'a, 'b> {
             constraints: &self.constraints,
             number_of_clusters: self.number_of_clusters,
             lambda: self.lambda,
+            fitness: RefCell::new(None), // None porque hemos cambiado la solucion, por tanto,
+                                         // tendra otro valor de fitness
         };
 
         new_solution.cluster_indexes[generator.get_element_index() as usize] = generator.get_new_cluster();

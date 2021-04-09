@@ -14,7 +14,7 @@ mod copkmeans;
 fn show_help(){
     println!("Modo de uso del programa:");
     println!("\t./PracticasMetaheuristicas <data_file> <constraints_file> <seed> <number_of_clusters> <search_type>");
-    println!("\t<search_type>: copkmeans | local_search");
+    println!("\t<search_type>: copkmeans | copkmeans_robust | local_search");
 }
 
 fn main() {
@@ -78,6 +78,52 @@ fn main() {
             let mut greedy_solution: Option<problem_datatypes::Solution>;
             loop {
                 greedy_solution = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), &mut rng, false);
+
+                match greedy_solution {
+                    // Hemos contrado solucion, paramos de iterar
+                    Some(_) => break,
+
+                    // No hemos encontrado solucion, por lo que no hacemos nada, lo que provoca que sigamos
+                    // iterando
+                    None => (),
+                }
+            }
+            let after = Instant::now();
+
+            // Calculamos la duracion en el formato que se nos especifica
+            let duration = after.duration_since(before);
+            let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
+
+            // Tomamos la solucion del Option
+            let greedy_solution = greedy_solution.expect("En el bucle anterior nos aseguramos de que no seas None");
+
+            // Para que no sea mutable
+            let duration_numeric = duration_numeric;
+
+            // Mostramos los resultados
+            println!("==> Busqueda greedy");
+            println!("La distancia global instracluster de la solucion es: {}", greedy_solution.global_cluster_mean_distance());
+            println!("El numero de restricciones violadas es: {}", greedy_solution.infeasibility());
+            println!("El valor de fitness es: {}", greedy_solution.fitness());
+            println!("El valor de lambda es: {}", greedy_solution.get_lambda());
+            println!("Tiempo transcurrido (segundos): {}", duration_numeric);
+            println!("");
+
+        }
+
+        arg_parser::SearchType::CopkmeansRobust => {
+            // Realizamos la busqueda greedy
+            //
+            // Si devuelve None, es porque la generacion aleatoria de centroides ha dejado
+            // clusters sin elementos, y hay que repetir el algoritmo
+            //
+            // Estoy contabilizando el tiempo que perdemos cuando tenemos que repetir la asignacion de
+            // centroides aleatorios, pero gracias a que devolvemos Option<Solution> esto es muy facil de
+            // cambiar
+            let before = Instant::now();
+            let mut greedy_solution: Option<problem_datatypes::Solution>;
+            loop {
+                greedy_solution = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), &mut rng, true);
 
                 match greedy_solution {
                     // Hemos contrado solucion, paramos de iterar
