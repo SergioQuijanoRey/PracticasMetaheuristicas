@@ -6,7 +6,8 @@ use rand::rngs::StdRng;
 use ndarray::Array;
 
 /// Representa un punto
-#[derive(Debug, PartialEq)]
+// TODO -- este clone me molesta
+#[derive(Debug, PartialEq, Clone)]
 pub struct Point {
     coordinates: ndarray::Array1<f64>,
 }
@@ -92,9 +93,15 @@ impl Point {
     /// Devuelve la dimension del punto
     /// Es decir, el numero de coordenadas del punto
     pub fn dimension(&self) -> usize {
-            return self.coordinates.len();
-        }
+        return self.coordinates.len();
     }
+
+    /// Genera un punto de zeros con la dimension dada
+    pub fn zeros(dimension: usize) -> Self{
+        let coordinates = Array::zeros(dimension);
+        return Self{coordinates};
+    }
+}
 
 #[cfg(test)]
 mod tests{

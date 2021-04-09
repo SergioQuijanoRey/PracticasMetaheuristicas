@@ -77,7 +77,7 @@ fn main() {
             let before = Instant::now();
             let mut greedy_solution: Option<problem_datatypes::Solution>;
             loop {
-                greedy_solution = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), &mut rng);
+                greedy_solution = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), &mut rng, false);
 
                 match greedy_solution {
                     // Hemos contrado solucion, paramos de iterar

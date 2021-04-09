@@ -4,17 +4,18 @@ use crate::problem_datatypes::DataPoints;
 use crate::problem_datatypes::Point;
 use crate::problem_datatypes::Solution;
 use rand::rngs::StdRng;
-use rand::seq::SliceRandom;
 use std::process::exit; // Para hacer shuffle de un vector
-
-// TODO -- TEST -- este modulo puede tener muchos errores porque es muy enrrevesado
+use rand::seq::SliceRandom;
 
 /// Ejecuta la metaheuristica de busqueda local y devuelve la solucion encontrada
+/// Si robust es true, entonces aplicamos como centroides iniciales puntos
+/// del dataset, como nos indica el profesor de prácticas, porque asi es mas robusto
 pub fn run<'a, 'b>(
     data_points: &'a DataPoints,
     constraints: &'b Constraints,
     number_of_clusters: i32,
     rng: &mut StdRng,
+    robust: bool
 ) -> Option<Solution<'a, 'b>> {
     // Numero de coordenadas que componen cada uno de los puntos
     // Necesario para saber cuantas coordenadas debe tener nuestros centroides aleatorios
@@ -30,7 +31,9 @@ pub fn run<'a, 'b>(
     };
 
     // Tomamos los centroides aleatorios
-    let mut current_centroids = generate_random_centroids(number_of_clusters, point_dimension, rng);
+    // Si robust = false, entonces son centroides completamente aleatorios
+    // En otro caso, son puntos de data_points aleatorios
+    let mut current_centroids = generate_random_centroids(number_of_clusters, point_dimension, data_points, rng, robust);
 
     // Solucion inicial que en cuanto iteremos una vez vamos a sobreescribir
     // Ahora solo nos interesa considerar los indices de los clusters
@@ -98,6 +101,24 @@ pub fn run<'a, 'b>(
         // Cambiamos a la nueva asignacion de clusters y los nuevos centroides
         current_cluster_indixes = new_cluster_indixes;
         current_centroids = new_centroids;
+
+        // TODO -- quitar esto porque relantece el algoritmo
+        // Convierto los tipos del vector de clusters
+        let current_cluster_indixes = current_cluster_indixes
+            .clone()
+            .into_iter()
+            .map(|x| x as u32)
+            .collect();
+
+        // Devuelvo la solucion a partir del vector de asignacion de clusters
+        let curr_sol = Solution::new(
+            current_cluster_indixes,
+            data_points,
+            constraints,
+            number_of_clusters,
+        );
+
+        println!("==> El fitness de esta solucion es: {}", curr_sol.fitness());
     }
 
     // Convierto los tipos del vector de clusters
@@ -262,10 +283,28 @@ fn get_violated_constraints_per_cluster_assignment(
 }
 
 /// Genera los centroides de forma aleatoria
+/// Si robust = false, son completamente aleatorio. En otro caso, se toman datos
+/// aleatorios del conjunto de puntos
+fn generate_random_centroids(
+    number_of_clusters: i32,
+    point_dimension: i32,
+    data_points: &DataPoints,
+    rng: &mut StdRng,
+    robust: bool
+) -> Vec<Point> {
+
+    if robust == false{
+        return generate_random_centroids_randomly(number_of_clusters,point_dimension,rng);
+    }else{
+        return generate_random_centroids_from_data_points(number_of_clusters, data_points, rng);
+    }
+}
+
+/// Genera los centroides de forma aleatoria
 /// Como los puntos del problema estan normalizados en el intervalo [0, 1]^2, los
 /// centroides aleatorios estarán en dicho intervalo
 /// El cluster i-esimo tiene centroide el punto i-esimo del vector
-fn generate_random_centroids(
+fn generate_random_centroids_randomly(
     number_of_clusters: i32,
     point_dimension: i32,
     rng: &mut StdRng,
@@ -278,6 +317,28 @@ fn generate_random_centroids(
 
         // Lo añado al vector de centroides
         centroids.push(current_centroid);
+    }
+
+    return centroids;
+}
+
+/// Genera una lista de centroides aleatorios como puntos aleatorios de los puntos
+/// pasados como parametros
+fn generate_random_centroids_from_data_points(
+    number_of_clusters: i32,
+    data_points: &DataPoints,
+    rng: &mut StdRng,
+) -> Vec<Point> {
+    let mut centroids = vec![];
+
+    // Genero indices aleatorios de los que vamos a tomar los puntos y los mezclamos
+    let mut indexes: Vec<u32> = (0 as u32.. data_points.len() as u32).collect();
+    indexes.shuffle(rng);
+
+    for i in 0..number_of_clusters {
+        let curr_rand_index = indexes[i as usize];
+        let selected_point_as_centroid = data_points.get_points()[curr_rand_index as usize].clone();
+        centroids.push(selected_point_as_centroid);
     }
 
     return centroids;
