@@ -43,9 +43,8 @@ impl Point {
 
     // Dado otro punto, devuelve su distancia euclidea al punto dado
     fn distance_to(&self, other: &Self) -> f64{
-        // Hacemos la diferencia en coordenadas
-        // Elevamos al cuadrado
-        // Sumamos y devolvemos la raiz n-esima
+
+        // Elevamos al cuadrado, sumamos y devolvemos la raiz cuadrada
         let diff = &self.coordinates - &other.coordinates;
         let diff = diff.mapv(|x| x*x);
         return diff.scalar_sum().sqrt();
@@ -54,7 +53,6 @@ impl Point {
 
     /// Dado un conjunto de puntos, calcula su centroide
     /// El vector de puntos debe tener al menos un punto, en otro caso hace panic!
-    // TODO -- TEST -- muy facil de testear
     pub fn calculate_centroid(points: &Vec<&Self>) -> Self{
         // Condicion de seguridad
         if points.len() == 0{
@@ -158,5 +156,18 @@ mod tests{
 
             assert_approx_eq::assert_approx_eq!(calc_distance, exp_distance, 0.01);
         }
+    }
+
+    #[test]
+    fn test_calculate_centroids(){
+        let first = &Point::from_vec(vec![1.0, 2.0, 3.0]);
+        let second = &Point::from_vec(vec![4.0, 5.0, 5.0]);
+        let third = &Point::from_vec(vec![7.0, 8.0, 10.0]);
+        let points = vec![first, second, third];
+
+        let calc_centroid = Point::calculate_centroid(&points);
+        let exp_centroid = Point::from_vec(vec![4.0, 5.0, 6.0]);
+
+        assert_eq!(calc_centroid, exp_centroid);
     }
 }
