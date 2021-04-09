@@ -130,7 +130,7 @@ pub fn run<'a, 'b>(
     }
 
     // Mostramos si hemos acabado por agotar las iteraciones cuando robust = true
-    if robust == true && curr_iteration == max_iterations - 1{
+    if robust == true && curr_iteration > 0{
         println!("--> Hemos acabado copkmeans al agotar las {} iteraciones maximas", max_iterations);
     }
 
