@@ -48,7 +48,7 @@ impl Point {
         // Sumamos y devolvemos la raiz n-esima
         let diff = &self.coordinates - &other.coordinates;
         let diff = diff.mapv(|x| x*x);
-        return diff.scalar_sum().powf(1.0 / self.dimension() as f64);
+        return diff.scalar_sum().sqrt();
     }
 
 
@@ -124,13 +124,13 @@ mod tests{
             TestCase{
                 first: Point::from_vec(vec![1.0, 0.0, 0.0, 0.0, 0.0, 0.0]),
                 second: Point::from_vec(vec![0.0, 1.0, 0.0, 0.0, 0.0, 0.0]),
-                expected_distance: 1.122462048309373,
+                expected_distance: 1.4142135623730951
             },
 
             TestCase{
                 first: Point::from_vec(vec![1.0, 0.0, 0.0, 0.0, 0.0, 0.0]),
                 second: Point::from_vec(vec![0.5, 0. , 0. , 0. , 0.5, 0. ]),
-                expected_distance: 0.8908987181403393
+                expected_distance: 0.7071067811865476
             }
         ];
 

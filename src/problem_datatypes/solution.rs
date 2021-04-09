@@ -275,7 +275,7 @@ mod tests{
     fn test_lambda_is_correct_over_basic_sol(){
         generate_basic_solution(|solution| {
             let calculated_lambda = solution.get_lambda();
-            let expected_lambda = 1.122462048309373 / 5.0;
+            let expected_lambda = (2.0 as f64).sqrt() / 5.0;
             assert_approx_eq::assert_approx_eq!(calculated_lambda, expected_lambda, epsilon());
 
         });
@@ -339,12 +339,12 @@ mod tests{
         generate_basic_solution(|solution| {
             // Distancia intracluster del primer cluster
             let calc_intra = solution.intra_cluster_distance(0);
-            let exp_intra = 0.8908987181403393;
+            let exp_intra = 0.7071067811865476;
             assert_approx_eq!(calc_intra, exp_intra, epsilon());
 
             // Distancia intracluster del segundo cluster
             let calc_intra = solution.intra_cluster_distance(1);
-            let exp_intra = 0.8908987181403393;
+            let exp_intra = 0.7071067811865476;
             assert_approx_eq!(calc_intra, exp_intra, epsilon());
 
             // Distancia intracluster del tercer cluster
@@ -365,7 +365,7 @@ mod tests{
     fn test_global_cluster_distance_over_basic_sol(){
         generate_basic_solution(|solution| {
             let calc_global_dist = solution.global_cluster_mean_distance();
-            let exp_global_dist = (0.8908987181403393 * 2.0) / 4.0;
+            let exp_global_dist = (0.7071067811865476 * 2.0) / 4.0;
             assert_approx_eq!(calc_global_dist, exp_global_dist, epsilon());
         });
 
@@ -376,8 +376,8 @@ mod tests{
         generate_basic_solution(|solution| {
             let calc_fitness = solution.fitness();
 
-            let exp_lambda = 1.122462048309373 / 5.0;
-            let exp_global_dist = (0.8908987181403393 * 2.0) / 4.0;
+            let exp_lambda = (2.0 as f64).sqrt() / 5.0;
+            let exp_global_dist = (0.7071067811865476 * 2.0) / 4.0;
             let exp_infea = 2;
             let exp_fitness = exp_lambda * exp_infea as f64 + exp_global_dist;
 
