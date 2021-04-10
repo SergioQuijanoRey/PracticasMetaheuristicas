@@ -3,6 +3,7 @@ use crate::problem_datatypes::Constraints;
 use crate::problem_datatypes::DataPoints;
 use crate::problem_datatypes::Point;
 use crate::problem_datatypes::Solution;
+use crate::problem_datatypes::FitnessEvolution;
 use rand::rngs::StdRng;
 use std::process::exit; // Para hacer shuffle de un vector
 use rand::seq::SliceRandom;
@@ -16,7 +17,11 @@ pub fn run<'a, 'b>(
     number_of_clusters: i32,
     rng: &mut StdRng,
     robust: bool
-) -> Option<Solution<'a, 'b>> {
+) -> (Option<Solution<'a, 'b>>, FitnessEvolution) {
+    // Para llevar la cuenta de como evoluciona el valor del fitness de las
+    // iteraciones obtenidas
+    let mut fitness_evolution = FitnessEvolution::new();
+
     // Numero de coordenadas que componen cada uno de los puntos
     // Necesario para saber cuantas coordenadas debe tener nuestros centroides aleatorios
     let point_dimension = match data_points.point_dimension() {
@@ -80,7 +85,6 @@ pub fn run<'a, 'b>(
                 "Estos clusters vacios son: {:?}",
                 get_cluster_without_point_indixes(&new_cluster_indixes, number_of_clusters)
             );
-            eprintln!("La configuracion actual de asignacion de clusters es: {:?}", new_cluster_indixes);
             eprintln!("Restricciones violadas: {:?}", tmp_solution.infeasibility());
             eprintln!("Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios");
             eprintln!("Este contratiempo cuenta en el tiempo de ejecucion del algoritmo");
@@ -89,7 +93,7 @@ pub fn run<'a, 'b>(
             // al algoritmo, se reinicie la búsqueda y se tome la decision de si
             // contabilizar el tiempo extra de volver a genera una primera solucion
             // aleatoria o si no contabilizarlo (mas control al caller)
-            return None;
+            return (None, FitnessEvolution::new());
         }
 
         // Calculamos los nuevos centroides
@@ -103,23 +107,15 @@ pub fn run<'a, 'b>(
         current_cluster_indixes = new_cluster_indixes;
         current_centroids = new_centroids;
 
-        // TODO -- quitar esto porque relantece el algoritmo
-        // Convierto los tipos del vector de clusters
-        let current_cluster_indixes = current_cluster_indixes
-            .clone()
-            .into_iter()
-            .map(|x| x as u32)
-            .collect();
 
-        // Devuelvo la solucion a partir del vector de asignacion de clusters
+        // Calculamos la solucion actual para tener el fitness en esta iteracion
         let curr_sol = Solution::new(
-            current_cluster_indixes,
+            current_cluster_indixes.clone(),
             data_points,
             constraints,
             number_of_clusters,
         );
-
-        println!("==> El fitness de esta solucion es: {}", curr_sol.fitness());
+        fitness_evolution.add_iteration(curr_sol.fitness());
 
         // En caso de que robust = true, acotamos el numero de iteraciones de forma
         // efectiva aumentando el contador. En otro caso, al no tocar el contador
@@ -134,19 +130,14 @@ pub fn run<'a, 'b>(
         println!("--> Hemos acabado copkmeans al agotar las {} iteraciones maximas", max_iterations);
     }
 
-    // Convierto los tipos del vector de clusters
-    let current_cluster_indixes = current_cluster_indixes
-        .into_iter()
-        .map(|x| x as u32)
-        .collect();
-
-    // Devuelvo la solucion a partir del vector de asignacion de clusters
-    return Some(Solution::new(
+    // Devuelvo la solucion a partir del vector de asignacion de clusters y la cuenta
+    // de la evolucion del fitness
+    return (Some(Solution::new(
         current_cluster_indixes,
         data_points,
         constraints,
         number_of_clusters,
-    ));
+    )), fitness_evolution);
 }
 
 /// Comprueba si dados dos conjuntos de centroides, estos son diferentes o no

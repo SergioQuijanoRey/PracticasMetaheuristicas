@@ -76,8 +76,11 @@ fn main() {
             // cambiar
             let before = Instant::now();
             let mut greedy_solution: Option<problem_datatypes::Solution>;
+            let mut fitness_evolution: problem_datatypes::FitnessEvolution;
             loop {
-                greedy_solution = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), &mut rng, false);
+                let (greedy_result, fit_result) = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), &mut rng, false);
+                greedy_solution = greedy_result;
+                fitness_evolution = fit_result;
 
                 match greedy_solution {
                     // Hemos contrado solucion, paramos de iterar
@@ -107,6 +110,7 @@ fn main() {
             println!("El valor de fitness es: {}", greedy_solution.fitness());
             println!("El valor de lambda es: {}", greedy_solution.get_lambda());
             println!("Tiempo transcurrido (segundos): {}", duration_numeric);
+            println!("Evolucion del fitness: {}", fitness_evolution);
             println!("");
 
         }
@@ -122,8 +126,11 @@ fn main() {
             // cambiar
             let before = Instant::now();
             let mut greedy_solution: Option<problem_datatypes::Solution>;
+            let mut fitness_evolution: problem_datatypes::FitnessEvolution;
             loop {
-                greedy_solution = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), &mut rng, true);
+                let (greedy_result, fit_result) = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), &mut rng, true);
+                greedy_solution = greedy_result;
+                fitness_evolution = fit_result;
 
                 match greedy_solution {
                     // Hemos contrado solucion, paramos de iterar
@@ -153,6 +160,7 @@ fn main() {
             println!("El valor de fitness es: {}", greedy_solution.fitness());
             println!("El valor de lambda es: {}", greedy_solution.get_lambda());
             println!("Tiempo transcurrido (segundos): {}", duration_numeric);
+            println!("Evolucion del fitness: {}", fitness_evolution);
             println!("");
 
         }
