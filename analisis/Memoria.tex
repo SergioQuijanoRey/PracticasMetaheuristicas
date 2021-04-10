@@ -51,7 +51,6 @@
 % Separacion entre parrafos
 \setlength{\parskip}{1em}
 
-
 % Contenidos del documento
 %===============================================================================
 
@@ -67,6 +66,30 @@
 
 % Primer ejercicio
 \section{Descripción del problema - Máximo 1 página}
+
+Vamos a trabajar el problema del agrupamiento con restricciones (\textbf{\emph{PAR}}). Consiste en una generalización del problema de agrupamiento clásico, al que añadimos restricciones sobre los datos.
+
+El problema de agrupamiento clásico consiste en, dados unos datos de entrada sin etiquetar $X$ de tamaño $n$, agruparlos en $k$ grupos (o en inglés, \emph{clusters}) diferentes, formando una partición $C$ de $X$, de forma que se optimice alguna métrica. Normalmente, se busca minimizar la distancia \emph{intra\_cluster} (que más tarde se definirá).
+
+La diferencia con el problema de agrupamiento clásico, por tanto, es la inclusión de restricciones. En nuestro caso concreto, trabajermos con restricciones entre pares de puntos, que además serán de dos tipos:
+
+\begin{itemize}
+    \item Restricción tipo \emph{Must Link}: los dos puntos afectados por esta restricción deberán pertenecer al mismo cluster
+    \item Restricción tipo \emph{Cannot Link}: los dos puntos afectados por esta restricción no deben pertenecer al mismo cluster
+\end{itemize}
+
+Consideraremos de forma débil estas restricciones, es decir, podemos incumplir algunas restricciones. Pero supondrá que la solución será de peor calidad. Para especificar mejor esta noción, definimos la función de \emph{fitness} que buscamos minimizar:
+
+\begin{displaymath}
+    fitness(sol) := distancia_{intra-cluster}(sol) + \lambda * infeasibility(sol)
+\end{displaymath}
+
+donde $infeasibility$ es el número de restricciones que se incumplen. Esta función de $fitness$ nos permite pasar de intentar optimizar dos funciones objetivo a solo tener que optimizar un objetivo. El valor de $\lambda$ se especifica más adelante.
+
+Como los datos no están etiquetados a priori, podríamos considerar este problema como un problema de aprendizaje no supervisado. Sin embargo, se puede considerar que las restricciones nos dan un tipo de etiquetado, por lo que es más correcto pensar que estamos ante una tarea de aprendizaje \emph{semi-supervisado}. La principal utilidad de resolver estos problemas es que normalmente estamos reduciendo la dimensionalidad de los datos a analizar, y de este modo, es más sencillo extraer conocimiento sobre dichos datos. También es útil para realizar
+
+\pagebreak
+
 \section{Descripción de la aplicación de los algoritmos empleados - Máximo 4 páginas}
 
 \section{Descripción de los algoritmos empleados - Máximo 2 páginas por algorimto}
