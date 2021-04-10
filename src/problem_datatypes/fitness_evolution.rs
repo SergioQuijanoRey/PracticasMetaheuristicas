@@ -35,7 +35,7 @@ impl fmt::Display for FitnessEvolution {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
 
         // Generamos un String con lo que queremos que se muestre por pantalla
-        let mut result = format!("{} iterations of the algorithm", self.fitness_at_iteration.len());
+        let mut result = format!("{} iterations of the algorithm\n", self.fitness_at_iteration.len());
         for value in &self.fitness_at_iteration{
             result = format!("{}{}, ", result, value);
         }
