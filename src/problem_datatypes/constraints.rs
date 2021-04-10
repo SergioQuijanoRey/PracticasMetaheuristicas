@@ -6,7 +6,6 @@ pub enum ConstraintType {
     CannotLink,
 }
 
-// TODO -- sobrescribir el tipo de dato (i32, i32) para que sea lo mismo (1, 2) que (2, 1)
 /// Estructura de datos que representa las restricciones del problema
 /// Usamos un hashmap por motivos de eficiencia la hora de guardar y acceder a los datos
 /// Una restriccion viene dada por los dos indices de los elementos que se restringen
