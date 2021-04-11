@@ -74,9 +74,13 @@ fn main() {
             // Estoy contabilizando el tiempo que perdemos cuando tenemos que repetir la asignacion de
             // centroides aleatorios, pero gracias a que devolvemos Option<Solution> esto es muy facil de
             // cambiar
+            //
+            // Permitimos un numero maximo de reseteos para evitar ciclar infinitamente
             let before = Instant::now();
             let mut greedy_solution: Option<problem_datatypes::Solution>;
             let mut fitness_evolution: problem_datatypes::FitnessEvolution;
+            let max_resets = 100;
+            let mut current_reset = 0;
             loop {
                 let (greedy_result, fit_result) = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), &mut rng, false);
                 greedy_solution = greedy_result;
@@ -90,6 +94,12 @@ fn main() {
                     // iterando
                     None => (),
                 }
+
+                current_reset = current_reset + 1;
+                if current_reset == max_resets{
+                    println!("--> Se han agotado los {} reseteos maximos por dejar clusters vacios", max_resets);
+                    break;
+                }
             }
             let after = Instant::now();
 
@@ -98,7 +108,13 @@ fn main() {
             let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
 
             // Tomamos la solucion del Option
-            let greedy_solution = greedy_solution.expect("En el bucle anterior nos aseguramos de que no seas None");
+            let greedy_solution = match greedy_solution{
+                Some(sol) => sol,
+                None => {
+                    println!("Como hemos agotado todos los reseteos, no podemos mostrar métricas");
+                    exit(-1);
+                }
+            };
 
             // Para que no sea mutable
             let duration_numeric = duration_numeric;
@@ -127,6 +143,8 @@ fn main() {
             let before = Instant::now();
             let mut greedy_solution: Option<problem_datatypes::Solution>;
             let mut fitness_evolution: problem_datatypes::FitnessEvolution;
+            let max_resets = 100;
+            let mut current_reset = 0;
             loop {
                 let (greedy_result, fit_result) = copkmeans::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), &mut rng, true);
                 greedy_solution = greedy_result;
@@ -140,6 +158,12 @@ fn main() {
                     // iterando
                     None => (),
                 }
+
+                current_reset = current_reset + 1;
+                if current_reset == max_resets{
+                    println!("--> Se han agotado los {} reseteos maximos por dejar clusters vacios", max_resets);
+                    break;
+                }
             }
             let after = Instant::now();
 
@@ -148,7 +172,13 @@ fn main() {
             let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
 
             // Tomamos la solucion del Option
-            let greedy_solution = greedy_solution.expect("En el bucle anterior nos aseguramos de que no seas None");
+            let greedy_solution = match greedy_solution{
+                Some(sol) => sol,
+                None => {
+                    println!("Como hemos agotado todos los reseteos, no podemos mostrar métricas");
+                    exit(-1);
+                }
+            };
 
             // Para que no sea mutable
             let duration_numeric = duration_numeric;
