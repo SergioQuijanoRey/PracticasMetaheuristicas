@@ -32,6 +32,9 @@
 % Para que los metadatos que escribe latex esten en español
 \usepackage[spanish]{babel}
 
+% Para la bibliografia
+% TODO -- no esta funcionando la bibliografia
+
 % Metadatos del documento
 %===============================================================================
 \title{
@@ -422,7 +425,7 @@ A continuación describimos el proceso de instalación y un pequeño manual de u
 
 \subsection{Instalación del entorno}
 
-Lo más sencillo y directo es instalar \lstinline{rustup} que se encargará de instalar todos los elementos necesarios para compilar y ejecutar la práctica. Para ello podemos ejecutar:
+Lo más sencillo y directo es instalar \lstinline{rustup} \footnotemark que se encargará de instalar todos los elementos necesarios para compilar y ejecutar la práctica. Para ello podemos ejecutar:
 
 \begin{itemize}
     \item En cualquier distribución linux: \lstinline{curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh} y seguir las instrucciones
@@ -430,6 +433,8 @@ Lo más sencillo y directo es instalar \lstinline{rustup} que se encargará de i
 \end{itemize}
 
 Una vez tengamos instalado \lstinline{rustup}, podemos ejecutar órdenes como \lstinline{cargo check}, \lstinline{rustc}, \ldots
+
+footnotetext{Información actualizada sobre el proceso de instalación puede consultarse en \cite{Gettings40:online}, \cite{InstallR15:online} o \cite{rustuprs85:online}}
 
 \subsection{Compilación y ejecución del binario}
 
@@ -467,11 +472,35 @@ El proceso de compilación y ejecución del programa, sobre los distintos conjun
 
 \subsection{Descripción de los casos del problema empleados}
 
+Para los cinco \textbf{valores de las semillas}, hemos elegido los siguientes: 123456789, 234567891, 3456789, 456789123 y 567891234 sin ningún criterio en concreto (podríamos haber buscado, por ejemplo, semillas que no diesen problemas a la hora de lanzar el algoritmo greedy).
+
+Tenemos tres problemas distintos. Cada problema, tiene dos ficheros de restricciones, uno con el 10\% de los datos con restricciones, y otro con el 20\% de los datos con restricciones. Los problemas son:
+
+\begin{itemize}
+    \item Zoo: problema de agrupación de animales. Debemos clasificar datos de 16 dimensiones (o atributos) en 7 clusters distintos. Hay 101 instancias o puntos.
+    \item Glass: problema de agrupación de vidrios. Debemos clasificar datos de 9 dimensiones en 7 clusters. Hay 214 instancias de datos
+    \item Bupa: agrupar personas en función de hábitos de consumo de alcohol. Datos de dimensión 9 agrupados en 16 clusters. Hay 345 instancias de datos
+\end{itemize}
+
+Por tanto, haciendo cuentas, tenemos $3 * 2 * 5 = 30$ ejecuciones de búsquedas. De nuevo, estas 30 ejecuciones se pueden lanzar cómodamente usando \lstinline{./launch_all_programs}
+
+Otros parámetros que hemos introducido en el programa son:
+
+\begin{itemize}
+    \item % TOOD seguir por aqui
+\end{itemize}
+
 \subsection{Resultados obtenidos según el formato especificado}
 
 \subsection{Análisis de resultados}
 
+\pagebreak
+
 \section{Bibliografía - Máximo sin especificar}
+
+\bibliography{Bibliografia.bib}
+\bibliographystyle{ieeetr}
+
 
 
 \end{document}
