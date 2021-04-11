@@ -73,7 +73,7 @@ Vamos a trabajar el problema del agrupamiento con restricciones (\textbf{\emph{P
 
 El problema de agrupamiento clásico consiste en, dados unos datos de entrada sin etiquetar $X$ de tamaño $n$, agruparlos en $k$ grupos (o en inglés, \emph{clusters}) diferentes, formando una partición $C$ de $X$, de forma que se optimice alguna métrica. Normalmente, se busca minimizar la distancia \emph{intra\_cluster} (que más tarde se definirá).
 
-La diferencia con el problema de agrupamiento clásico, por tanto, es la inclusión de restricciones. En nuestro caso concreto, trabajermos con restricciones entre pares de puntos, que además serán de dos tipos:
+La diferencia con el problema de agrupamiento clásico, por tanto, es la inclusión de restricciones. En nuestro caso concreto, trabajemos con restricciones entre pares de puntos, que además serán de dos tipos:
 
 \begin{itemize}
     \item Restricción tipo \emph{Must Link}: los dos puntos afectados por esta restricción deberán pertenecer al mismo cluster
@@ -149,7 +149,7 @@ La implementación de los métodos que permiten manipular el \lstinline{struct} 
 
 \subsection{Representación de la solución}
 
-Una representación de la solución será un vector de tamaño $n$ con valores en $\{0, \ldots, k - 1\}$ donde $n$ es el número de puntos y $k$ es el número de clusters en los que dividimos los datos. Este vector representa la partición de los datos en los $k$ clusters. En la posición $i$-ésima del vector, guardamos el cluster al que pertecene el punto $i$-ésimo de nuestro conjunto de datos.
+Una representación de la solución será un vector de tamaño $n$ con valores en $\{0, \ldots, k - 1\}$ donde $n$ es el número de puntos y $k$ es el número de clusters en los que dividimos los datos. Este vector representa la partición de los datos en los $k$ clusters. En la posición $i$-ésima del vector, guardamos el cluster al que pertenece el punto $i$-ésimo de nuestro conjunto de datos.
 
 Las soluciones deben cumplir las siguientes restricciones:
 
@@ -287,7 +287,7 @@ def generate_all_neighbours(
 Generación de soluciones aleatorias:
 
 \begin{lstlisting}[language=Python, style=Boxed]
-# Genera una solucucion inicial aleatoria como punto de partida de las busquedas
+# Genera una solucion inicial aleatoria como punto de partida de las busquedas
 # Puede dejar clusters vacios, por lo que el caller de esta funcion tiene que
 # comprobar la validez de la solucion aleatoria, y en caso de invalidez, volver
 # a llamar a esta funcion (es muy poco probable que con muchos puntos dejemos
@@ -436,7 +436,7 @@ Lo más sencillo y directo es instalar \lstinline{rustup} \footnotemark que se e
 
 Una vez tengamos instalado \lstinline{rustup}, podemos ejecutar órdenes como \lstinline{cargo check}, \lstinline{rustc}, \ldots
 
-footnotetext{Información actualizada sobre el proceso de instalación puede consultarse en \cite{Gettings40:online}, \cite{InstallR15:online} o \cite{rustuprs85:online}}
+\footnotetext{Información actualizada sobre el proceso de instalación puede consultarse en \cite{Gettings40:online}, \cite{InstallR15:online} o \cite{rustuprs85:online}}
 
 \subsection{Compilación y ejecución del binario}
 
@@ -470,7 +470,7 @@ El proceso de compilación y ejecución del programa, sobre los distintos conjun
 
 \pagebreak
 
-\section{Experimentos y análisis realizados - Máximo sin especificar}
+\section{Experimentos y análisis realizados}
 
 \subsection{Descripción de los casos del problema empleados}
 
@@ -490,7 +490,7 @@ Otros parámetros que hemos introducido en el programa son:
 
 \begin{itemize}
     \item Máximo de iteraciones de la búsqueda local: 100.000
-    \item Máximo de iteraciones del algoritmo greedy cuando formazos la robustez: 50
+    \item Máximo de iteraciones del algoritmo greedy cuando forzamos la robustez: 50
     \item Máximo de repeticiones del algoritmo greedy cuando este deja clusters vacíos: 100
 \end{itemize}
 
@@ -557,7 +557,5 @@ Para comenzar, sería interesante realizar un estudio sobre el valor de $\lambda
 
 \bibliography{Bibliografia.bib}
 \bibliographystyle{ieeetr}
-
-
 
 \end{document}
