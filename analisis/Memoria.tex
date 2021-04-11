@@ -219,11 +219,95 @@ La comprobación de que no tenemos clusters sin puntos asignados se hace en el m
 
 \section{Descripción de los algoritmos empleados - Máximo 2 páginas por algorimto}
 
-* Se hace en pseudocódigo
+\subsection{Búsqueda Local}
+
+Usamos un pseudocódigo muy parecido a \lstinline{Python} pues es muy expresivo y facilita traducir partes de nuestro código real a pseudocódigo.
+
+Método de exploración de entorno:
+
+\begin{lstlisting}[language=Python, style=Boxed]
+# Estrategia el primero mejor
+# Devuelve el primer vecino que mejora la solucion actual
+def get_neighbour():
+    # Tomamos el generador de vecinos que se describe mas adelante
+    neighbours_generator = generate_all_neighbours()
+
+    # Mezclo los generadores de vecinos
+    neighbours_generator.shuffle()
+
+    # Exploro los vecinos hasta encontrar uno mejor que esta solucion
+    for current_generator in neighbours_generator:
+        current_solution = self.generate_solution_from(current_generator)
+
+        if
+            current_solution.is_valid() &&
+            current_solution.fitness() < self.fitness():
+
+            return current_solution
+
+    # No hemos encontrado un vecino mejor
+    return None;
+}
+\end{lstlisting}
+
+Operador de generación de vecino:
+
+\begin{lstlisting}[language=Python, style=Boxed]
+
+# Struct que representa el generador de vecinos de
+# forma eficiente
+struct NeighbourGenerator:
+    # El elemento que queremos mover de cluster
+    element_index: i32,
+
+    # El nuevo cluster al que asignamos el elemento
+    new_cluster: u32,
+
+# Funcion que genera todos los vecinos posibles de un elemento
+# Los vecinos generados pueden ser no validos
+def generate_all_neighbours(
+    number_of_elements,
+    number_of_clusters):
+    neighbours = []
+
+    for current_element in 0..number_of_elements:
+        for current_cluster in 0..number_of_clusters:
+            neighbours.append(NeighbourGenerator{
+                current_element,
+                current_cluster,
+            });
+
+    return neighbours;
+\end{lstlisting}
+
+Generación de soluciones aleatorias:
+
+\begin{lstlisting}[language=Python, style=Boxed]
+# Genera una solucucion inicial aleatoria como punto de partida de las busquedas
+# Puede dejar clusters vacios, por lo que el caller de esta funcion tiene que
+# comprobar la validez de la solucion aleatoria, y en caso de invalidez, volver
+# a llamar a esta funcion (es muy poco probable que con muchos puntos dejemos
+# un cluster vacio)
+def generate_random_solution(data_points, constraints, number_of_clusters):
+    # Vector con indices de clusters aleatorios, de tamaño el numero de puntos
+    # que trabajamos
+    random_cluster_indixes = [
+        random(0, number_of_clusters)
+        for _ in data_points.len()
+    ]
+
+    # En nuestro codigo, generamos el struct Solution a partir de los parametros
+    # de entrada y random_cluster_indixes
+    return solution_from(cluster_indexes)
+}
+\end{lstlisting}
+
 
 \pagebreak
 
-\section{Pseudocódigo de los algoritmos de comparación}
+% TODO -- no se indica maximo pero por el apartado anterior pareciese razonable que fuesen solo dos paginas
+% TODO -- creo que solo hay que poner pseudocodigo
+\section{Descripción y Pseudocódigo de los algoritmos de comparación}
 
 Como algoritmo de comparación estamos considerando una modificación del algoritmo clásico \emph{K-means} al que añadimos la capacidad de considerar las restricciones: \emph{copkmeans} o \emph{Constrained K-means}. Por tanto, estamos ante un algoritmo \emph{greedy}.
 
