@@ -421,6 +421,8 @@ def assign_points_to_clusters():
 
 Hemos desarrollado todo el código desde prácticamente cero usando el lenguaje de programación \lstinline{Rust}. Para el entorno de desarrollo, solo hace falta instalar \lstinline{Cargo} que permite compilar el proyecto, correr los ejecutables cómodamente, descargar las dependencias o correr los tests que se han desarrollado.
 
+Las librerías externas que hemos empleado pueden consultarse en el fichero \lstinline{Cargo.toml} en el que se incluye un pequeño comentario sobre la utilidad de cada librería.
+
 A continuación describimos el proceso de instalación y un pequeño manual de usuario para compilar y ejecutar el proyecto en \lstinline{Linux} (pues es el sistema operativo que nuestro profesor de prácticas, Daniel Molina, nos ha indicado que usa).
 
 \subsection{Instalación del entorno}
@@ -487,12 +489,22 @@ Por tanto, haciendo cuentas, tenemos $3 * 2 * 5 = 30$ ejecuciones de búsquedas.
 Otros parámetros que hemos introducido en el programa son:
 
 \begin{itemize}
-    \item % TOOD seguir por aqui
+    \item Máximo de iteraciones de la búsqueda local: 100.000
+    \item Máximo de iteraciones del algoritmo greedy cuando formazos la robustez: 50
+    \item Máximo de repeticiones del algoritmo greedy cuando este deja clusters vacíos: 100
 \end{itemize}
+
+\pagebreak
 
 \subsection{Resultados obtenidos según el formato especificado}
 
+El formato especificado viene dado en una tabla de excel que hemos rellenado con los resultados mostrados por pantalla por el programa. Para obtener estos resultados, basta con lanzar \lstinline{./launch_all_programs > salida_datos.txt} y consultar el fichero creado. Ese fichero se entrega con la práctica para que pueda consultarse los datos con los que hemos generado las tablas.
+
 \subsection{Análisis de resultados}
+
+\subsubsection{Gráficas de evolución de fitness}
+
+Estas gráficas han sido generadas a partir de la salida del programa y un script de \lstinline{Python} que emplea la librería \lstinline{matplotlib} para la generación de las gráficas.
 
 \pagebreak
 

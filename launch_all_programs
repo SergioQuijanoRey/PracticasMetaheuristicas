@@ -17,7 +17,7 @@ echo ""
 
 # Parametros del script
 small_number_of_clusters=7
-big_number_of_clusters=11
+big_number_of_clusters=16
 seeds=(
     123456789
     234567891
