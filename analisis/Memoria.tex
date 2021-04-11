@@ -221,7 +221,113 @@ La comprobación de que no tenemos clusters sin puntos asignados se hace en el m
 
 * Se hace en pseudocódigo
 
-\section{Pseudocódigo de los algoritmos de comparación - Máximo sin especificar}
+\pagebreak
+
+\section{Pseudocódigo de los algoritmos de comparación}
+
+Como algoritmo de comparación estamos considerando una modificación del algoritmo clásico \emph{K-means} al que añadimos la capacidad de considerar las restricciones: \emph{copkmeans} o \emph{Constrained K-means}. Por tanto, estamos ante un algoritmo \emph{greedy}.
+
+La idea general es:
+
+\begin{enumerate}
+    \item Partir de una solución inicial aleatoria, que vendrá dada por una asignación de centroides de clusters aleatorios
+    \item Iterar sobre todos los datos en orden aleatorio, asignando a cada punto el mejor cluster en ese momento (siguiendo claramente un esquema greedy). Consideramos como mejor cluster el que menos restricciones violadas produzca, y en caso de empate, el cluster cuyo centroide sea más cercano al punto
+    \item Una vez acabada la asignación de todos los puntos, calcular los centroides de los clusters con la asignación actual de los puntos
+    \item Repetir el proceso desde 2 si los centroides han cambiado respecto de la anterior iteración
+\end{enumerate}
+
+A la hora de ejecutar el algoritmo, en algunos \emph{datasets} daba problemas, pues los centroides oscilaban infinitamente entre dos soluciones muy cercanas (debido entre otros factores a la configuración de los datos de entrada). Esta configuración de los datos también puede provocar que haya clusters que se queden sin puntos asignados, generando así una solución no válida. Por tanto, el algoritmo admite un parámetro de entrada para indicar si queremos que sea \emph{robusto} o no. En caso de que indiquemos que queremos que sea robusto se tendrán las siguientes diferencias:
+
+\begin{itemize}
+    \item Los centroides aleatorios no se tomarán como puntos aleatorios, sino como puntos del \emph{dataset} aleatorios, por lo que en una primera iteración no podrán quedar clusters vacíos, aunque si podrán quedar clusters vacíos en iteraciones posteriores. Con esto se buscas evitar el problema de los clusters vacíos
+    \item Se tendrá un máximo de iteraciones. Este máximo lo hemos establecido como 50 iteraciones sobre el bucle principal. Teniendo en cuenta que cuando no cicla infinitamente, en menos de 10 iteraciones el algoritmo encuentra solución, consideramos que es un máximo mucho más que aceptable para asegurar que la solución devuelta sea la mejor (o la segunda mejor) que el \emph{greedy} puede calcular con esa semilla aleatoria. Con esto se busca evitar el problema del ciclado infinito
+    \item Aún con estos cambios, en ciertas ocasiones no podemos evitar que dejemos un cluster vacío en iteraciones posteriores a la primera. Por tanto, también colocaremos un máximo de reinicios del algoritmo en la parte del código que llama al método de búsqueda.
+\end{itemize}
+
+Aún con estos cambios, en ciertas ocasiones no podemos evitar que dejemos un cluster vacío en iteraciones posteriores a la primera. Esto lo comentaremos más en profundidad en el análisis de los resultados
+
+El pseudocódigo (en notación muy parecida a \lstinline{Python}) de nuestra implementación del algoritmo quedaría tal que:
+
+\begin{lstlisting}[language=Python, style=Boxed]
+# Generamos los centroides aleatorios. Dependiendo de si es robust o no
+# consideramos puntos aleatorios en [0,1] x [0,1] o puntos del dataset
+# de entrada aleatorios
+current_centroids = generate_random_centroids()
+
+# Solucion inicial aleatoria que se va a modificar en la primera iteracion
+# Notar que no es valida porque deja todos los clusters menos uno vacíos
+current_cluster_indixes = [0, 0, ..., 0]
+
+# Para comprobar que los centroides cambien
+centroids_have_changed = true
+
+
+# Si robust == true, acotamos el numero maximo de iteraciones
+max_iterations = 50
+mut curr_iteration = 0
+
+while centroids_have_changed == true and curr_iteration < max_iterations{
+
+    # Realizamos una nueva asignacion de clusters. Recorremos los puntos
+    # aleatoriamente y asignamos el cluster que menos restricciones viole
+    # en esa iteracion. En caso de empate, se toma el cluster con centroide
+    # mas cercano al punto
+    new_cluster_indixes = assign_points_to_clusters()
+
+    # Comprobamos que la nueva solucion calculada es correcta
+    if valid_cluster_configuration(current_cluster_indixes) == false:
+        # Esto hace que el el caller de la funcion copkmeans, se muestre un
+        # mensaje por pantalla y se vuelva a realizar la busqueda, con lo que
+        # partimos de unos centroides aleatorios nuevos. Como ya se ha comentado,
+        # hay un maximo de reinicios en el caller para este metodo
+        return None
+
+    # Calculamos los nuevos centroides y comprobamos si han cambiado
+    new_centroids = calculate_new_centroids(new_cluster_indixes)
+    centroids_have_changed = centroids_are_different(
+        current_centroids,
+        new_centroids
+    )
+
+    # Cambiamos a la nueva asignacion de clusters y los nuevos centroides
+    current_cluster_indixes = new_cluster_indixes
+    current_centroids = new_centroids
+
+
+    # En caso de que robust = true, acotamos el numero de iteraciones de forma
+    # efectiva aumentando el contador. En otro caso, al no tocar el contador
+    # no estamos teniendo en cuenta este parametro
+    if robust == true:
+        curr_iteration = curr_iteration + 1;
+
+# Devolvemos la solucion en la estructura de datos correspondiente
+return solution_from(current_cluster_indixes)
+\end{lstlisting}
+
+Desarrollamos el código de \lstinline{assign_points_to_clusters} por su importancia:
+
+\begin{lstlisting}[language=Python, style=Boxed]
+def assign_points_to_clusters():
+    # Realizamos una nueva asignacion de clusters
+    # -1 para saber que puntos todavia no han sido asignados a un cluster
+    new_cluster_indixes= [-1, -1, ..., -1]
+
+    # Recorremos aleatoriamente los puntos para irlos asignando a cada cluster
+    point_indexes = (0..data_points.len())
+    point_indexes.shuffle();
+
+    for index in point_indexes:
+        # Calculo el cluster al que asignamos el punto actual
+        new_cluster_indixes[index] = select_best_cluster(
+            current_cluster_indixes,
+            current_centroids,
+        )
+
+    # Devolvemos los indices que representan la solucion
+    return new_cluster_indixes
+\end{lstlisting}
+
+\pagebreak
 
 \section{Explicación del procedimiento considerado para desarrollar la práctica - Máximo sin especificar}
 
