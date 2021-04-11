@@ -6,7 +6,6 @@ version = "0.1.0"
 dependencies = [
  "assert_approx_eq",
  "csv",
- "lazy_static",
  "ndarray",
  "rand",
  "simple-error",
