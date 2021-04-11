@@ -90,6 +90,7 @@ Como los datos no están etiquetados a priori, podríamos considerar este proble
 \pagebreak
 
 % TODO -- es un máximo de 4 páginas y esto ocupa 5 páginas
+% TODO -- describir en pseudo la funcion objetivo y los operadores comunes? ==> Apartado d
 \section{Descripción de la aplicación de los algoritmos empleados}
 
 \subsection{Representación del conjunto de datos}
@@ -217,7 +218,7 @@ La comprobación de que no tenemos clusters sin puntos asignados se hace en el m
 
 \pagebreak
 
-\section{Descripción de los algoritmos empleados - Máximo 2 páginas por algorimto}
+\section{Descripción de los algoritmos empleados}
 
 \subsection{Búsqueda Local}
 
@@ -413,7 +414,54 @@ def assign_points_to_clusters():
 
 \pagebreak
 
-\section{Explicación del procedimiento considerado para desarrollar la práctica - Máximo sin especificar}
+\section{Explicación del procedimiento considerado para desarrollar la práctica}
+
+Hemos desarrollado todo el código desde prácticamente cero usando el lenguaje de programación \lstinline{Rust}. Para el entorno de desarrollo, solo hace falta instalar \lstinline{Cargo} que permite compilar el proyecto, correr los ejecutables cómodamente, descargar las dependencias o correr los tests que se han desarrollado.
+
+A continuación describimos el proceso de instalación y un pequeño manual de usuario para compilar y ejecutar el proyecto en \lstinline{Linux} (pues es el sistema operativo que nuestro profesor de prácticas, Daniel Molina, nos ha indicado que usa).
+
+\subsection{Instalación del entorno}
+
+Lo más sencillo y directo es instalar \lstinline{rustup} que se encargará de instalar todos los elementos necesarios para compilar y ejecutar la práctica. Para ello podemos ejecutar:
+
+\begin{itemize}
+    \item En cualquier distribución linux: \lstinline{curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh} y seguir las instrucciones
+    \item Por si acaso no tenemos actualizado el entorno: \lstinline{rustup update}
+\end{itemize}
+
+Una vez tengamos instalado \lstinline{rustup}, podemos ejecutar órdenes como \lstinline{cargo check}, \lstinline{rustc}, \ldots
+
+\subsection{Compilación y ejecución del binario}
+
+Además del binario aportado en la estructura de directios que se especifica en el guión, podemos generar fácilmente el binario con \lstinline{cargo} y ejecutarlo tal que:
+
+\begin{itemize}
+    \item Para compilar: \lstinline{cargo build --release} lo que nos generará un binario en \lstinline{./target/release/PracticasMetaheuristicas}
+    \item Podemos usar ese binario para ejecutar el programa o podemos usar \lstinline{cargo run --release <parametros entrada>} para correr el programa de forma más cómoda
+    \item Es muy importante la opción \lstinline{--release} porque de otra forma el binario no será apenas optimizado, lo que supondrá tiempos de ejecución mucho mayores
+    \item Para correr los tests programados podemos hacer \lstinline{cargo test}
+\end{itemize}
+
+Si ejecutamos el binario sin parámetros, veremos por pantalla un mensaje indicando los parámetros que debemos pasar al programa. Estos parámetros son:
+
+\begin{itemize}
+    \item fichero de datos: el fichero donde guardamos las coordenadas de los puntos
+    \item fichero de restricciones
+    \item Semilla para la generación de números aleatorios
+    \item Número de clusters en los que queremos clasificar los datos
+    \item Tipo de búsqueda: para especificar el tipo de algoritmo que queremos ejecutar. Los posibles valores son:
+    \begin{itemize}
+        \item copkmeans: búsqueda greedy
+        \item copkmeans\_robust: búsqueda greedy con los cambios ya indicados para que sea algo más robusto
+        \item local\_search: búsqueda local
+    \end{itemize}
+\end{itemize}
+
+\subsection{Compilación y ejecución usando el script}
+
+El proceso de compilación y ejecución del programa, sobre los distintos conjuntos de datos y restricciones, usando las distintas semillas que más adelante se especifican, se puede lanzar de forma cómoda invocando el script \lstinline{./launch_all_programs}.
+
+\pagebreak
 
 \section{Experimentos y análisis realizados - Máximo sin especificar}
 
