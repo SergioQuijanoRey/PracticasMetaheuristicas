@@ -123,7 +123,6 @@ fn main() {
             println!("==> Busqueda greedy");
             println!("La distancia global instracluster de la solucion es: {}", greedy_solution.global_cluster_mean_distance());
             println!("Las distancias intraclusters son:");
-            greedy_solution.show_intra_cluster_distances();
             println!("El numero de restricciones violadas (infeasibility) es: {}", greedy_solution.infeasibility());
             println!("El valor de fitness es: {}", greedy_solution.fitness());
             println!("El valor de lambda es: {}", greedy_solution.get_lambda());
@@ -188,7 +187,6 @@ fn main() {
             // Mostramos los resultados
             println!("==> Busqueda greedy");
             println!("La distancia global instracluster de la solucion es: {}", greedy_solution.global_cluster_mean_distance());
-            greedy_solution.show_intra_cluster_distances();
             println!("El numero de restricciones violadas es: {}", greedy_solution.infeasibility());
             println!("El valor de fitness es: {}", greedy_solution.fitness());
             println!("El valor de lambda es: {}", greedy_solution.get_lambda());
@@ -211,7 +209,6 @@ fn main() {
             // Mostramos los resultados
             println!("==> Busqueda local");
             println!("La distancia global instracluster de la solucion es: {}", solucion_local.global_cluster_mean_distance());
-            solucion_local.show_intra_cluster_distances();
             println!("El numero de restricciones violadas es: {}", solucion_local.infeasibility());
             println!("El valor de fitness es: {}", solucion_local.fitness());
             println!("El valor de lambda es: {}", solucion_local.get_lambda());

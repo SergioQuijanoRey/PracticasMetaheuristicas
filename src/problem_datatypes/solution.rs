@@ -248,7 +248,7 @@ impl<'a, 'b> Solution<'a, 'b> {
     }
 
     /// Muestra las distancias intracluster de cada uno de los clusters
-    /// Esto es necesario para calcular Error_dist en la hoja de calculo
+    /// Esta funcion ha sido usada para debuggear el codigo
     pub fn show_intra_cluster_distances(&self){
         for cluster in 0 .. self.number_of_clusters{
             println!("\tDistancia intra-cluster del cluster {}: {}", cluster, self.intra_cluster_distance(cluster as u32));
