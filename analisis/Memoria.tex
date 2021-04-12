@@ -33,7 +33,8 @@
 \usepackage[spanish]{babel}
 
 % Para la bibliografia
-% TODO -- no esta funcionando la bibliografia
+% Sin esto, los enlaces de la bibliografia dan un error de compilacion
+\usepackage{url}
 
 % Metadatos del documento
 %===============================================================================
@@ -553,9 +554,9 @@ Para comenzar, sería interesante realizar un estudio sobre el valor de $\lambda
 
 \pagebreak
 
-\section{Bibliografía - Máximo sin especificar}
+\section{Bibliografía}
 
-\bibliography{Bibliografia.bib}
+\bibliography{References}
 \bibliographystyle{ieeetr}
 
 \end{document}
