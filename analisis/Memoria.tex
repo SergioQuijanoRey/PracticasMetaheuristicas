@@ -89,7 +89,7 @@ Consideraremos de forma débil estas restricciones, es decir, podemos incumplir 
 
 donde $infeasibility$ es el número de restricciones que se incumplen. Esta función de $fitness$ nos permite pasar de intentar optimizar dos funciones objetivo a solo tener que optimizar un objetivo. El valor de $\lambda$ se especifica más adelante.
 
-Como los datos no están etiquetados a priori, podríamos considerar este problema como un problema de aprendizaje no supervisado. Sin embargo, se puede considerar que las restricciones nos dan un tipo de etiquetado, por lo que es más correcto pensar que estamos ante una tarea de aprendizaje \emph{semi-supervisado}. La principal utilidad de resolver estos problemas es que normalmente estamos reduciendo la dimensionalidad de los datos a analizar, y de este modo, es más sencillo extraer conocimiento sobre dichos datos. También es útil para realizar
+Como los datos no están etiquetados a priori, podríamos considerar este problema como un problema de aprendizaje no supervisado. Sin embargo, se puede considerar que las restricciones nos dan un tipo de etiquetado, por lo que es más correcto pensar que estamos ante una tarea de aprendizaje \emph{semi-supervisado}. La principal utilidad de resolver estos problemas es que normalmente estamos reduciendo la dimensionalidad de los datos a analizar, y de este modo, es más sencillo extraer conocimiento sobre dichos datos.
 
 \pagebreak
 
@@ -99,7 +99,7 @@ Como los datos no están etiquetados a priori, podríamos considerar este proble
 
 \subsection{Representación del conjunto de datos}
 
-Los datos vienen dados en una matrix de tamaño $n x d$ donde $n$ es el número de puntos y $d$ es la dimensión de cada uno de los puntos.
+Los datos vienen dados en una matriz de tamaño $n \times d$ donde $n$ es el número de puntos y $d$ es la dimensión de cada uno de los puntos.
 
 \subsubsection{Representación del conjunto de datos en código}
 
@@ -245,7 +245,7 @@ def get_neighbour():
         current_solution = self.generate_solution_from(current_generator)
 
         if
-            current_solution.is_valid() &&
+            current_solution.is_valid() and
             current_solution.fitness() < self.fitness():
 
             return current_solution
@@ -322,18 +322,16 @@ La idea general es:
     \item Partir de una solución inicial aleatoria, que vendrá dada por una asignación de centroides de clusters aleatorios
     \item Iterar sobre todos los datos en orden aleatorio, asignando a cada punto el mejor cluster en ese momento (siguiendo claramente un esquema greedy). Consideramos como mejor cluster el que menos restricciones violadas produzca, y en caso de empate, el cluster cuyo centroide sea más cercano al punto
     \item Una vez acabada la asignación de todos los puntos, calcular los centroides de los clusters con la asignación actual de los puntos
-    \item Repetir el proceso desde 2 si los centroides han cambiado respecto de la anterior iteración
+    \item Repetir el proceso desde 2. si los centroides han cambiado respecto de la anterior iteración
 \end{enumerate}
 
-A la hora de ejecutar el algoritmo, en algunos \emph{datasets} daba problemas, pues los centroides oscilaban infinitamente entre dos soluciones muy cercanas (debido entre otros factores a la configuración de los datos de entrada). Esta configuración de los datos también puede provocar que haya clusters que se queden sin puntos asignados, generando así una solución no válida. Por tanto, el algoritmo admite un parámetro de entrada para indicar si queremos que sea \emph{robusto} o no. En caso de que indiquemos que queremos que sea robusto se tendrán las siguientes diferencias:
+A la hora de ejecutar el algoritmo, en algunos \emph{datasets} el algoritmo se encuentra con problemas, pues los centroides pueden oscilar infinitamente entre dos soluciones muy cercanas (debido entre otros factores a la configuración de los datos de entrada). Esta configuración de los datos también puede provocar que haya clusters que se queden sin puntos asignados, generando así una solución no válida. Por tanto, el algoritmo admite un parámetro de entrada para indicar si queremos que sea \emph{robusto} o no. En caso de que indiquemos que queremos que sea robusto se tendrán las siguientes diferencias:
 
 \begin{itemize}
     \item Los centroides aleatorios no se tomarán como puntos aleatorios, sino como puntos del \emph{dataset} aleatorios, por lo que en una primera iteración no podrán quedar clusters vacíos, aunque si podrán quedar clusters vacíos en iteraciones posteriores. Con esto se buscas evitar el problema de los clusters vacíos
     \item Se tendrá un máximo de iteraciones. Este máximo lo hemos establecido como 50 iteraciones sobre el bucle principal. Teniendo en cuenta que cuando no cicla infinitamente, en menos de 10 iteraciones el algoritmo encuentra solución, consideramos que es un máximo mucho más que aceptable para asegurar que la solución devuelta sea la mejor (o la segunda mejor) que el \emph{greedy} puede calcular con esa semilla aleatoria. Con esto se busca evitar el problema del ciclado infinito
     \item Aún con estos cambios, en ciertas ocasiones no podemos evitar que dejemos un cluster vacío en iteraciones posteriores a la primera. Por tanto, también colocaremos un máximo de reinicios del algoritmo en la parte del código que llama al método de búsqueda.
 \end{itemize}
-
-Aún con estos cambios, en ciertas ocasiones no podemos evitar que dejemos un cluster vacío en iteraciones posteriores a la primera. Esto lo comentaremos más en profundidad en el análisis de los resultados
 
 El pseudocódigo (en notación muy parecida a \lstinline{Python}) de nuestra implementación del algoritmo quedaría tal que:
 
@@ -420,7 +418,7 @@ def assign_points_to_clusters():
 
 \section{Explicación del procedimiento considerado para desarrollar la práctica}
 
-Hemos desarrollado todo el código desde prácticamente cero usando el lenguaje de programación \lstinline{Rust}. Para el entorno de desarrollo, solo hace falta instalar \lstinline{Cargo} que permite compilar el proyecto, correr los ejecutables cómodamente, descargar las dependencias o correr los tests que se han desarrollado.
+Hemos desarrollado todo el código desde prácticamente cero usando el lenguaje de programación \lstinline{Rust}. Para el entorno de desarrollo, solo hace falta instalar \lstinline{Cargo}, que permite compilar el proyecto, correr los ejecutables cómodamente, descargar las dependencias o correr los tests que se han desarrollado.
 
 Las librerías externas que hemos empleado pueden consultarse en el fichero \lstinline{Cargo.toml} en el que se incluye un pequeño comentario sobre la utilidad de cada librería.
 
@@ -453,8 +451,8 @@ Además del binario aportado en la estructura de directios que se especifica en 
 Si ejecutamos el binario sin parámetros, veremos por pantalla un mensaje indicando los parámetros que debemos pasar al programa. Estos parámetros son:
 
 \begin{itemize}
-    \item fichero de datos: el fichero donde guardamos las coordenadas de los puntos
-    \item fichero de restricciones
+    \item Fichero de datos: el fichero donde guardamos las coordenadas de los puntos
+    \item Fichero de restricciones
     \item Semilla para la generación de números aleatorios
     \item Número de clusters en los que queremos clasificar los datos
     \item Tipo de búsqueda: para especificar el tipo de algoritmo que queremos ejecutar. Los posibles valores son:
@@ -475,7 +473,7 @@ El proceso de compilación y ejecución del programa, sobre los distintos conjun
 
 \subsection{Descripción de los casos del problema empleados}
 
-Para los cinco \textbf{valores de las semillas}, hemos elegido los siguientes: 123456789, 234567891, 3456789, 456789123 y 567891234 sin ningún criterio en concreto (podríamos haber buscado, por ejemplo, semillas que no diesen problemas a la hora de lanzar el algoritmo greedy).
+ara los cinco \textbf{valores de las semillas}, hemos elegido los siguientes: 123456789, 234567891, 3456789, 456789123 y 567891234, sin ningún criterio en concreto (podríamos haber buscado, por ejemplo, semillas que no diesen problemas a la hora de lanzar el algoritmo greedy).
 
 Tenemos tres problemas distintos. Cada problema, tiene dos ficheros de restricciones, uno con el 10\% de los datos con restricciones, y otro con el 20\% de los datos con restricciones. Los problemas son:
 
@@ -525,13 +523,13 @@ Las comparaciones más directas se pueden hacer con las dos últimas tablas en l
 
 En segundo lugar, es de esperar que el algoritmo greedy sea más rápido que el de búsqueda local. Sin embargo hay conjuntos de datos y restricciones en los que esto no pasa (por ejemplo, Zoo con 10\% y 20\% y Glass al 10\%). Esto puede deberse a que la búsqueda local caiga demasiado rápido en un óptimo local a partir de la solución aleatoria de partida. También influye que estemos usando la versión robusta del algoritmo greedy en la que acotamos por 50 iteraciones, pudiendo haber probado una cota menor a vista de las iteraciones requerridas en otros casos del problema en los que greedy converge sin ayudas.
 
-En tercer lugar, también cabe esperar que greedy produzca soluciones con menores violaciones de restricciones, pues es el primer criterio voraz que estamos considerando (y en caso de empate según violaciones incumplidas, ya se considera el cluster más cercano). Esto se cumple en todos los \emph{datasets} salvo en Zoo al 10\%. Puede ser que al ser un espacio de búsqueda más pequeño, la búsqueda local consiga encontrar un buen óptimo que respete muchas más restricciones manteniendo una buena desviación general de la partición.
+En tercer lugar, también cabe esperar que greedy produzca soluciones con menores violaciones de restricciones, pues es el primer criterio voraz que estamos considerando (y en caso de empate según violaciones incumplidas, ya se considera el cluster con centroide más cercano). Esto se cumple en todos los \emph{datasets} salvo en Zoo al 10\%. Puede ser que al ser un espacio de búsqueda más pequeño, la búsqueda local consiga encontrar un buen óptimo que respete muchas más restricciones manteniendo una buena desviación general de la partición.
 
 Además, es claro que la búsqueda local genera soluciones cuya desviación general de cluster está por debajo de los valores de referencia. Esto gracias a que estamos considerando a la vez en la función de fitness el número de restricciones violadas (ponderado por el valor de $\lambda$) y la desviación general del cluster. Del mismo modo, estamos obteniendo mejores valores del fitness en prácticamente todos los casos. Esto era de esperar pues en búsqueda local estamos optimizando este valor mientras que en el algoritmo greedy estamos simplemente siguiendo una estrategia voraz que pensamos que puede producir buenos resultados. Cuando no ocurre esto, podríamos pensar que el algoritmo greedy ha obtenido una muy buena solución por casualidad, o lo que parece más probable, que nuestra búsqueda local cae en un mal óptimo local en contadas ocasiones.
 
 Pasamos ahora a comentar las tablas generales, no solo las de comparaciones. Podríamos hacer comentarios sobre el comportamiento del algoritmo greedy, como por ejemplo, su dependencia de la semilla inicial a la hora de obtener buenos o malos resultados, pero al ser un algoritmo de comparación base, no parece relevante que hagamos un profundo estudio sobre su comportamiento.
 
-El valor del fitness se ve afectado por la semilla inicial (que determina la solución inicial de la que partimos) se ve afectado por la semilla inicial, pero no hay variaciones demasiado bruscas (como si ocurre, por ejemplo, en el greedy con los Zoo de 10\% y 20\% de restricciones). Sin embargo, si que podemos observar una variabilidad mucho más grande en la cantidad de restricciones violadas. En zoo 10\% podemos pasar de 7 violaciones a 16 (más del doble). En zoo 20\% podemos pasar de 26 a 54 (de nuevo, un poco más del doble). En bupa 20\%, podemos pasar de 168 a 251. Por tanto podemos pensar que es esta métrica es más sensible a la aleatoriedad que el fitness (en el que esta métrica compone el primer sumando de forma ponderada). Por ejemplo, para Zoo 10\%, las restricciones violadas tienen un
+El valor del fitness se ve afectado por la semilla inicial (que determina la solución inicial de la que partimos), pero no hay variaciones demasiado bruscas (como si ocurre, por ejemplo, en el greedy con los Zoo de 10\% y 20\% de restricciones). Sin embargo, si que podemos observar una variabilidad mucho más grande en la cantidad de restricciones violadas. En zoo 10\% podemos pasar de 7 violaciones a 16 (más del doble). En zoo 20\% podemos pasar de 26 a 54 (de nuevo, un poco más del doble). En bupa 20\%, podemos pasar de 168 a 251. Por tanto podemos pensar que es esta métrica es más sensible a la aleatoriedad que el fitness (en el que esta métrica compone el primer sumando de forma ponderada). Por ejemplo, para Zoo 10\%, las restricciones violadas tienen un
 3.54 de desviación típica, mientras que el fitness tiene un 0.05 de desviación típica.
 
 \subsubsection{Gráficas de evolución de fitness}
@@ -546,7 +544,7 @@ Con esta gráfica queda claro el impacto que tiene la semilla inicial, tanto par
 
 \includegraphics[scale=0.5]{convergencia_bupa_20}
 
-Esta gráfica refuerza de nuevo todo lo que venimos desarrollando en relación a la influencia de la semilla aleatoria. Ambas gráficas también dejan claro que la evolución del fitness es estrictamente decreciente. Esto pues estamos haciendo una búsqueda el primero mejor, por tanto, siempre nos movemos hacia soluciones de mejor fitness.
+Esta gráfica refuerza de nuevo todo lo que venimos desarrollando en relación a la influencia de la semilla aleatoria. Ambas gráficas también dejan claro que la evolución del fitness es estrictamente decreciente. Esto porque estamos haciendo una búsqueda el primero mejor, por tanto, siempre nos movemos hacia soluciones de mejor fitness que la solución actual.
 
 \subsubsection{Posibles mejoras}
 
