@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
 # Script bash para lanzar todos los algoritmos.
-# La ejecución de un programa lanza todos los algoritmos, asi que solo tenemos
-# que especificar como parametro de entrada el fichero de datos, el fichero de
-# restricciones y la semilla aleatoria.
 # Este script primero intenta hacer build del programa antes de lanzar las
 # ejecuciones. El build se hace en modo --release para el maximo rendimiento.
 # Los algoritmos greedy son los ultimos en lanzarse porque son los que nos dan problemas (en ocasiones
