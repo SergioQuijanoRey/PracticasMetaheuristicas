@@ -3,7 +3,7 @@ use crate::problem_datatypes::Constraints;
 use crate::problem_datatypes::DataPoints;
 use crate::problem_datatypes::Point;
 use crate::problem_datatypes::Solution;
-use crate::problem_datatypes::FitnessEvolution;
+use crate::fitness_evolution::FitnessEvolution;
 use rand::rngs::StdRng;
 use std::process::exit; // Para hacer shuffle de un vector
 use rand::seq::SliceRandom;

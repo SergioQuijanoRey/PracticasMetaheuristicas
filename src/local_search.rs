@@ -1,7 +1,7 @@
 use crate::problem_datatypes::Solution;
 use crate::problem_datatypes::DataPoints;
 use crate::problem_datatypes::Constraints;
-use crate::problem_datatypes::FitnessEvolution;
+use crate::fitness_evolution::FitnessEvolution;
 use rand::rngs::StdRng;
 
 /// Ejecuta la metaheuristica de busqueda local y devuelve la solucion encontrada

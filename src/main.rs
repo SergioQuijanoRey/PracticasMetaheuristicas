@@ -10,6 +10,7 @@ mod file_parsers;
 mod problem_datatypes;
 mod local_search;
 mod copkmeans;
+mod fitness_evolution;
 
 fn show_help(){
     println!("Modo de uso del programa:");
@@ -78,7 +79,7 @@ fn main() {
             // Permitimos un numero maximo de reseteos para evitar ciclar infinitamente
             let before = Instant::now();
             let mut greedy_solution: Option<problem_datatypes::Solution>;
-            let mut fitness_evolution: problem_datatypes::FitnessEvolution;
+            let mut fitness_evolution: fitness_evolution::FitnessEvolution;
             let max_resets = 100;
             let mut current_reset = 0;
             loop {
@@ -143,7 +144,7 @@ fn main() {
             // cambiar
             let before = Instant::now();
             let mut greedy_solution: Option<problem_datatypes::Solution>;
-            let mut fitness_evolution: problem_datatypes::FitnessEvolution;
+            let mut fitness_evolution: fitness_evolution::FitnessEvolution;
             let max_resets = 100;
             let mut current_reset = 0;
             loop {
