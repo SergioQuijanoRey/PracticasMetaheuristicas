@@ -1,6 +1,4 @@
 use std::process::exit;
-use std::time::Instant;
-
 use rand::SeedableRng;
 use rand::rngs::StdRng;
 
@@ -18,7 +16,6 @@ fn show_help(){
     println!("\t<search_type>: copkmeans | copkmeans_robust | local_search");
 }
 
-// TODO -- esta funcion es demasiado grande, se puede separar en distintas funciones
 fn main() {
 
     // Argumentos del programa que recibimos de la terminal
@@ -78,24 +75,7 @@ fn main() {
         }
 
         arg_parser::SearchType::LocalSearch => {
-            // Numero maximo de iteraciones para la busqueda local
-            let max_iterations = 100000;
-
-            let before = Instant::now();
-            let (solucion_local, fitness_evolution) = local_search::run(&data_points, &constraints, program_arguments.get_number_of_clusters(), max_iterations, &mut rng);
-            let after = Instant::now();
-            let duration = after.duration_since(before);
-            let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
-
-            // Mostramos los resultados
-            println!("==> Busqueda local");
-            println!("La distancia global instracluster de la solucion es: {}", solucion_local.global_cluster_mean_distance());
-            println!("El numero de restricciones violadas es: {}", solucion_local.infeasibility());
-            println!("El valor de fitness es: {}", solucion_local.fitness());
-            println!("El valor de lambda es: {}", solucion_local.get_lambda());
-            println!("Tiempo transcurrido (segundos): {}", duration_numeric);
-            println!("Evolucion del fitness: {}", fitness_evolution);
-            println!("");
+            local_search::run_and_show_results(&data_points, &constraints, program_arguments, &mut rng);
         }
     }
 }

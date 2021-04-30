@@ -2,9 +2,38 @@ use crate::problem_datatypes::Solution;
 use crate::problem_datatypes::DataPoints;
 use crate::problem_datatypes::Constraints;
 use crate::fitness_evolution::FitnessEvolution;
+use crate::arg_parser::ProgramParameters;
+
 use rand::rngs::StdRng;
+use std::time::Instant;
+
+/// Ejecuta y muestra los resultados de la busqueda
+/// Esto para no incluir todo este codigo en el
+pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints, program_arguments: ProgramParameters, rng: &mut StdRng){
+    // Numero maximo de iteraciones para la busqueda local
+    let max_iterations = 100000;
+
+    let before = Instant::now();
+    let (solucion_local, fitness_evolution) = run(&data_points, &constraints, program_arguments.get_number_of_clusters(), max_iterations, rng);
+    let after = Instant::now();
+    let duration = after.duration_since(before);
+    let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
+
+    // Mostramos los resultados
+    println!("==> Busqueda local");
+    println!("La distancia global instracluster de la solucion es: {}", solucion_local.global_cluster_mean_distance());
+    println!("El numero de restricciones violadas es: {}", solucion_local.infeasibility());
+    println!("El valor de fitness es: {}", solucion_local.fitness());
+    println!("El valor de lambda es: {}", solucion_local.get_lambda());
+    println!("Tiempo transcurrido (segundos): {}", duration_numeric);
+    println!("Evolucion del fitness: {}", fitness_evolution);
+    println!("");
+
+}
 
 /// Ejecuta la metaheuristica de busqueda local y devuelve la solucion encontrada
+// TODO -- BUG -- creo que aqui, el numero maximo de iteraciones lo estamos haciendo mal
+// TODO -- BUG -- una iteracion es una evaluacion de la funcion fitness
 pub fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, number_of_clusters: i32, max_iterations: i32, rng: &mut StdRng) -> (Solution<'a, 'b>, FitnessEvolution){
     // Cuenta de como avanza la evolucion del fitness a traves de las iteraciones
     let mut fitness_evolution = FitnessEvolution::new();
