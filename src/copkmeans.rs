@@ -14,7 +14,7 @@ use std::time::Instant;
 
 /// Lanza el algoritmo y muestra los resultados (solucion, tiempos...)
 /// Esto para que la funcion main no sea demasiado grande
-pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints, program_arguments: ProgramParameters, rng: &mut StdRng){
+pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints, program_arguments: ProgramParameters, rng: &mut StdRng, robust: bool){
     // Realizamos la busqueda greedy
     //
     // Si devuelve None, es porque la generacion aleatoria de centroides ha dejado
@@ -31,7 +31,7 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
     let max_resets = 100;
     let mut current_reset = 0;
     loop {
-        let (greedy_result, fit_result) = run(&data_points, &constraints, program_arguments.get_number_of_clusters(), rng, false);
+        let (greedy_result, fit_result) = run(&data_points, &constraints, program_arguments.get_number_of_clusters(), rng, robust);
         greedy_solution = greedy_result;
         fitness_evolution = fit_result;
 
