@@ -1,12 +1,86 @@
+use crate::problem_datatypes;
 use crate::problem_datatypes::ConstraintType;
 use crate::problem_datatypes::Constraints;
 use crate::problem_datatypes::DataPoints;
 use crate::problem_datatypes::Point;
 use crate::problem_datatypes::Solution;
 use crate::fitness_evolution::FitnessEvolution;
+use crate::arg_parser::ProgramParameters;
+
 use rand::rngs::StdRng;
 use std::process::exit; // Para hacer shuffle de un vector
 use rand::seq::SliceRandom;
+use std::time::Instant;
+
+/// Lanza el algoritmo y muestra los resultados (solucion, tiempos...)
+/// Esto para que la funcion main no sea demasiado grande
+pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints, program_arguments: ProgramParameters, rng: &mut StdRng){
+    // Realizamos la busqueda greedy
+    //
+    // Si devuelve None, es porque la generacion aleatoria de centroides ha dejado
+    // clusters sin elementos, y hay que repetir el algoritmo
+    //
+    // Estoy contabilizando el tiempo que perdemos cuando tenemos que repetir la asignacion de
+    // centroides aleatorios, pero gracias a que devolvemos Option<Solution> esto es muy facil de
+    // cambiar
+    //
+    // Permitimos un numero maximo de reseteos para evitar ciclar infinitamente
+    let before = Instant::now();
+    let mut greedy_solution: Option<problem_datatypes::Solution>;
+    let mut fitness_evolution: FitnessEvolution;
+    let max_resets = 100;
+    let mut current_reset = 0;
+    loop {
+        let (greedy_result, fit_result) = run(&data_points, &constraints, program_arguments.get_number_of_clusters(), rng, false);
+        greedy_solution = greedy_result;
+        fitness_evolution = fit_result;
+
+        match greedy_solution {
+            // Hemos contrado solucion, paramos de iterar
+            Some(_) => break,
+
+            // No hemos encontrado solucion, por lo que no hacemos nada, lo que provoca que sigamos
+            // iterando
+            None => (),
+        }
+
+            current_reset = current_reset + 1;
+            if current_reset == max_resets{
+                println!("--> Se han agotado los {} reseteos maximos por dejar clusters vacios", max_resets);
+                break;
+            }
+    }
+    let after = Instant::now();
+
+    // Calculamos la duracion en el formato que se nos especifica
+    let duration = after.duration_since(before);
+    let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
+
+    // Tomamos la solucion del Option
+    let greedy_solution = match greedy_solution{
+        Some(sol) => sol,
+        None => {
+            println!("Como hemos agotado todos los reseteos, no podemos mostrar métricas");
+            exit(-1);
+        }
+    };
+
+    // Para que no sea mutable
+    let duration_numeric = duration_numeric;
+
+    // Mostramos los resultados
+    println!("==> Busqueda greedy");
+    println!("La distancia global instracluster de la solucion es: {}", greedy_solution.global_cluster_mean_distance());
+    println!("Las distancias intraclusters son:");
+    println!("El numero de restricciones violadas (infeasibility) es: {}", greedy_solution.infeasibility());
+    println!("El valor de fitness es: {}", greedy_solution.fitness());
+    println!("El valor de lambda es: {}", greedy_solution.get_lambda());
+    println!("Tiempo transcurrido (segundos): {}", duration_numeric);
+    println!("Evolucion del fitness: {}", fitness_evolution);
+    println!("");
+
+
+}
 
 /// Ejecuta la metaheuristica de busqueda local y devuelve la solucion encontrada
 /// Si robust es true, entonces aplicamos como centroides iniciales puntos
