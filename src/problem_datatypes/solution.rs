@@ -285,6 +285,7 @@ impl<'a, 'b> Solution<'a, 'b> {
     }
 
     /// Devuelve el conjunto de clusters que tiene mas de un punto asignado
+    // TODO -- TEST -- es muy facil de testear y es algo bastante critico
     pub fn choose_clusters_with_more_than_one_point(&self) -> Vec<i32>{
         let mut clusters_with_more_than_one_point = vec![];
 
@@ -359,6 +360,7 @@ impl<'a, 'b> Solution<'a, 'b> {
         // Elegimos como valor a mutar un cluster que tenga mas de un punto. Estos clusters son
         // seguros para mutar, de otra forma, podriamos dejar un cluster sin puntos asingados
         let more_than_one_point_clusters = mutated_sol.choose_clusters_with_more_than_one_point();
+        panic!("El indice de cluster actual no puede estar en la lista de posiciones a mutar");
         let mut_value = more_than_one_point_clusters.choose(rng).expect("Ningun cluster con mas de dos puntos asignados");
 
         // Mutamos el valor
