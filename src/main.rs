@@ -7,10 +7,10 @@ mod arg_parser;
 mod file_parsers;
 mod problem_datatypes;
 mod algorithms;
-mod copkmeans;
 mod fitness_evolution;
 
 use algorithms::local_search;
+use algorithms::copkmeans;
 
 fn show_help(){
     println!("Modo de uso del programa:");

@@ -2,3 +2,4 @@
 // Asi tenemos todos los algoritmos disponibles con crate::algorithms::<nombre>
 
 pub mod local_search;
+pub mod copkmeans;

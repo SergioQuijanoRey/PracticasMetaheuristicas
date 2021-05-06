@@ -85,7 +85,7 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
 /// Ejecuta la metaheuristica de busqueda local y devuelve la solucion encontrada
 /// Si robust es true, entonces aplicamos como centroides iniciales puntos
 /// del dataset, como nos indica el profesor de prácticas, porque asi es mas robusto
-pub fn run<'a, 'b>(
+fn run<'a, 'b>(
     data_points: &'a DataPoints,
     constraints: &'b Constraints,
     number_of_clusters: i32,
