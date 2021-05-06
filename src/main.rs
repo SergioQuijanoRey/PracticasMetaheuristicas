@@ -6,14 +6,16 @@ use rand::rngs::StdRng;
 mod arg_parser;
 mod file_parsers;
 mod problem_datatypes;
-mod local_search;
+mod algorithms;
 mod copkmeans;
 mod fitness_evolution;
+
+use algorithms::local_search;
 
 fn show_help(){
     println!("Modo de uso del programa:");
     println!("\t./PracticasMetaheuristicas <data_file> <constraints_file> <seed> <number_of_clusters> <search_type>");
-    println!("\t<search_type>: copkmeans | copkmeans_robust | local_search");
+    println!("\t<search_type>: copkmeans | copkmeans_robust | local_search | generational_genetic");
 }
 
 fn main() {
@@ -76,6 +78,10 @@ fn main() {
 
         arg_parser::SearchType::LocalSearch => {
             local_search::run_and_show_results(&data_points, &constraints, program_arguments, &mut rng);
+        }
+
+        arg_parser::SearchType::GenerationalGenetic => {
+            println!("Buenas tardes");
         }
     }
 }

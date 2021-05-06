@@ -34,7 +34,7 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
 /// Ejecuta la metaheuristica de busqueda local y devuelve la solucion encontrada
 // TODO -- BUG -- creo que aqui, el numero maximo de iteraciones lo estamos haciendo mal
 // TODO -- BUG -- una iteracion es una evaluacion de la funcion fitness
-pub fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, number_of_clusters: i32, max_iterations: i32, rng: &mut StdRng) -> (Solution<'a, 'b>, FitnessEvolution){
+fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, number_of_clusters: i32, max_iterations: i32, rng: &mut StdRng) -> (Solution<'a, 'b>, FitnessEvolution){
     // Cuenta de como avanza la evolucion del fitness a traves de las iteraciones
     let mut fitness_evolution = FitnessEvolution::new();
 

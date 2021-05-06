@@ -9,6 +9,7 @@ pub enum SearchType{
     Copkmeans,
     CopkmeansRobust,
     LocalSearch,
+    GenerationalGenetic,
 }
 
 impl SearchType{
@@ -28,6 +29,10 @@ impl SearchType{
 
         if code == "local_search"{
             return Ok(SearchType::LocalSearch);
+        }
+
+        if code == "generational_genetic"{
+            return Ok(SearchType::GenerationalGenetic);
         }
 
         // Codigo no valido
