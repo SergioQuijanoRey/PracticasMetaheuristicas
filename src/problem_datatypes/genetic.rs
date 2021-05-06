@@ -115,8 +115,17 @@ impl<'a, 'b> Population<'a, 'b>{
 
 
         return new_population;
-
     }
 
+    /// Mutamos una poblacion a partir de la poblacion que ya ha sido seleccionada y cruzada
+    pub fn mutate_population(&self, individuals_to_mutate: i32, rng: &mut StdRng) -> Self{
+        let mut new_pop = self.copy();
 
+        // Mutamos los primeros individuals_to_mutate elementos:
+        for index in 0..individuals_to_mutate as usize{
+            new_pop.individuals[index] = new_pop.individuals[index].mutated(rng);
+        }
+
+        return new_pop;
+    }
 }

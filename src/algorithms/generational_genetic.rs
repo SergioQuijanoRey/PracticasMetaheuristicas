@@ -18,9 +18,13 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
     // El tamaño de un gen sera el tamaño de la poblacion de datos a asignar a clusters
     let gen_size = data_points.len();
     let mutation_probability_per_gen = 0.1 / gen_size as f64;
+    let individuals_to_mutate = (mutation_probability_per_gen * gen_size as f64 * population_size as f64) as i32;
+
+    // Comprobacion de seguridad. No se tiene en cuenta cuando usamos --release
+    debug_assert!(individuals_to_mutate == 5, "El numero de individuos deberia ser 5, pero tenemos {} individuos a mutar", individuals_to_mutate);
 
     let before = Instant::now();
-    let (solucion, fitness_evolution) = run(&data_points, &constraints, program_arguments.get_number_of_clusters(), max_fitness_evaluations, rng, population_size, crossover_probability, mutation_probability_per_gen);
+    let (solucion, fitness_evolution) = run(&data_points, &constraints, program_arguments.get_number_of_clusters(), max_fitness_evaluations, rng, population_size, crossover_probability, individuals_to_mutate);
     let after = Instant::now();
     let duration = after.duration_since(before);
     let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
@@ -45,12 +49,11 @@ fn run<'a, 'b>(
     rng: &mut StdRng,
     population_size: i32,
     crossover_probability: f64,
-    mutation_probability_per_gen: f64)
+    individuals_to_mutate: i32)
     -> (Solution<'a, 'b>, FitnessEvolution){
 
     // TODO -- llevar la cuenta de como avanza el fitness en las iteraciones
     let fitness_evolution = FitnessEvolution::new();
-
 
     // Poblacion inicial aleatoria
     let current_population = genetic::Population::new_random_population(data_points, constraints, number_of_clusters, population_size, rng);
@@ -67,6 +70,10 @@ fn run<'a, 'b>(
         // A partir de la poblacion seleccionada, generamos una nueva poblacion a partir de los
         // cruces de los elementos de esa poblacion
         let crossed_population = selection_population.cross_population_uniform(crossover_probability, rng);
+
+        // A partir de la poblacion cruzada, mutamos para generar una ultima poblacion
+        let mutated_population = crossed_population.mutate_population(individuals_to_mutate, rng);
+
 
         // TODO -- BUG -- borrar esto
         consumed_fitness_evaluations += 100;

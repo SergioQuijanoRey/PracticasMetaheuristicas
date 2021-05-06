@@ -284,6 +284,22 @@ impl<'a, 'b> Solution<'a, 'b> {
 
     }
 
+    /// Devuelve el conjunto de clusters que tiene mas de un punto asignado
+    pub fn choose_clusters_with_more_than_one_point(&self) -> Vec<i32>{
+        let mut clusters_with_more_than_one_point = vec![];
+
+        for cluster in 0..self.number_of_clusters{
+            let points_in_cluster = self.get_points_in_cluster(cluster as u32);
+
+            if points_in_cluster.len() >= 2{
+                clusters_with_more_than_one_point.push(cluster);
+
+            }
+        }
+
+        return clusters_with_more_than_one_point;
+    }
+
 }
 
 /// Metodos asociados a la parte genetica de las practicas
@@ -331,7 +347,28 @@ impl<'a, 'b> Solution<'a, 'b> {
         // que recalcular de todas formas
         crossed_solution.reset_fitness();
 
+        panic!("TODO -- No estamos comprobando que la solucion sea correcta, ni la estamos reparando");
         return crossed_solution;
+    }
+
+    /// Devuelve una solucion mutada
+    pub fn mutated(&self, rng: &mut StdRng) -> Self{
+        let mut mutated_sol = self.copy();
+        let mut_position = rng.gen_range(0..self.cluster_indexes.len());
+
+        // Elegimos como valor a mutar un cluster que tenga mas de un punto. Estos clusters son
+        // seguros para mutar, de otra forma, podriamos dejar un cluster sin puntos asingados
+        let more_than_one_point_clusters = mutated_sol.choose_clusters_with_more_than_one_point();
+        let mut_value = more_than_one_point_clusters.choose(rng).expect("Ningun cluster con mas de dos puntos asignados");
+
+        // Mutamos el valor
+        mutated_sol.cluster_indexes[mut_position] = *mut_value as u32;
+
+        // Reseteamos el fitness, porque estamos haciendo un cambio a la solucion que devolvemos
+        mutated_sol.reset_fitness();
+
+        return mutated_sol;
+
     }
 }
 
