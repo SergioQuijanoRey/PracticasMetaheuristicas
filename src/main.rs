@@ -11,6 +11,7 @@ mod fitness_evolution;
 
 use algorithms::local_search;
 use algorithms::copkmeans;
+use algorithms::generational_genetic;
 
 fn show_help(){
     println!("Modo de uso del programa:");
@@ -81,7 +82,7 @@ fn main() {
         }
 
         arg_parser::SearchType::GenerationalGenetic => {
-            println!("Buenas tardes");
+            generational_genetic::run_and_show_results(&data_points, &constraints, program_arguments, &mut rng);
         }
     }
 }

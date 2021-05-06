@@ -56,6 +56,28 @@ impl<'a, 'b> Solution<'a, 'b> {
         };
     }
 
+    /// Copia de forma eficiente los datos de una solucion
+    /// WARNING -- copia tambien el valor de fitness, no lo resetea
+    pub fn copy(&self) -> Self{
+        return Self{
+            cluster_indexes: self.cluster_indexes.clone(),
+            data_points: self.data_points,
+            constraints: self.constraints,
+            number_of_clusters: self.number_of_clusters,
+
+            /// Representa el peso de infeasibility en el calculo de fitness
+            /// Solo se calcula una vez al invocar a Solution::new
+            lambda: self.lambda,
+
+            // Para cachear el valor de fitness pues es un calculo costoso de realizar
+            // Como los datos del struct no cambian, podemos hacer el cacheo sin miedo
+            // Usamos RefCell para tener un patron de mutabilidad interior
+            fitness: self.fitness.clone(),
+
+        }
+
+    }
+
     pub fn get_cluster_indexes(&self) -> Vec<u32>{
         return self.cluster_indexes.clone();
     }
@@ -109,6 +131,12 @@ impl<'a, 'b> Solution<'a, 'b> {
                 return calc_fitness;
             }
         }
+    }
+
+    /// Resetea el valor de fitness a None, por lo tanto, cuando se intente acceder a este valor,
+    /// deberemos volver a calcular su valor
+    pub fn reset_fitness(&mut self){
+        *self.fitness.borrow_mut() = None;
     }
 
     /// Devuelve el primer vecino de la solucion valido que mejora la solucion
@@ -254,6 +282,56 @@ impl<'a, 'b> Solution<'a, 'b> {
             println!("\tDistancia intra-cluster del cluster {}: {}", cluster, self.intra_cluster_distance(cluster as u32));
         }
 
+    }
+
+}
+
+/// Metodos asociados a la parte genetica de las practicas
+impl<'a, 'b> Solution<'a, 'b> {
+    /// Dadas dos soluciones, devuelve aquella con mejor fitness
+    pub fn binary_tournament<'c>(first: &'c Solution<'a, 'b>, second: &'c Solution<'a, 'b>) -> &'c Solution<'a, 'b>{
+        if first.fitness() > second.fitness(){
+            return first;
+        }else{
+            return second;
+        }
+    }
+
+    /// Operador de cruce uniforme para dos soluciones
+    pub fn uniform_cross(first: &Self, second: &Self, rng: &mut StdRng) -> Self{
+        let gen_size= first.cluster_indexes.len();
+        let half_gen_size = (gen_size as f64 / 2.0) as usize;
+
+        // Generamos aleatoriamente las posiciones de los genes del primer padre con las que nos
+        // quedamos. Para ello, tomamos una permutacion aleatoria de {0, ..., gen_size - 1} y nos
+        // quedamos con la primera mitad. La segunda mitad nos indicara las posiciones que usamos
+        // del segundo padre
+        let mut positions_to_mutate: Vec<usize> = (0..gen_size as usize).collect();
+        positions_to_mutate.shuffle(rng);
+
+        // Nueva solucion a partir de la informacion de uno de los padres
+        let mut crossed_solution = Self::new(first.cluster_indexes.clone(), first.data_points, first.constraints, first.number_of_clusters);
+
+        // Tomamos los elemnentos aleatorios del primer padre
+        for index in 0..half_gen_size{
+            // Tenemos que usar el indice que indica de la permutacion aleatoria
+            let curr_index = positions_to_mutate[index];
+            crossed_solution.cluster_indexes[curr_index] = first.cluster_indexes[curr_index];
+        }
+
+        // Tomamos los elementos aleatorios del segundo padre
+        for index in half_gen_size..gen_size{
+            // Tenemos que usar el indice que indica de la permutacion aleatoria
+            let curr_index = positions_to_mutate[index];
+            crossed_solution.cluster_indexes[curr_index] = second.cluster_indexes[curr_index];
+        }
+
+        // No deberia ocurrir, pero reseteo el valor del fitness para evitar problemas
+        // No añade sobrecoste, porque al estar cruzando, el fitness de la nueva solucion se tiene
+        // que recalcular de todas formas
+        crossed_solution.reset_fitness();
+
+        return crossed_solution;
     }
 }
 
