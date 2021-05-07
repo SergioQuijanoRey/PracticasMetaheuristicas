@@ -10,12 +10,8 @@ use rand::seq::SliceRandom;
 
 /// Representa una poblacion para los algoritmos geneticos
 pub struct Population<'a, 'b>{
-
     /// Individuos de la poblacion
     individuals: Vec<Solution<'a, 'b> >,
-
-
-
 }
 
 /// Genera una poblacion aleatoria inicial
@@ -58,6 +54,57 @@ impl<'a, 'b> Population<'a, 'b>{
     /// Devuelve el numero de individuos de nuestra poblacion
     pub fn population_size(&self) -> usize{
         return self.individuals.len();
+    }
+
+    pub fn get_individual(&self, index: usize) -> &Solution<'a, 'b>{
+        return &self.individuals[index];
+    }
+
+    /// Devuelve la mejor solucion de la poblacion
+    /// Debe haber al menos un individuo en la poblacion
+    pub fn get_best_individual(&self) -> &Solution<'a, 'b>{
+
+        // Comprobacion inicial de seguridad
+        // TODO -- esto deberia ser debug_assert?
+        assert!(self.population_size() > 0, "La poblacion no puede ser nula en get_best_individual");
+
+        let mut best_fitness = self.individuals[0].fitness();
+        let mut best_index = 0;
+
+        for (index, individual) in self.individuals.iter().enumerate(){
+            if individual.fitness() < best_fitness{
+                best_index = index;
+                best_fitness = individual.fitness();
+            }
+        }
+
+        return self.get_individual(best_index);
+    }
+
+    /// Calcula el indice del individuo de la poblacion con peor fitness
+    /// Debe haber al menos un individuo en la poblacion
+    pub fn get_index_worst_individual(&self) -> usize{
+        // Comprobacion inicial de seguridad
+        // TODO -- esto deberia ser debug_assert?
+        assert!(self.population_size() > 0, "La poblacion no puede ser nula en get_index_worst_individual");
+
+        let mut worst_fitness = self.individuals[0].fitness();
+        let mut worst_index = 0;
+
+        for (index, individual) in self.individuals.iter().enumerate(){
+            if individual.fitness() > worst_fitness{
+                worst_index = index;
+                worst_fitness = individual.fitness();
+            }
+        }
+
+        return worst_index;
+    }
+
+    /// Modifica el individuo en una posicion dada
+    /// 0 <= index < population_size para que no de errores
+    pub fn set_individual(&mut self, index: usize, individual: Solution<'a, 'b>){
+        self.individuals[index] = individual;
     }
 
     /// Genera, a partir de una poblacion, una nueva poblacion de seleccion de un tamaño dado a

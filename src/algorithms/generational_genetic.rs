@@ -66,14 +66,31 @@ fn run<'a, 'b>(
         // Como tamaño, tomamos toda la poblacion, porque esto es lo correspondiente al modelo
         // estacionario
         let selection_population = current_population.select_population_binary_tournament(population_size, rng);
+        debug_assert!(selection_population.population_size() == population_size as usize, "La poblacion de seleccion tiene {} elementos", selection_population.population_size());
 
         // A partir de la poblacion seleccionada, generamos una nueva poblacion a partir de los
         // cruces de los elementos de esa poblacion
         let crossed_population = selection_population.cross_population_uniform(crossover_probability, rng);
+        debug_assert!(crossed_population.population_size() == population_size as usize, "La poblacion de seleccion tiene {} elementos", crossed_population.population_size());
 
         // A partir de la poblacion cruzada, mutamos para generar una ultima poblacion
-        let mutated_population = crossed_population.mutate_population(individuals_to_mutate, rng);
+        let mut mutated_population = crossed_population.mutate_population(individuals_to_mutate, rng);
+        debug_assert!(mutated_population.population_size() == population_size as usize, "La poblacion de seleccion tiene {} elementos", mutated_population.population_size());
 
+        // A partir de la poblacion mutada, sustituimos la poblacion original
+        // Reemplazamiento con elitismo, se mantiene el miembro de la poblacion original con mejor
+        // fitness
+        // TODO -- esto deberia hacerlo si el mejor individuo de la poblacion no sobrevive
+
+        // Tomamos el mejor elemento de la poblacion original y lo sustituimos por el peor de la
+        // nueva poblacion
+        let best_individual_at_original_pop = current_population.get_best_individual();
+        let index_worst_individual_at_mut_pop = mutated_population.get_index_worst_individual();
+        mutated_population.set_individual(index_worst_individual_at_mut_pop, best_individual_at_original_pop.copy());
+
+        // Realizamos el cambio de poblacion
+        let current_population = mutated_population;
+        debug_assert!(crossed_population.population_size() == population_size as usize, "La poblacion de seleccion tiene {} elementos", crossed_population.population_size());
 
         // TODO -- BUG -- borrar esto
         consumed_fitness_evaluations += 100;
