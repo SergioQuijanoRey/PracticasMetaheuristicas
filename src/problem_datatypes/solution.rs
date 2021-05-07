@@ -487,7 +487,7 @@ mod tests{
     use assert_approx_eq::assert_approx_eq;
 
     fn epsilon() -> f64{0.01}               // Tolerancia a fallos de punto flotante
-    fn max_test_iterations() -> u32{1000}   // Maximo de iteraciones sobre test
+    fn max_test_iterations() -> u32{10000}  // Maximo de iteraciones sobre test
 
     /// Callback porque en otro caso tenemos que hacer clones de los datos
     /// que componen la solucion que devolvemos
@@ -722,12 +722,38 @@ mod tests{
             // experimento
             for _ in 0..max_test_iterations(){
                 let mut_sol = solution.mutated(&mut rng);
-                println!("Clusters de la solucion mutada: {:?}", mut_sol.cluster_indexes);
 
                 let expected_is_valid = true;
                 let calc_is_valid = mut_sol.is_valid();
                 assert_eq!(expected_is_valid, calc_is_valid);
             }
+        });
+    }
+
+    #[test]
+    fn test_mutated_solution_differs_only_one_position(){
+        generate_basic_solution(|solution| {
+            let mut rng = StdRng::seed_from_u64(123456789);
+
+            // Dependemos de la aleatoriedad, asi que repetimos un numero dado de veces el
+            // experimento
+            for _ in 0..max_test_iterations(){
+                let mut_sol = solution.mutated(&mut rng);
+
+                // Calculamos las diferencias entre el original y el mutado
+                let mut calc_diffs = 0;
+                for (index, cluster_assignation) in mut_sol.cluster_indexes.iter().enumerate(){
+                    if *cluster_assignation != solution.cluster_indexes[index]{
+                        calc_diffs += 1;
+                    }
+                }
+
+                let calc_diffs = calc_diffs;
+                let expected_diffs = 1;
+                assert_eq!(expected_diffs, calc_diffs);
+            }
+
+
         });
     }
 
