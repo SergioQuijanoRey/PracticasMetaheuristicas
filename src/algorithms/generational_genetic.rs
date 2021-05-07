@@ -83,30 +83,29 @@ fn run<'a, 'b>(
 
         // A partir de la poblacion cruzada, mutamos para generar una ultima poblacion
         // Esta operacion no consume iteraciones, por lo que no hacemos la suma
-        let mut mutated_population = crossed_population.mutate_population(individuals_to_mutate, rng);
+        let mutated_population = crossed_population.mutate_population(individuals_to_mutate, rng);
         debug_assert!(mutated_population.population_size() == population_size as usize, "La poblacion de seleccion tiene {} elementos", mutated_population.population_size());
 
-        // A partir de la poblacion mutada, sustituimos la poblacion original
-        // Reemplazamiento con elitismo, se mantiene el miembro de la poblacion original con mejor
-        // fitness
-        // TODO -- esto deberia hacerlo si el mejor individuo de la poblacion no sobrevive
+        // En la poblacion nueva podemos estar perdiendo el mejor individuo de la poblacion
+        // original. Tenemos que comprobar que dicho individuo sobreviva, y en caso de que no lo
+        // haga, introducirlo en la nueva poblacion, en su poblacion original.
+        // Esta operacion solo hace comprobaciones sobre el vector de posiciones (para comprobar
+        // que ya tengamos la solucion en la poblacion) y por ello no consume iteraciones. De todas
+        // formas, dejamos la comprobacion por seguridad (tenemos que elegir al mejor individuo de
+        // la poblacion original. Esta poblacion deberia estar evaluada, pero por si acaso)
+        let final_population_result = mutated_population.preserve_best_past_parent(&current_population);
+        let final_population = final_population_result.get_result();
+        iteration_fitness_evaluations += final_population_result.get_iterations_consumed();
 
-        // Tomamos el mejor elemento de la poblacion original y lo sustituimos por el peor de la
-        // nueva poblacion. En ambas operaciones, llevamos la cuenta de cuantas iteraciones estamos
-        // consumiendo en el proceso. En ambas operaciones, llevamos la cuenta de cuantas
-        // iteraciones estamos consumiendo en el proceso
-        let best_individual_at_original_pop_result= current_population.get_best_individual();
-        let best_individual_at_original_pop = best_individual_at_original_pop_result.get_result();
-        iteration_fitness_evaluations += best_individual_at_original_pop_result.get_iterations_consumed();
-
-        let index_worst_individual_at_mut_pop_result = mutated_population.get_index_worst_individual();
-        let index_worst_individual_at_mut_pop = index_worst_individual_at_mut_pop_result.get_result();
-        iteration_fitness_evaluations += index_worst_individual_at_mut_pop_result.get_iterations_consumed();
-
-        mutated_population.set_individual(*index_worst_individual_at_mut_pop, best_individual_at_original_pop.copy());
+        // Evaluamnos esta poblacion final. Esta operacion consume bastantes evaluaciones, porque
+        // llegamos aqui con una poblacion altamente modificada, cuyos fitness no se han evaluado.
+        // Otra gran parte de la poblacion, la que llega sin modificarse, no contribuye a estas
+        // evaluaciones
+        let evaluate_poblation_result = final_population.evaluate_all_individuals();
+        iteration_fitness_evaluations += evaluate_poblation_result.get_iterations_consumed();
 
         // Realizamos el cambio de poblacion
-        current_population = mutated_population;
+        current_population = final_population.copy();
         debug_assert!(current_population.population_size() == population_size as usize, "La poblacion final tras la iteracion tiene {} elementos", current_population.population_size());
 
         // Añadimos las evaluaciones de fitness consumidas en esta pasada
@@ -114,8 +113,10 @@ fn run<'a, 'b>(
 
         // Llevamos la cuenta del valor del fitness de la mejor solucion de la poblacion en esta
         // iteracion
-        fitness_evolution.add_iteration(current_population.get_best_individual().get_result().fitness());
+        let best_individual = current_population.get_best_individual().get_result().0;
+        let best_individual_fitness = best_individual.fitness();
+        fitness_evolution.add_iteration(best_individual_fitness);
     }
 
-    return (current_population.get_best_individual().get_result().copy(), fitness_evolution);
+    return (current_population.get_best_individual().get_result().0.copy(), fitness_evolution);
 }

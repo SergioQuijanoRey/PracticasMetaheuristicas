@@ -59,14 +59,13 @@ impl<'a, 'b> Population<'a, 'b>{
         return &self.individuals[index];
     }
 
-    /// Devuelve la mejor solucion de la poblacion
+    /// Devuelve la mejor solucion de la poblacion y el indice en el que se encuentra
     /// Debe haber al menos un individuo en la poblacion
-    pub fn get_best_individual(&self) -> FitnessEvaluationResult<&Solution<'a, 'b>>{
+    pub fn get_best_individual(&self) -> FitnessEvaluationResult<(&Solution<'a, 'b>, u32)>{
 
         let mut fit_eval_consumed = 0;
 
         // Comprobacion inicial de seguridad
-        // TODO -- esto deberia ser debug_assert?
         assert!(self.population_size() > 0, "La poblacion no puede ser nula en get_best_individual");
 
         let (mut best_fitness, fit_cons) = self.individuals[0].fitness_and_consumed();
@@ -82,7 +81,7 @@ impl<'a, 'b> Population<'a, 'b>{
             }
         }
 
-        return FitnessEvaluationResult::new(self.get_individual(best_index), fit_eval_consumed);
+        return FitnessEvaluationResult::new((self.get_individual(best_index), best_index as u32), fit_eval_consumed);
     }
 
     /// Calcula el indice del individuo de la poblacion con peor fitness
@@ -197,6 +196,58 @@ impl<'a, 'b> Population<'a, 'b>{
         return new_pop;
     }
 
+    /// Dada una poblacion original, comprueba si el mejor individuo de la poblacion original esta
+    /// en esta poblacion. En caso de que no este, se introduce en la nueva poblacion, en la
+    /// posicion en la que estaba en la poblacion original
+    pub fn preserve_best_past_parent(&self, original_population: &Population<'a, 'b>) -> FitnessEvaluationResult<Self>{
+        let mut new_pop = self.copy();
+        let mut fit_eval_cons = 0;
+
+        // Tomamos el mejor individuo de la poblacion original
+        // Añadimos las iteraciones que consume esto, deberian ser cero pues esa poblacion ya
+        // deberia estar evaluada
+        let best_individual_at_original_pop_result= original_population.get_best_individual();
+        let (best_individual_at_original_pop, best_individual_index_original_pop) = best_individual_at_original_pop_result.get_result();
+        fit_eval_cons += best_individual_at_original_pop_result.get_iterations_consumed();
+        // TODO -- borrar
+        //println!("Este preserve_best_parent consume {} evaluaciones de fitness", best_individual_at_original_pop_result.get_iterations_consumed());
+
+        // Comprobamos si esta dentro de la poblacion
+        // Esta operacion no consume iteraciones, porque solo estamos comprobando la igualdad entre
+        // vectores de posiciones
+        let search_result = self.search_individual_with_same_cluster_indixes(best_individual_at_original_pop.get_cluster_indexes());
+        match search_result{
+            // El mejor individuo pasado ha sobrevivido, devolvemos la poblacion sin modificar
+            // junto a las evaluaciones consumidas
+            Some(_) => return FitnessEvaluationResult::new(self.copy(), fit_eval_cons),
+
+            // No hemos encontrado el individuo, no hacemos nada, por lo que seguimos con el
+            // proceso de incluir el mejor individuo pasado en la poblacion
+            None => (),
+        };
+
+        // El mejor individuo pasado no esta en la nueva poblacion, lo introducimos en su posicion
+        // de la poblacion original en la nueva poblacion
+        new_pop.individuals[*best_individual_index_original_pop as usize] = best_individual_at_original_pop.copy();
+
+
+        return FitnessEvaluationResult::new(new_pop, fit_eval_cons);
+    }
+
+    /// Busca el individuo en la poblacion con la misma asignacion de cluster
+    fn search_individual_with_same_cluster_indixes(&self, cluster_indixes: Vec<u32>) -> Option<u32>{
+        // Realizamos la busqueda
+        for (index, individual) in self.individuals.iter().enumerate(){
+            if individual.get_cluster_indexes() == cluster_indixes{
+                return Some(index as u32)
+            }
+        }
+
+        // No se ha encontrado el elemento buscado
+        return None;
+
+    }
+
     // Itera sobre todos los individuos. Los individuos que son solucion no valida, son reparados
     pub fn repair_bad_individuals(&mut self, rng: &mut StdRng){
         panic!("TODO -- esta funcion no deberia hacer falta, porque todos los pasos dejan bien a la solucion ");
@@ -208,4 +259,25 @@ impl<'a, 'b> Population<'a, 'b>{
         }
 
     }
+
+    /// Evaluamos a todos los individuos de la poblacion
+    /// Devolvemos las evaluaciones de fitness consumidas. Potencialmente sera un valor alto, pues
+    /// llegamos con una poblacion nueva, que ha sido en parte cruzada y mutada. A este valor solo
+    /// contribuyen los individuos nuevos. Los de la poblacion pasada, que no han cambiado, no
+    /// contribuyen
+    ///
+    /// Notar que los elementos mutan, pero al estar usando un patron de mutabilidad interior, no
+    /// tenemos un patron de mutabilidad interior, no hace falta pasar una referencia mutable
+    pub fn evaluate_all_individuals(&self) -> FitnessEvaluationResult<()>{
+        let mut fit_evals_consumed = 0;
+
+        for individual in &self.individuals{
+            let (_, ev_consumed) = individual.fitness_and_consumed();
+            fit_evals_consumed += ev_consumed;
+
+        }
+
+        return FitnessEvaluationResult::new((), fit_evals_consumed);
+    }
+
 }
