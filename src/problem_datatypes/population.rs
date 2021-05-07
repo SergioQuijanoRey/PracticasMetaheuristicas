@@ -1,5 +1,3 @@
-/// Tipos de datos y funciones relacionadas con los algoritmos geneticos
-
 use crate::problem_datatypes::Solution;
 use crate::problem_datatypes::DataPoints;
 use crate::problem_datatypes::Constraints;

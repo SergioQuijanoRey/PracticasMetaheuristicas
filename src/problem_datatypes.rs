@@ -7,7 +7,7 @@ mod point;
 mod neighbour_generator;
 mod data_points;
 mod constraints;
-pub mod genetic;
+pub mod population;
 
 pub use solution::Solution;
 pub use point::Point;

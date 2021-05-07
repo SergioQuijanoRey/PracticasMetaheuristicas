@@ -3,7 +3,7 @@ use crate::problem_datatypes::DataPoints;
 use crate::problem_datatypes::Constraints;
 use crate::fitness_evolution::FitnessEvolution;
 use crate::arg_parser::ProgramParameters;
-use crate::problem_datatypes::genetic;
+use crate::problem_datatypes::population::Population;
 
 use rand::rngs::StdRng;
 use std::time::Instant;
@@ -56,7 +56,7 @@ fn run<'a, 'b>(
     let fitness_evolution = FitnessEvolution::new();
 
     // Poblacion inicial aleatoria
-    let current_population = genetic::Population::new_random_population(data_points, constraints, number_of_clusters, population_size, rng);
+    let mut current_population = Population::new_random_population(data_points, constraints, number_of_clusters, population_size, rng);
 
     // Realizamos las iteraciones pertinentes
     let mut consumed_fitness_evaluations = 0;
@@ -89,14 +89,12 @@ fn run<'a, 'b>(
         mutated_population.set_individual(index_worst_individual_at_mut_pop, best_individual_at_original_pop.copy());
 
         // Realizamos el cambio de poblacion
-        let current_population = mutated_population;
+        current_population = mutated_population;
         debug_assert!(crossed_population.population_size() == population_size as usize, "La poblacion de seleccion tiene {} elementos", crossed_population.population_size());
 
         // TODO -- BUG -- borrar esto
         consumed_fitness_evaluations += 100;
     }
 
-    // TODO -- BUG -- borrar esto porque estamos haciendo mal la devolucion de la solucion
-    let current_solution = Solution::generate_random_solution(data_points, constraints, number_of_clusters, rng);
-    return (current_solution, fitness_evolution);
+    return (current_population.get_best_individual().copy(), fitness_evolution);
 }
