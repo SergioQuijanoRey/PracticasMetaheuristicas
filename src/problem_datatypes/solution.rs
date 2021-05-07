@@ -108,7 +108,7 @@ impl<'a, 'b> Solution<'a, 'b> {
         for cluster in 0..self.number_of_clusters{
             match self.cluster_indexes.iter().find(|&&x| x == cluster as u32){
                 // Se ha encontrado, no hacemos nada
-                Some(_) => println!("Hemos encontrado algun punto en {}", cluster),
+                Some(_) => (),
 
                 // No hemos encontrado ningun valor de indice que apunte a este cluster
                 None => {
@@ -399,21 +399,29 @@ impl<'a, 'b> Solution<'a, 'b> {
 
     /// Devuelve una solucion mutada
     pub fn mutated(&self, rng: &mut StdRng) -> Self{
-        let mut mutated_sol = self.copy();
-        let mut_position = rng.gen_range(0..self.cluster_indexes.len());
 
+        // Copiamos la solucion para realizar una modificacion
+        let mut mutated_sol = self.copy();
+
+        // Tomamos una posicion a mutar. Esta posicion no puede apuntar a un cluster que solo tenga
+        // a ese punto asignado, porque entonces dejariamos el cluster inicial vacio. Por tanto,
+        // los valores seguros para mutar son aquellos que tienen al menos dos puntos
+        let clusters_with_more_than_one_point = mutated_sol.get_clusters_with_more_than_one_point();
+        let mut_position = clusters_with_more_than_one_point.choose(rng).expect("No tenemos clusters con mas de un punto");
+
+        // Podemos elegir como nuevo valor aquellos que esten en el itervalo adecuado y que no sean
+        // el cluster original que ya teniamos, pues estariamos perdiendo una mutacion efectiva
+        //
         // Elegimos como valor a mutar un cluster que tenga mas de un punto. Estos clusters son
         // seguros para mutar, de otra forma, podriamos dejar un cluster sin puntos asingados
-        let mut more_than_one_point_clusters = mutated_sol.get_clusters_with_more_than_one_point();
-
-        // No podemos elegir como nuevo cluster aleatorio el mismo cluster que ya teniamos
-        more_than_one_point_clusters.retain(|&x| x != self.cluster_indexes[mut_position] as i32);
+        let mut new_cluster_candidates: Vec<i32> = (0..mutated_sol.number_of_clusters).collect();
+        new_cluster_candidates.retain(|&x| x != mutated_sol.cluster_indexes[*mut_position as usize] as i32);
 
         // Mutamos la posicion a uno de los valores permitidos
-        let mut_value = more_than_one_point_clusters.choose(rng).expect("Ningun cluster con mas de dos puntos asignados");
+        let mut_value = new_cluster_candidates.choose(rng).expect("No hemos podido generar una lista de clusters candidatos");
 
         // Mutamos el valor
-        mutated_sol.cluster_indexes[mut_position] = *mut_value as u32;
+        mutated_sol.cluster_indexes[*mut_position as usize] = *mut_value as u32;
 
         // Reseteamos el fitness, porque estamos haciendo un cambio a la solucion que devolvemos
         mutated_sol.invalid_fitness_cache();
