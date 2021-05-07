@@ -179,13 +179,19 @@ impl<'a, 'b> Population<'a, 'b>{
 
     /// Mutamos una poblacion a partir de la poblacion que ya ha sido seleccionada y cruzada
     /// Esta operacion no consume iteraciones sobre la poblacion
-    // TODO -- BUG -- deberiamos elegir los elementos de la poblacion aleatoriamente
     pub fn mutate_population(&self, individuals_to_mutate: i32, rng: &mut StdRng) -> Self{
         let mut new_pop = self.copy();
 
-        // Mutamos los primeros individuals_to_mutate elementos:
+        // Genero una permutacion de todas las posiciones de los puntos, y la mezclo. Con ello, en
+        // el siguiente bucle tomo los primeros individuals_to_mutate que marca la permutacion, que
+        // al haber sido mezclada asegura la aleatoriedad.
+        let mut individuals_to_mutate_pos: Vec<usize> = (0..individuals_to_mutate as usize).collect();
+        individuals_to_mutate_pos.shuffle(rng);
+
+        // Tomamos los primeros indices aleatorios generados
         for index in 0..individuals_to_mutate as usize{
-            new_pop.individuals[index] = new_pop.individuals[index].mutated(rng);
+            let random_index = individuals_to_mutate_pos[index];
+            new_pop.individuals[random_index] = new_pop.individuals[random_index].mutated(rng);
         }
 
         return new_pop;
