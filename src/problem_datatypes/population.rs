@@ -163,6 +163,7 @@ impl<'a, 'b> Population<'a, 'b>{
     }
 
     /// Mutamos una poblacion a partir de la poblacion que ya ha sido seleccionada y cruzada
+    // TODO -- BUG -- deberiamos elegir los elementos de la poblacion aleatoriamente
     pub fn mutate_population(&self, individuals_to_mutate: i32, rng: &mut StdRng) -> Self{
         let mut new_pop = self.copy();
 

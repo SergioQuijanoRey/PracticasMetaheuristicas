@@ -100,17 +100,21 @@ impl<'a, 'b> Solution<'a, 'b> {
         // Condicion de seguridad que nunca deberia ocurrir
         // Por eso pongo el panic!, porque es un problema de probramacion
         if self.cluster_indexes.len() != self.data_points.get_points().len(){
-            panic!("No puede ocurrir que la longitud de los indices sea distinta al numero de puntos");
+            eprintln!("No puede ocurrir que la longitud de los indices sea distinta al numero de puntos");
+            return false;
         }
 
         // Comprobamos que no haya clusters vacios
         for cluster in 0..self.number_of_clusters{
             match self.cluster_indexes.iter().find(|&&x| x == cluster as u32){
                 // Se ha encontrado, no hacemos nada
-                Some(_) =>(),
+                Some(_) => println!("Hemos encontrado algun punto en {}", cluster),
 
                 // No hemos encontrado ningun valor de indice que apunte a este cluster
-                None => return false,
+                None => {
+                    eprintln!("El cluster {} no tiene puntos asignados", cluster);
+                    return false
+                },
             }
         }
 
@@ -467,10 +471,15 @@ mod tests{
     use crate::problem_datatypes::Constraints;
     use crate::problem_datatypes::ConstraintType;
 
+    use rand::rngs::StdRng;
+    use rand::SeedableRng;
+
     // Para comprobar que dos soluciones son practicamente iguales (ignorando problemas
     // del punto flotante)
     use assert_approx_eq::assert_approx_eq;
-    fn epsilon() -> f64{0.01}   // Tolerancia a fallos de punto flotante
+
+    fn epsilon() -> f64{0.01}               // Tolerancia a fallos de punto flotante
+    fn max_test_iterations() -> u32{1000}   // Maximo de iteraciones sobre test
 
     /// Callback porque en otro caso tenemos que hacer clones de los datos
     /// que componen la solucion que devolvemos
@@ -626,6 +635,92 @@ mod tests{
 
         });
 
+    }
+
+    #[test]
+    fn test_solutions_are_not_valid(){
+        generate_basic_solution(|solution| {
+            // A partir de la solucion basica, generamos una solucion que no sea valida
+            let cluster_indexes = vec![0, 0, 0, 0, 1, 1];
+            let solution = Solution::new(cluster_indexes, &solution.data_points, &solution.constraints, solution.number_of_clusters);
+
+            let expected_is_valid = false;
+            let calc_is_valid = solution.is_valid();
+            assert_eq!(expected_is_valid, calc_is_valid);
+
+            // Ahora generamos una solucion que no sea valida por el tamaño del vector (pequeño)
+            let cluster_indexes = vec![0, 1, 2, 3];
+            let solution = Solution::new(cluster_indexes, &solution.data_points, &solution.constraints, solution.number_of_clusters);
+
+            let expected_is_valid = false;
+            let calc_is_valid = solution.is_valid();
+            assert_eq!(expected_is_valid, calc_is_valid);
+
+            // Ahora generamos una solucion que no sea valida por el tamaño del vector (grande)
+            let cluster_indexes = vec![0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+            let solution = Solution::new(cluster_indexes, &solution.data_points, &solution.constraints, solution.number_of_clusters);
+
+            let expected_is_valid = false;
+            let calc_is_valid = solution.is_valid();
+            assert_eq!(expected_is_valid, calc_is_valid);
+
+        });
+    }
+
+    #[test]
+    fn test_repair_bad_solutions(){
+        generate_basic_solution(|solution| {
+            // A partir de la solucion basica, generamos una solucion que no sea valida, pero con
+            // una dimensionalidad correcta
+            let cluster_indexes = vec![0, 0, 0, 0, 1, 1];
+            let solution = Solution::new(cluster_indexes, &solution.data_points, &solution.constraints, solution.number_of_clusters);
+
+            // Reparamos la solucion. Al tener dependencia aleatoria, hacemos esto muchas veces
+            // sobre la solucion mala original y vemos que se hace bien
+            let mut rng = StdRng::seed_from_u64(123456789);
+            for _ in 0..max_test_iterations(){
+                let mut curr_sol = solution.copy();
+                curr_sol.repair_solution(&mut rng);
+
+                let expected_is_valid = true;
+                let calc_is_valid = curr_sol.is_valid();
+                assert_eq!(expected_is_valid, calc_is_valid);
+            }
+
+            // Generamos otra solucion que no sea valida, y vemos si se repara bien
+            let cluster_indexes = vec![2, 1, 2, 0, 1, 1];
+            let solution = Solution::new(cluster_indexes, &solution.data_points, &solution.constraints, solution.number_of_clusters);
+
+            // Reparamos la solucion. Al tener dependencia aleatoria, hacemos esto muchas veces
+            // sobre la solucion mala original y vemos que se hace bien
+            let mut rng = StdRng::seed_from_u64(123456789);
+            for _ in 0..max_test_iterations(){
+                let mut curr_sol = solution.copy();
+                curr_sol.repair_solution(&mut rng);
+
+                let expected_is_valid = true;
+                let calc_is_valid = curr_sol.is_valid();
+                assert_eq!(expected_is_valid, calc_is_valid);
+            }
+        });
+    }
+
+    #[test]
+    fn test_mutation_generates_valid_population(){
+        generate_basic_solution(|solution| {
+            let mut rng = StdRng::seed_from_u64(123456789);
+
+            // Dependemos de la aleatoriedad, asi que repetimos un numero dado de veces el
+            // experimento
+            for _ in 0..max_test_iterations(){
+                let mut_sol = solution.mutated(&mut rng);
+                println!("Clusters de la solucion mutada: {:?}", mut_sol.cluster_indexes);
+
+                let expected_is_valid = true;
+                let calc_is_valid = mut_sol.is_valid();
+                assert_eq!(expected_is_valid, calc_is_valid);
+            }
+        });
     }
 
 }
