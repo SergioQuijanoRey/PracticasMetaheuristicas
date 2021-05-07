@@ -396,8 +396,12 @@ impl<'a, 'b> Solution<'a, 'b> {
 
         // Elegimos como valor a mutar un cluster que tenga mas de un punto. Estos clusters son
         // seguros para mutar, de otra forma, podriamos dejar un cluster sin puntos asingados
-        let more_than_one_point_clusters = mutated_sol.get_clusters_with_more_than_one_point();
-        panic!("El indice de cluster actual no puede estar en la lista de posiciones a mutar");
+        let mut more_than_one_point_clusters = mutated_sol.get_clusters_with_more_than_one_point();
+
+        // No podemos elegir como nuevo cluster aleatorio el mismo cluster que ya teniamos
+        more_than_one_point_clusters.retain(|&x| x != self.cluster_indexes[mut_position] as i32);
+
+        // Mutamos la posicion a uno de los valores permitidos
         let mut_value = more_than_one_point_clusters.choose(rng).expect("Ningun cluster con mas de dos puntos asignados");
 
         // Mutamos el valor
