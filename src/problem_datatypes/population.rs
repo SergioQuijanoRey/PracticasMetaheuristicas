@@ -173,4 +173,16 @@ impl<'a, 'b> Population<'a, 'b>{
 
         return new_pop;
     }
+
+    // Itera sobre todos los individuos. Los individuos que son solucion no valida, son reparados
+    // TODO -- BUG -- borrar esto porque no deberia hacernos falta
+    pub fn repair_bad_individuals(&mut self, rng: &mut StdRng){
+        for individual in &mut self.individuals{
+            if individual.is_valid() == false{
+                individual.repair_solution(rng);
+            }
+
+        }
+
+    }
 }

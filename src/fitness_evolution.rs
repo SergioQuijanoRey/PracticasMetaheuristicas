@@ -34,10 +34,17 @@ impl fmt::Display for FitnessEvolution {
     // This trait requires `fmt` with this exact signature.
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
 
+        // Numero de valores que vamos a mostrar en una fila
+        let elements_at_row = 4;
+
         // Generamos un String con lo que queremos que se muestre por pantalla
         let mut result = format!("{} iterations of the algorithm\n", self.fitness_at_iteration.len());
         for value in &self.fitness_at_iteration{
-            result = format!("{}{}, ", result, value);
+            for _ in 0..elements_at_row{
+                result = format!("{}{}, ", result, value);
+            }
+
+            result = format!("{}{}", result, "\n");
         }
         result = format!("{}\n", result);
 

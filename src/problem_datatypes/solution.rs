@@ -94,7 +94,8 @@ impl<'a, 'b> Solution<'a, 'b> {
     /// Una solucion no es valida cuando existen clusters que no tienen ningun punto asignado
     /// Tambien es invalido cuando la dimensionalidad del vector de asignacion a cluster no
     /// coincide con la cantidad de puntos que tenemos que asignar
-    fn is_valid(&self) -> bool {
+    // TODO -- BUG -- antes era privado, debe seguir siendo privado
+    pub fn is_valid(&self) -> bool {
 
         // Condicion de seguridad que nunca deberia ocurrir
         // Por eso pongo el panic!, porque es un problema de probramacion
