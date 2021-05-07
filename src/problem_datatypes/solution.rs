@@ -91,6 +91,9 @@ impl<'a, 'b> Solution<'a, 'b> {
     }
 
     /// Comprueba si la solucion es valida o no
+    /// Una solucion no es valida cuando existen clusters que no tienen ningun punto asignado
+    /// Tambien es invalido cuando la dimensionalidad del vector de asignacion a cluster no
+    /// coincide con la cantidad de puntos que tenemos que asignar
     fn is_valid(&self) -> bool {
 
         // Condicion de seguridad que nunca deberia ocurrir
@@ -135,7 +138,7 @@ impl<'a, 'b> Solution<'a, 'b> {
 
     /// Resetea el valor de fitness a None, por lo tanto, cuando se intente acceder a este valor,
     /// deberemos volver a calcular su valor
-    pub fn reset_fitness(&mut self){
+    pub fn invalid_fitness_cache(&mut self){
         *self.fitness.borrow_mut() = None;
     }
 
@@ -235,6 +238,20 @@ impl<'a, 'b> Solution<'a, 'b> {
         return cluster_points;
     }
 
+    /// Dado un cluster indicado por el indice que lo representa, devuelve los indices de los
+    /// puntos que componen dicho cluster
+    pub fn get_index_points_in_cluster(&self, cluster: u32) -> Vec<usize>{
+        let mut index_cluster_points = vec![];
+
+        for (index, curr_cluster) in self.cluster_indexes.iter().enumerate(){
+            if *curr_cluster == cluster{
+                index_cluster_points.push(index);
+            }
+        }
+
+        return index_cluster_points;
+    }
+
     /// Calcula la media de distancias intracluster sobre todos los clusters
     /// Esto representa una de las componentes de la funcion fitness
     pub fn global_cluster_mean_distance(&self) -> f64{
@@ -286,7 +303,7 @@ impl<'a, 'b> Solution<'a, 'b> {
 
     /// Devuelve el conjunto de clusters que tiene mas de un punto asignado
     // TODO -- TEST -- es muy facil de testear y es algo bastante critico
-    pub fn choose_clusters_with_more_than_one_point(&self) -> Vec<i32>{
+    pub fn get_clusters_with_more_than_one_point(&self) -> Vec<i32>{
         let mut clusters_with_more_than_one_point = vec![];
 
         for cluster in 0..self.number_of_clusters{
@@ -299,6 +316,22 @@ impl<'a, 'b> Solution<'a, 'b> {
         }
 
         return clusters_with_more_than_one_point;
+    }
+
+    /// Devuelve el conjunto de clusters qeu no tienen puntos asignados
+    // TODO -- TEST -- es muy facil de testear y algo critico
+    pub fn get_cluster_without_points(&self) -> Vec<i32>{
+        let mut clusters_without_points = vec![];
+
+        for cluster in 0..self.number_of_clusters{
+            let points_in_cluster = self.get_points_in_cluster(cluster as u32);
+
+            if points_in_cluster.len() == 0{
+                clusters_without_points.push(cluster);
+            }
+        }
+
+        return clusters_without_points;
     }
 
 }
@@ -346,9 +379,13 @@ impl<'a, 'b> Solution<'a, 'b> {
         // No deberia ocurrir, pero reseteo el valor del fitness para evitar problemas
         // No añade sobrecoste, porque al estar cruzando, el fitness de la nueva solucion se tiene
         // que recalcular de todas formas
-        crossed_solution.reset_fitness();
+        crossed_solution.invalid_fitness_cache();
 
-        panic!("TODO -- No estamos comprobando que la solucion sea correcta, ni la estamos reparando");
+        // Reparamos la solucion en caso de que sea necesario
+        if crossed_solution.is_valid() == false {
+            crossed_solution.repair_solution(rng);
+        }
+
         return crossed_solution;
     }
 
@@ -359,7 +396,7 @@ impl<'a, 'b> Solution<'a, 'b> {
 
         // Elegimos como valor a mutar un cluster que tenga mas de un punto. Estos clusters son
         // seguros para mutar, de otra forma, podriamos dejar un cluster sin puntos asingados
-        let more_than_one_point_clusters = mutated_sol.choose_clusters_with_more_than_one_point();
+        let more_than_one_point_clusters = mutated_sol.get_clusters_with_more_than_one_point();
         panic!("El indice de cluster actual no puede estar en la lista de posiciones a mutar");
         let mut_value = more_than_one_point_clusters.choose(rng).expect("Ningun cluster con mas de dos puntos asignados");
 
@@ -367,10 +404,50 @@ impl<'a, 'b> Solution<'a, 'b> {
         mutated_sol.cluster_indexes[mut_position] = *mut_value as u32;
 
         // Reseteamos el fitness, porque estamos haciendo un cambio a la solucion que devolvemos
-        mutated_sol.reset_fitness();
+        mutated_sol.invalid_fitness_cache();
 
         return mutated_sol;
 
+    }
+
+    /// Repara una solucion. Toma los clusters sin puntos asignados, y asigna aleatoriamente un
+    /// punto de un cluster que tenga mas de un punto asignado (pues no podemos dejar otros
+    /// clusters vacios en el proceso de reparacion)
+    // TODO -- testear, es bastante sencillo y es bastante critico que funcione bien
+    pub fn repair_solution(&mut self, rng: &mut StdRng){
+        // Tomamos los clusters sin puntos asignados
+        let clusters_without_points = self.get_cluster_without_points();
+
+        if clusters_without_points.len() == 0{
+            return;
+        }
+
+        // Tomamos el primer cluster sin puntos para repararlo
+        let cluster_without_points = clusters_without_points[0];
+
+        // Tomamos los clusters con al menos dos puntos asignados
+        let clusters_with_more_than_one_point = self.get_clusters_with_more_than_one_point();
+
+        // Realizamos el cambio
+
+        // Seleccionamos el cluster del que quitamos un punto aleatoriamente
+        let selected_cluster = clusters_with_more_than_one_point.choose(rng).expect("No hay clusters con mas de un punto");
+
+        // Seleccionamos un indice en los puntos a los que realizar el cambio
+        let point_indixes_selected_cluster = self.get_index_points_in_cluster(*selected_cluster as u32);
+        let selected_point_index = point_indixes_selected_cluster.choose(rng).expect("No hay puntos en el cluster seleccionado");
+
+        // Realizamos la asignacion
+        self.cluster_indexes[*selected_point_index] = cluster_without_points as u32;
+
+        // Si quedan mas clusters sin puntos asignados, volvemos a llamar a esta funcion para que
+        // siga reparando la solucion
+        if clusters_without_points.len() >= 2{
+            self.repair_solution(rng);
+        }
+
+        // Al haber modificado la solucion, debemos invalidar la cache del fitness
+        self.invalid_fitness_cache();
     }
 }
 
