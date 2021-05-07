@@ -141,6 +141,17 @@ impl<'a, 'b> Solution<'a, 'b> {
         }
     }
 
+    /// Calcula el valor del fitness, y las iteraciones consumidas en el proceso
+    /// Las iteraciones consumidas pueden ser o bien 0 o bien 1
+    pub fn fitness_and_consumed(&self) -> (f64, u32){
+        let consumed = match *self.fitness.borrow(){
+            None => 1,
+            Some(_) => 0,
+        };
+
+        return (self.fitness(), consumed);
+    }
+
     /// Resetea el valor de fitness a None, por lo tanto, cuando se intente acceder a este valor,
     /// deberemos volver a calcular su valor
     pub fn invalid_fitness_cache(&mut self){
@@ -347,11 +358,13 @@ impl<'a, 'b> Solution<'a, 'b> {
     /// Dadas dos soluciones, devuelve aquella con mejor fitness
     /// Entendemos por mejor fitness, aquel con menor valor numerico, pues estamos buscando
     /// minimizar la funcion de fitness
-    pub fn binary_tournament<'c>(first: &'c Solution<'a, 'b>, second: &'c Solution<'a, 'b>) -> &'c Solution<'a, 'b>{
-        if first.fitness() < second.fitness(){
-            return first;
+    pub fn binary_tournament<'c>(first: &'c Solution<'a, 'b>, second: &'c Solution<'a, 'b>) -> (&'c Solution<'a, 'b>, u32){
+        let (first_fitness, first_consumed) = first.fitness_and_consumed();
+        let (second_fitness, second_consumed) = second.fitness_and_consumed();
+        if first_fitness < second_fitness{
+            return (first, first_consumed + second_consumed);
         }else{
-            return second;
+            return (second, first_consumed + second_consumed);
         }
     }
 

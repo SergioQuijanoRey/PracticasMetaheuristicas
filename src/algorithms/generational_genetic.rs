@@ -4,6 +4,7 @@ use crate::problem_datatypes::Constraints;
 use crate::fitness_evolution::FitnessEvolution;
 use crate::arg_parser::ProgramParameters;
 use crate::problem_datatypes::population::Population;
+use crate::fitness_evaluation_result::FitnessEvaluationResult;
 
 use rand::rngs::StdRng;
 use std::time::Instant;
@@ -63,18 +64,25 @@ fn run<'a, 'b>(
     let mut consumed_fitness_evaluations = 0;
     while consumed_fitness_evaluations < max_fitness_evaluations{
 
+        let mut iteration_fitness_evaluations = 0;
+
         // Generamos una nueva poblacion a partir de torneos binarios
         // Como tamaño, tomamos toda la poblacion, porque esto es lo correspondiente al modelo
         // estacionario
-        let selection_population = current_population.select_population_binary_tournament(population_size, rng);
+        let selection_population_result = current_population.select_population_binary_tournament(population_size, rng);
+        let selection_population = selection_population_result.get_result();
+        iteration_fitness_evaluations += selection_population_result.get_iterations_consumed();
         debug_assert!(selection_population.population_size() == population_size as usize, "La poblacion de seleccion tiene {} elementos", selection_population.population_size());
 
         // A partir de la poblacion seleccionada, generamos una nueva poblacion a partir de los
         // cruces de los elementos de esa poblacion
-        let crossed_population = selection_population.cross_population_uniform(crossover_probability, rng);
+        let crossed_population_result = selection_population.cross_population_uniform(crossover_probability, rng);
+        let crossed_population = crossed_population_result.get_result();
+        iteration_fitness_evaluations += crossed_population_result.get_iterations_consumed();
         debug_assert!(crossed_population.population_size() == population_size as usize, "La poblacion de seleccion tiene {} elementos", crossed_population.population_size());
 
         // A partir de la poblacion cruzada, mutamos para generar una ultima poblacion
+        // Esta operacion no consume iteraciones, por lo que no hacemos la suma
         let mut mutated_population = crossed_population.mutate_population(individuals_to_mutate, rng);
         debug_assert!(mutated_population.population_size() == population_size as usize, "La poblacion de seleccion tiene {} elementos", mutated_population.population_size());
 
@@ -84,22 +92,30 @@ fn run<'a, 'b>(
         // TODO -- esto deberia hacerlo si el mejor individuo de la poblacion no sobrevive
 
         // Tomamos el mejor elemento de la poblacion original y lo sustituimos por el peor de la
-        // nueva poblacion
-        let best_individual_at_original_pop = current_population.get_best_individual();
-        let index_worst_individual_at_mut_pop = mutated_population.get_index_worst_individual();
-        mutated_population.set_individual(index_worst_individual_at_mut_pop, best_individual_at_original_pop.copy());
+        // nueva poblacion. En ambas operaciones, llevamos la cuenta de cuantas iteraciones estamos
+        // consumiendo en el proceso. En ambas operaciones, llevamos la cuenta de cuantas
+        // iteraciones estamos consumiendo en el proceso
+        let best_individual_at_original_pop_result= current_population.get_best_individual();
+        let best_individual_at_original_pop = best_individual_at_original_pop_result.get_result();
+        iteration_fitness_evaluations += best_individual_at_original_pop_result.get_iterations_consumed();
+
+        let index_worst_individual_at_mut_pop_result = mutated_population.get_index_worst_individual();
+        let index_worst_individual_at_mut_pop = index_worst_individual_at_mut_pop_result.get_result();
+        iteration_fitness_evaluations += index_worst_individual_at_mut_pop_result.get_iterations_consumed();
+
+        mutated_population.set_individual(*index_worst_individual_at_mut_pop, best_individual_at_original_pop.copy());
 
         // Realizamos el cambio de poblacion
         current_population = mutated_population;
-        debug_assert!(crossed_population.population_size() == population_size as usize, "La poblacion de seleccion tiene {} elementos", crossed_population.population_size());
+        debug_assert!(current_population.population_size() == population_size as usize, "La poblacion final tras la iteracion tiene {} elementos", current_population.population_size());
 
-        // TODO -- BUG -- borrar esto
-        consumed_fitness_evaluations += 100;
+        // Añadimos las evaluaciones de fitness consumidas en esta pasada
+        consumed_fitness_evaluations += iteration_fitness_evaluations as i32;
 
         // Llevamos la cuenta del valor del fitness de la mejor solucion de la poblacion en esta
         // iteracion
-        fitness_evolution.add_iteration(current_population.get_best_individual().fitness());
+        fitness_evolution.add_iteration(current_population.get_best_individual().get_result().fitness());
     }
 
-    return (current_population.get_best_individual().copy(), fitness_evolution);
+    return (current_population.get_best_individual().get_result().copy(), fitness_evolution);
 }

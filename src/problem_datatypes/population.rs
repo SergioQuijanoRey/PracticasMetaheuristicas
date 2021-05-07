@@ -1,6 +1,7 @@
 use crate::problem_datatypes::Solution;
 use crate::problem_datatypes::DataPoints;
 use crate::problem_datatypes::Constraints;
+use crate::fitness_evaluation_result::FitnessEvaluationResult;
 
 use rand::Rng;
 use rand::rngs::StdRng;
@@ -60,43 +61,54 @@ impl<'a, 'b> Population<'a, 'b>{
 
     /// Devuelve la mejor solucion de la poblacion
     /// Debe haber al menos un individuo en la poblacion
-    pub fn get_best_individual(&self) -> &Solution<'a, 'b>{
+    pub fn get_best_individual(&self) -> FitnessEvaluationResult<&Solution<'a, 'b>>{
+
+        let mut fit_eval_consumed = 0;
 
         // Comprobacion inicial de seguridad
         // TODO -- esto deberia ser debug_assert?
         assert!(self.population_size() > 0, "La poblacion no puede ser nula en get_best_individual");
 
-        let mut best_fitness = self.individuals[0].fitness();
+        let (mut best_fitness, fit_cons) = self.individuals[0].fitness_and_consumed();
+        fit_eval_consumed += fit_cons;
         let mut best_index = 0;
 
         for (index, individual) in self.individuals.iter().enumerate(){
-            if individual.fitness() < best_fitness{
+            let (individual_fitness, fit_cons) = individual.fitness_and_consumed();
+            fit_eval_consumed += fit_cons;
+            if individual_fitness < best_fitness{
                 best_index = index;
                 best_fitness = individual.fitness();
             }
         }
 
-        return self.get_individual(best_index);
+        return FitnessEvaluationResult::new(self.get_individual(best_index), fit_eval_consumed);
     }
 
     /// Calcula el indice del individuo de la poblacion con peor fitness
     /// Debe haber al menos un individuo en la poblacion
-    pub fn get_index_worst_individual(&self) -> usize{
+    pub fn get_index_worst_individual(&self) -> FitnessEvaluationResult<usize>{
         // Comprobacion inicial de seguridad
         // TODO -- esto deberia ser debug_assert?
         assert!(self.population_size() > 0, "La poblacion no puede ser nula en get_index_worst_individual");
 
-        let mut worst_fitness = self.individuals[0].fitness();
+        let mut fit_eval_consumed = 0;
+
+        let (mut worst_fitness, fit_cons) = self.individuals[0].fitness_and_consumed();
+        fit_eval_consumed += fit_cons;
         let mut worst_index = 0;
 
         for (index, individual) in self.individuals.iter().enumerate(){
-            if individual.fitness() > worst_fitness{
+            let (individual_fitness, fit_cons) = individual.fitness_and_consumed();
+            fit_eval_consumed += fit_cons;
+
+            if individual_fitness > worst_fitness{
                 worst_index = index;
-                worst_fitness = individual.fitness();
+                worst_fitness = individual_fitness;
             }
         }
 
-        return worst_index;
+        return FitnessEvaluationResult::new(worst_index, fit_eval_consumed);
     }
 
     /// Modifica el individuo en una posicion dada
@@ -107,8 +119,9 @@ impl<'a, 'b> Population<'a, 'b>{
 
     /// Genera, a partir de una poblacion, una nueva poblacion de seleccion de un tamaño dado a
     /// partir de repetir new_population_size veces un torneo binario
-    pub fn select_population_binary_tournament(&self, new_population_size: i32, rng: &mut StdRng) -> Self{
+    pub fn select_population_binary_tournament(&self, new_population_size: i32, rng: &mut StdRng) -> FitnessEvaluationResult<Self>{
         let mut new_pop = Self::new_empty_population();
+        let mut fit_ev_consumed = 0;
 
         // Añadimos individuos usando el torneo binario
         for _ in 0..new_population_size{
@@ -118,11 +131,12 @@ impl<'a, 'b> Population<'a, 'b>{
             let second_candidate = self.individuals.choose(rng).expect("La poblacion no puede estar vacia para hacer el tornero binario");
 
             // Seleccionamos el ganador
-            let winner = Solution::binary_tournament(first_candidate, second_candidate);
+            let (winner, fit_consumed) = Solution::binary_tournament(first_candidate, second_candidate);
             new_pop.individuals.push(winner.copy());
+            fit_ev_consumed += fit_consumed;
         }
 
-        return new_pop;
+        return FitnessEvaluationResult::new(new_pop, fit_ev_consumed);
     }
 
     /// Genera una poblacion de cruce a partir de una poblacion (que deberia ser de seleccion, pues
@@ -130,7 +144,7 @@ impl<'a, 'b> Population<'a, 'b>{
     /// La nueva poblacion tiene el mismo tamaño que la poblacion original
     /// Se cruzan los primeros n elementos, este orden se considera aleatorio por venir de un
     /// proceso de seleccion, que introduce aleatoriedad, como ya hemos comentado
-    pub fn cross_population_uniform(&self, crossover_probability: f64, rng: &mut StdRng) -> Self{
+    pub fn cross_population_uniform(&self, crossover_probability: f64, rng: &mut StdRng) -> FitnessEvaluationResult<Self>{
         // Partimos de una poblacion identica a la dada
         let mut new_population = self.copy();
 
@@ -158,11 +172,13 @@ impl<'a, 'b> Population<'a, 'b>{
             index = index + 2;
         }
 
-
-        return new_population;
+        // En esta parte, directamente no estamos haciendo evaluaciones del fitness
+        let fit_evals_consumed = 0;
+        return FitnessEvaluationResult::new(new_population, fit_evals_consumed);
     }
 
     /// Mutamos una poblacion a partir de la poblacion que ya ha sido seleccionada y cruzada
+    /// Esta operacion no consume iteraciones sobre la poblacion
     // TODO -- BUG -- deberiamos elegir los elementos de la poblacion aleatoriamente
     pub fn mutate_population(&self, individuals_to_mutate: i32, rng: &mut StdRng) -> Self{
         let mut new_pop = self.copy();
@@ -176,8 +192,8 @@ impl<'a, 'b> Population<'a, 'b>{
     }
 
     // Itera sobre todos los individuos. Los individuos que son solucion no valida, son reparados
-    // TODO -- BUG -- borrar esto porque no deberia hacernos falta
     pub fn repair_bad_individuals(&mut self, rng: &mut StdRng){
+        panic!("TODO -- esta funcion no deberia hacer falta, porque todos los pasos dejan bien a la solucion ");
         for individual in &mut self.individuals{
             if individual.is_valid() == false{
                 individual.repair_solution(rng);
