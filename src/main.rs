@@ -17,7 +17,7 @@ use algorithms::generational_genetic;
 fn show_help(){
     println!("Modo de uso del programa:");
     println!("\t./PracticasMetaheuristicas <data_file> <constraints_file> <seed> <number_of_clusters> <search_type>");
-    println!("\t<search_type>: copkmeans | copkmeans_robust | local_search | generational_genetic");
+    println!("\t<search_type>: copkmeans | copkmeans_robust | local_search | gguniform | ggsegment");
 }
 
 fn main() {
@@ -82,8 +82,14 @@ fn main() {
             local_search::run_and_show_results(&data_points, &constraints, program_arguments, &mut rng);
         }
 
-        arg_parser::SearchType::GenerationalGenetic => {
-            generational_genetic::run_and_show_results(&data_points, &constraints, program_arguments, &mut rng);
+        arg_parser::SearchType::GenerationalGeneticUniform => {
+            let cross_uniform = true;
+            generational_genetic::run_and_show_results(&data_points, &constraints, program_arguments, cross_uniform, &mut rng);
+        }
+
+        arg_parser::SearchType::GenerationalGeneticSegment => {
+            let cross_uniform = false; // No usamos cruce uniforme, sino segmento fijo
+            generational_genetic::run_and_show_results(&data_points, &constraints, program_arguments, cross_uniform, &mut rng);
         }
     }
 }

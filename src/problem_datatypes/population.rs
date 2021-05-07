@@ -176,6 +176,45 @@ impl<'a, 'b> Population<'a, 'b>{
         return FitnessEvaluationResult::new(new_population, fit_evals_consumed);
     }
 
+    /// Genera una poblacion de cruce a partir de una poblacion (que deberia ser de seleccion, pues
+    /// confiamos en que provenga de seleccion para que esto haya introducido ya la aleatoriedad)
+    /// La nueva poblacion tiene el mismo tamaño que la poblacion original
+    /// Se cruzan los primeros n elementos, este orden se considera aleatorio por venir de un
+    /// proceso de seleccion, que introduce aleatoriedad, como ya hemos comentado
+    pub fn cross_population_segment(&self, crossover_probability: f64, rng: &mut StdRng) -> FitnessEvaluationResult<Self>{
+        // Partimos de una poblacion identica a la dada
+        let mut new_population = self.copy();
+
+        // Mutamos el numero de individuos que coincide con la esperanza matematica, para
+        // ahorrarnos evaluaciones de los numeros aleatorios
+        let inidividuals_to_cross = (crossover_probability * self.population_size() as f64 * 0.5) as usize;
+
+        // Cruzamos los inidividuals_to_cross primeros individos
+        let mut index = 0;
+        while index < inidividuals_to_cross - 1{
+
+            // Tomamos los dos padres
+            let first_parent = new_population.individuals[index].copy();
+            let second_parent = new_population.individuals[index + 1].copy();
+
+            // Generamos los dos hijos usando los dos padres
+            let first_child = Solution::cross_segment(&first_parent, &second_parent, rng);
+            let second_child = Solution::cross_segment(&second_parent, &first_parent, rng);
+
+            // Sustituimos los dos individuos
+            new_population.individuals[index] = first_child;
+            new_population.individuals[index + 1] = second_child;
+
+            // Avanzamos la iteracion
+            index = index + 2;
+        }
+
+        // En esta parte, directamente no estamos haciendo evaluaciones del fitness
+        let fit_evals_consumed = 0;
+        return FitnessEvaluationResult::new(new_population, fit_evals_consumed);
+
+    }
+
     /// Mutamos una poblacion a partir de la poblacion que ya ha sido seleccionada y cruzada
     /// Esta operacion no consume iteraciones sobre la poblacion
     pub fn mutate_population(&self, individuals_to_mutate: i32, rng: &mut StdRng) -> Self{

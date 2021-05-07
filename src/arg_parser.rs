@@ -9,7 +9,8 @@ pub enum SearchType{
     Copkmeans,
     CopkmeansRobust,
     LocalSearch,
-    GenerationalGenetic,
+    GenerationalGeneticUniform,
+    GenerationalGeneticSegment,
 }
 
 impl SearchType{
@@ -31,8 +32,13 @@ impl SearchType{
             return Ok(SearchType::LocalSearch);
         }
 
-        if code == "generational_genetic"{
-            return Ok(SearchType::GenerationalGenetic);
+        if code == "gguniform"{
+            return Ok(SearchType::GenerationalGeneticUniform);
+        }
+
+        if code == "ggsegment"{
+            return Ok(SearchType::GenerationalGeneticSegment);
+
         }
 
         // Codigo no valido

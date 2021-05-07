@@ -369,6 +369,7 @@ impl<'a, 'b> Solution<'a, 'b> {
     }
 
     /// Operador de cruce uniforme para dos soluciones
+    // TODO -- testear porque creo que puede estar mal
     pub fn uniform_cross(first: &Self, second: &Self, rng: &mut StdRng) -> Self{
         let gen_size= first.cluster_indexes.len();
         let half_gen_size = (gen_size as f64 / 2.0) as usize;
@@ -395,6 +396,52 @@ impl<'a, 'b> Solution<'a, 'b> {
             // Tenemos que usar el indice que indica de la permutacion aleatoria
             let curr_index = positions_to_mutate[index];
             crossed_solution.cluster_indexes[curr_index] = second.cluster_indexes[curr_index];
+        }
+
+        // No deberia ocurrir, pero reseteo el valor del fitness para evitar problemas
+        // No añade sobrecoste, porque al estar cruzando, el fitness de la nueva solucion se tiene
+        // que recalcular de todas formas
+        crossed_solution.invalid_fitness_cache();
+
+        // Reparamos la solucion en caso de que sea necesario
+        if crossed_solution.is_valid() == false {
+            crossed_solution.repair_solution(rng);
+        }
+
+        return crossed_solution;
+    }
+
+    /// Operador de cruce por segmento fijo
+    // TODO -- testear porque puede estar bastante mal
+    pub fn cross_segment(first: &Self, second: &Self, rng: &mut StdRng) -> Self{
+        // Nueva solucion a partir de la informacion de uno de los padres
+        let mut crossed_solution = Self::new(first.cluster_indexes.clone(), first.data_points, first.constraints, first.number_of_clusters);
+        let gen_size= first.cluster_indexes.len();
+
+        // Seleccionamos el inicio y tamaño del segmento
+        let segment_start = rng.gen_range(0..gen_size);
+        let segment_size = rng.gen_range(0..gen_size);
+
+        // Copiamos los valores del primer padre
+        for i in 0..segment_size{
+            // Calculamos la posicion actual en el segmento
+            let index = (segment_start + i) % gen_size;
+
+            crossed_solution.cluster_indexes[index] = first.cluster_indexes[index];
+        }
+
+        // Copiamos, con cruce uniforme, el resto de valores
+        for i in 0.. (gen_size - segment_size){
+            // Calculamos el indice de la misma forma que antes, partiendo de donde nos quedamos
+            let index = (segment_size + segment_start + i) % gen_size;
+
+            // Padre del que queremos tomar la informacion
+            let choose_parent = rng.gen_range(0..1);
+            if choose_parent == 0{
+                crossed_solution.cluster_indexes[index] = first.cluster_indexes[index];
+            }else{
+                crossed_solution.cluster_indexes[index] = second.cluster_indexes[index];
+            }
         }
 
         // No deberia ocurrir, pero reseteo el valor del fitness para evitar problemas

@@ -10,7 +10,9 @@ use rand::rngs::StdRng;
 use std::time::Instant;
 
 /// Ejecuta y muestra los resultados de la busqueda genetica con modelo generacional
-pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints, program_arguments: ProgramParameters, rng: &mut StdRng){
+/// cross_uniform == true ==> usamos cruce uniforme
+/// cross_uniform == false ==> usamos cruce de segmento fijo
+pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints, program_arguments: ProgramParameters, cross_uniform: bool, rng: &mut StdRng){
     // Parametros del algoritmo
     let max_fitness_evaluations = 100000;
     let population_size = 50;
@@ -25,7 +27,7 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
     debug_assert!(individuals_to_mutate == 5, "El numero de individuos deberia ser 5, pero tenemos {} individuos a mutar", individuals_to_mutate);
 
     let before = Instant::now();
-    let (solucion, fitness_evolution) = run(&data_points, &constraints, program_arguments.get_number_of_clusters(), max_fitness_evaluations, rng, population_size, crossover_probability, individuals_to_mutate);
+    let (solucion, fitness_evolution) = run(&data_points, &constraints, program_arguments.get_number_of_clusters(), max_fitness_evaluations, rng, population_size, crossover_probability, individuals_to_mutate, cross_uniform);
     let after = Instant::now();
     let duration = after.duration_since(before);
     let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
@@ -50,7 +52,10 @@ fn run<'a, 'b>(
     rng: &mut StdRng,
     population_size: i32,
     crossover_probability: f64,
-    individuals_to_mutate: i32)
+    individuals_to_mutate: i32,
+    cross_uniform: bool // Si es false, significa que usamos cruce de segmento fijo
+                        // Si es true, significa que usamos cruce uniforme
+    )
     -> (Solution<'a, 'b>, FitnessEvolution){
 
     // Llevamos la cuenta del fitness del mejor individuo en cada iteracion sobre la poblacion
@@ -75,11 +80,21 @@ fn run<'a, 'b>(
         debug_assert!(selection_population.population_size() == population_size as usize, "La poblacion de seleccion tiene {} elementos", selection_population.population_size());
 
         // A partir de la poblacion seleccionada, generamos una nueva poblacion a partir de los
-        // cruces de los elementos de esa poblacion
-        let crossed_population_result = selection_population.cross_population_uniform(crossover_probability, rng);
-        let crossed_population = crossed_population_result.get_result();
-        iteration_fitness_evaluations += crossed_population_result.get_iterations_consumed();
-        debug_assert!(crossed_population.population_size() == population_size as usize, "La poblacion de seleccion tiene {} elementos", crossed_population.population_size());
+        // cruces de los elementos de esa poblacion. El cruce depende del tipo de cruce que estemos
+        // estableciendo
+        let mut crossed_population;
+        if cross_uniform == true{
+            let crossed_population_result = selection_population.cross_population_uniform(crossover_probability, rng);
+            crossed_population = crossed_population_result.get_result();
+            iteration_fitness_evaluations += crossed_population_result.get_iterations_consumed();
+            debug_assert!(crossed_population.population_size() == population_size as usize, "La poblacion de seleccion tiene {} elementos", crossed_population.population_size());
+        }else{
+            let crossed_population_result = selection_population.cross_population_segment(crossover_probability, rng);
+            crossed_population = crossed_population_result.get_result();
+            iteration_fitness_evaluations += crossed_population_result.get_iterations_consumed();
+            debug_assert!(crossed_population.population_size() == population_size as usize, "La poblacion de seleccion tiene {} elementos", crossed_population.population_size());
+
+        }
 
         // A partir de la poblacion cruzada, mutamos para generar una ultima poblacion
         // Esta operacion no consume iteraciones, por lo que no hacemos la suma
