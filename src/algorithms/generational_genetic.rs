@@ -93,7 +93,7 @@ fn run<'a, 'b>(
         debug_assert!(crossed_population.population_size() == population_size as usize, "La poblacion de seleccion tiene {} elementos", crossed_population.population_size());
 
         // TODO -- BUG -- borrar esto
-        consumed_fitness_evaluations += 100;
+        consumed_fitness_evaluations += 20;
     }
 
     return (current_population.get_best_individual().copy(), fitness_evolution);

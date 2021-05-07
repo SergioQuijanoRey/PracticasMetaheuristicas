@@ -338,9 +338,12 @@ impl<'a, 'b> Solution<'a, 'b> {
 
 /// Metodos asociados a la parte genetica de las practicas
 impl<'a, 'b> Solution<'a, 'b> {
+
     /// Dadas dos soluciones, devuelve aquella con mejor fitness
+    /// Entendemos por mejor fitness, aquel con menor valor numerico, pues estamos buscando
+    /// minimizar la funcion de fitness
     pub fn binary_tournament<'c>(first: &'c Solution<'a, 'b>, second: &'c Solution<'a, 'b>) -> &'c Solution<'a, 'b>{
-        if first.fitness() > second.fitness(){
+        if first.fitness() < second.fitness(){
             return first;
         }else{
             return second;
