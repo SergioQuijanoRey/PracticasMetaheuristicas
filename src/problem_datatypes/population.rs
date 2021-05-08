@@ -245,7 +245,7 @@ impl<'a, 'b> Population<'a, 'b>{
     pub fn mutate_population_given_prob(&self, mutation_probability: f64, rng: &mut StdRng) -> Self{
         let mut new_pop = self.copy();
 
-        // Tomamos los primeros indices aleatorios generados
+        // Iteramos sobre los individuos y decidimos si mutamos o no aleatoriamente
         for (index, _individual) in self.individuals.iter().enumerate(){
             let do_mutation = rng.gen::<f64>() <= mutation_probability;
 
@@ -271,8 +271,6 @@ impl<'a, 'b> Population<'a, 'b>{
         let best_individual_at_original_pop_result= original_population.get_best_individual();
         let (best_individual_at_original_pop, best_individual_index_original_pop) = best_individual_at_original_pop_result.get_result();
         fit_eval_cons += best_individual_at_original_pop_result.get_iterations_consumed();
-        // TODO -- borrar
-        //println!("Este preserve_best_parent consume {} evaluaciones de fitness", best_individual_at_original_pop_result.get_iterations_consumed());
 
         // Comprobamos si esta dentro de la poblacion
         // Esta operacion no consume iteraciones, porque solo estamos comprobando la igualdad entre
@@ -291,8 +289,6 @@ impl<'a, 'b> Population<'a, 'b>{
         // El mejor individuo pasado no esta en la nueva poblacion, lo introducimos en su posicion
         // de la poblacion original en la nueva poblacion
         new_pop.individuals[*best_individual_index_original_pop as usize] = best_individual_at_original_pop.copy();
-
-
         return FitnessEvaluationResult::new(new_pop, fit_eval_cons);
     }
 
@@ -332,7 +328,7 @@ impl<'a, 'b> Population<'a, 'b>{
             let (candidate_fitness, candidate_it_cons) = candidate.fitness_and_consumed();
             fit_eval_cons += worst_it_cons + candidate_it_cons;
 
-            // TODO -- borrar este assert
+            // Comprobacion de seguridad
             debug_assert!(candidate_it_cons == 1, "El candidato debe tener el fitness sin evaluar, el valor de consumiciones es {}", candidate_it_cons);
 
             // Decidimos si el candidato entra o no en la poblacion
@@ -342,18 +338,6 @@ impl<'a, 'b> Population<'a, 'b>{
         }
 
         return FitnessEvaluationResult::new(new_pop, fit_eval_cons);
-    }
-
-    // Itera sobre todos los individuos. Los individuos que son solucion no valida, son reparados
-    pub fn repair_bad_individuals(&mut self, rng: &mut StdRng){
-        panic!("TODO -- esta funcion no deberia hacer falta, porque todos los pasos dejan bien a la solucion ");
-        for individual in &mut self.individuals{
-            if individual.is_valid() == false{
-                individual.repair_solution(rng);
-            }
-
-        }
-
     }
 
     /// Evaluamos a todos los individuos de la poblacion
