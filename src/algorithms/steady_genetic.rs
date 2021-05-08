@@ -23,12 +23,6 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
     let gen_size = data_points.len();
     let mutation_probability_per_gen = 0.1 / gen_size as f64;
 
-    // Comprobacion de seguridad
-    // Notar que esta comprobacion de seguridad solo es valida cuando la poblacion es 50
-    let expected_mut_probability = 0.001;
-    let tolerance = 0.0001;
-    assert_approx_eq!(mutation_probability_per_gen, expected_mut_probability, tolerance);
-
     let before = Instant::now();
     let (solucion, fitness_evolution) = run(&data_points, &constraints, program_arguments.get_number_of_clusters(), max_fitness_evaluations, rng, population_size, mutation_probability_per_gen, cross_uniform);
     let after = Instant::now();
