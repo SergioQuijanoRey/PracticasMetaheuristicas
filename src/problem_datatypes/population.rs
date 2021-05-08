@@ -6,6 +6,8 @@ use crate::fitness_evaluation_result::FitnessEvaluationResult;
 use rand::Rng;
 use rand::rngs::StdRng;
 use rand::seq::SliceRandom;
+use std::io::{stdin, stdout, Read, Write};
+
 
 /// Representa una poblacion para los algoritmos geneticos
 // TODO -- pasar a una priority queue para mayor eficiencia
@@ -374,5 +376,31 @@ impl<'a, 'b> Population<'a, 'b>{
         // Todos los individuos tienen el fitness sin precalcular
         return true;
     }
+
+    /// Muestra las asignaciones de clusters de los individuos de la poblacion
+    /// Lo usamos para debuggear el codigo, porque nuestra poblacion converge demasiado rapido a
+    /// repetir el mismo individuo
+    pub fn show_population(&self){
+        let max_values_in_row = 30;
+
+        for (index, individual) in self.individuals.iter().enumerate(){
+            print!("{}:\t", index);
+            for col in 0..max_values_in_row{
+                print!("{} ", individual.get_cluster_indexes()[col]);
+            }
+            println!("");
+        }
+
+        // Esperamos a que el usuario pulse una tecla
+        Population::wait_for_user_input();
+    }
+
+    fn wait_for_user_input() {
+        let mut stdout = stdout();
+        stdout.write(b"Press Enter to continue...").unwrap();
+        stdout.flush().unwrap();
+        stdin().read(&mut [0]).unwrap();
+    }
+
 
 }

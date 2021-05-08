@@ -9,8 +9,6 @@ use crate::fitness_evaluation_result::FitnessEvaluationResult;
 use rand::rngs::StdRng;
 use std::time::Instant;
 
-use assert_approx_eq::assert_approx_eq;
-
 /// Ejecuta y muestra los resultados de la busqueda genetica con modelo estacionario
 /// cross_uniform == true ==> usamos cruce uniforme
 /// cross_uniform == false ==> usamos cruce de segmento fijo
@@ -144,6 +142,7 @@ fn run<'a, 'b>(
         let best_individual = current_population.get_best_individual().get_result().0;
         let best_individual_fitness = best_individual.fitness();
         fitness_evolution.add_iteration(best_individual_fitness);
+
     }
 
     return (current_population.get_best_individual().get_result().0.copy(), fitness_evolution);
