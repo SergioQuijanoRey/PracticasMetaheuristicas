@@ -158,6 +158,14 @@ impl<'a, 'b> Solution<'a, 'b> {
         *self.fitness.borrow_mut() = None;
     }
 
+    /// Comprueba si el fitness de la solucion esta cacheado (ya calculado) o no
+    pub fn is_fitness_cached(&self) -> bool{
+        match *self.fitness.borrow(){
+            Some(_) => return true,
+            None => return false,
+        };
+    }
+
     /// Devuelve el primer vecino de la solucion valido que mejora la solucion
     /// actual (el primero mejor)
     pub fn get_neighbour(&self, rng: &mut StdRng) -> Option<Self> {

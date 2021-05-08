@@ -8,6 +8,7 @@ use rand::rngs::StdRng;
 use rand::seq::SliceRandom;
 
 /// Representa una poblacion para los algoritmos geneticos
+// TODO -- pasar a una priority queue para mayor eficiencia
 pub struct Population<'a, 'b>{
     /// Individuos de la poblacion
     individuals: Vec<Solution<'a, 'b> >,
@@ -118,6 +119,8 @@ impl<'a, 'b> Population<'a, 'b>{
 
     /// Genera, a partir de una poblacion, una nueva poblacion de seleccion de un tamaño dado a
     /// partir de repetir new_population_size veces un torneo binario
+    /// Los valores comunes para new_population_size son o bien el tamaño de la poblacion pasada o
+    /// bien 2, para el modelo estacionario
     pub fn select_population_binary_tournament(&self, new_population_size: i32, rng: &mut StdRng) -> FitnessEvaluationResult<Self>{
         let mut new_pop = Self::new_empty_population();
         let mut fit_ev_consumed = 0;
@@ -149,7 +152,7 @@ impl<'a, 'b> Population<'a, 'b>{
 
         // Mutamos el numero de individuos que coincide con la esperanza matematica, para
         // ahorrarnos evaluaciones de los numeros aleatorios
-        let inidividuals_to_cross = (crossover_probability * self.population_size() as f64 * 0.5) as usize;
+        let inidividuals_to_cross = (crossover_probability * self.population_size() as f64) as usize;
 
         // Cruzamos los inidividuals_to_cross primeros individos
         let mut index = 0;
@@ -187,7 +190,7 @@ impl<'a, 'b> Population<'a, 'b>{
 
         // Mutamos el numero de individuos que coincide con la esperanza matematica, para
         // ahorrarnos evaluaciones de los numeros aleatorios
-        let inidividuals_to_cross = (crossover_probability * self.population_size() as f64 * 0.5) as usize;
+        let inidividuals_to_cross = (crossover_probability * self.population_size() as f64) as usize;
 
         // Cruzamos los inidividuals_to_cross primeros individos
         let mut index = 0;
@@ -217,8 +220,12 @@ impl<'a, 'b> Population<'a, 'b>{
 
     /// Mutamos una poblacion a partir de la poblacion que ya ha sido seleccionada y cruzada
     /// Esta operacion no consume iteraciones sobre la poblacion
+    /// Usamos la esperanza matematicas para no gastar tantas tiradas aleatorias, por lo que en vez
+    /// de pasar la probabilida de mutacion, pasamos el numero de individuos a mutar
     pub fn mutate_population(&self, individuals_to_mutate: i32, rng: &mut StdRng) -> Self{
         let mut new_pop = self.copy();
+
+        // TODO -- creo que esta mal, porque un individuo puede mutar mas de una vez
 
         // Genero una permutacion de todas las posiciones de los puntos, y la mezclo. Con ello, en
         // el siguiente bucle tomo los primeros individuals_to_mutate que marca la permutacion, que
@@ -231,6 +238,26 @@ impl<'a, 'b> Population<'a, 'b>{
             let random_index = individuals_to_mutate_pos[index];
             new_pop.individuals[random_index] = new_pop.individuals[random_index].mutated(rng);
         }
+
+        return new_pop;
+    }
+
+    /// Mutamos una poblacion a partir de la poblacion que ya ha sido seleccionada y cruzada
+    /// Esta operacion no consume iteraciones sobre la poblacion
+    /// A diferencia de mutate_population, no usamos el numero esperado de mutaciones, sino tiradas
+    /// aleatorias. Por ello, la poblacion con la que trabajamos no debiera ser demasiado grande
+    pub fn mutate_population_given_prob(&self, mutation_probability: f64, rng: &mut StdRng) -> Self{
+        let mut new_pop = self.copy();
+
+        // Tomamos los primeros indices aleatorios generados
+        for (index, _individual) in self.individuals.iter().enumerate(){
+            let do_mutation = rng.gen::<f64>() <= mutation_probability;
+
+            if do_mutation == true{
+                new_pop.individuals[index] = new_pop.individuals[index].mutated(rng);
+            }
+        }
+
 
         return new_pop;
     }
@@ -287,6 +314,40 @@ impl<'a, 'b> Population<'a, 'b>{
 
     }
 
+    // Dada una poblacion original y una nueva poblacion candidata, los individuos de la poblacion
+    // candidata luchan contra los peores individuos de la poblacion original (&self) para quedarse
+    // en dicha poblacion
+    // La poblacion original no se modifica, se devuelve una copia con la poblacion resultante
+    pub fn compete_with_new_individuals(&self, candidate_population: &Population<'a, 'b>) -> FitnessEvaluationResult<Self>{
+        let mut new_pop = self.copy();
+        let mut fit_eval_cons = 0;
+
+        for candidate in candidate_population.individuals.iter(){
+
+            // Tomamos el peor individuo de la poblacion original
+            let worst_individual_result = self.get_index_worst_individual();
+            let worst_individual_index = worst_individual_result.get_result();
+            fit_eval_cons += worst_individual_result.get_iterations_consumed();
+
+            // Evaluamos el fitness del peor individuo y del candidato. En ambos casos tenemos en
+            // cuenta las evaluaciones que esto puede suponer. El peor individuo deberia estar
+            // evaluado, mientras que el candidato no. Hacemos las dos cuentas por seguridad
+            let (worst_fitness, worst_it_cons) = self.individuals[*worst_individual_index].fitness_and_consumed();
+            let (candidate_fitness, candidate_it_cons) = candidate.fitness_and_consumed();
+            fit_eval_cons += worst_it_cons + candidate_it_cons;
+
+            // TODO -- borrar este assert
+            debug_assert!(candidate_it_cons == 1, "El candidato debe tener el fitness sin evaluar, el valor de consumiciones es {}", candidate_it_cons);
+
+            // Decidimos si el candidato entra o no en la poblacion
+            if candidate_fitness < worst_fitness {
+                new_pop.individuals[*worst_individual_index] = candidate.copy();
+            }
+        }
+
+        return FitnessEvaluationResult::new(new_pop, fit_eval_cons);
+    }
+
     // Itera sobre todos los individuos. Los individuos que son solucion no valida, son reparados
     pub fn repair_bad_individuals(&mut self, rng: &mut StdRng){
         panic!("TODO -- esta funcion no deberia hacer falta, porque todos los pasos dejan bien a la solucion ");
@@ -317,6 +378,21 @@ impl<'a, 'b> Population<'a, 'b>{
         }
 
         return FitnessEvaluationResult::new((), fit_evals_consumed);
+    }
+
+    /// Comprueba si todos los individuos de una poblacion tienen todos los valores del fitness sin
+    /// calcular. Lo usamos para debuggear la poblacion de candidatos en genetico estacionario
+    pub fn all_population_is_not_cached(&self) -> bool{
+        for individual in self.individuals.iter(){
+
+            // Un individuo tiene el valor del fitness cacheado
+            if individual.is_fitness_cached() == true{
+                return false;
+            }
+        }
+
+        // Todos los individuos tienen el fitness sin precalcular
+        return true;
     }
 
 }

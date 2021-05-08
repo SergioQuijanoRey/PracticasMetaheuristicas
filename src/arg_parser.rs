@@ -11,6 +11,8 @@ pub enum SearchType{
     LocalSearch,
     GenerationalGeneticUniform,
     GenerationalGeneticSegment,
+    SteadyGeneticUniform,
+    SteadyGeneticSegment,
 }
 
 impl SearchType{
@@ -39,6 +41,14 @@ impl SearchType{
         if code == "ggsegment"{
             return Ok(SearchType::GenerationalGeneticSegment);
 
+        }
+
+        if code == "gsuniform"{
+            return Ok(SearchType::SteadyGeneticUniform);
+        }
+
+        if code == "gssegment"{
+            return Ok(SearchType::SteadyGeneticSegment);
         }
 
         // Codigo no valido

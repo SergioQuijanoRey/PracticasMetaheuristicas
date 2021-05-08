@@ -4,3 +4,4 @@
 pub mod local_search;
 pub mod copkmeans;
 pub mod generational_genetic;
+pub mod steady_genetic;
