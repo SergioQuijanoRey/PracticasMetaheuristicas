@@ -220,23 +220,18 @@ impl<'a, 'b> Population<'a, 'b>{
     }
 
     /// Mutamos una poblacion a partir de la poblacion que ya ha sido seleccionada y cruzada
-    /// Esta operacion no consume iteraciones sobre la poblacion
+    /// Esta operacion no consume evaluaciones del fitness
     /// Usamos la esperanza matematicas para no gastar tantas tiradas aleatorias, por lo que en vez
     /// de pasar la probabilida de mutacion, pasamos el numero de individuos a mutar
+    /// Notar que un individuo puede mutar mas de una vez
     pub fn mutate_population(&self, individuals_to_mutate: i32, rng: &mut StdRng) -> Self{
         let mut new_pop = self.copy();
 
-        // TODO -- creo que esta mal, porque un individuo puede mutar mas de una vez
+        // Posiciones sobre las que podemos elegir aleatoriamente
+        let positions: Vec<usize> = (0..self.population_size() as usize).collect();
 
-        // Genero una permutacion de todas las posiciones de los puntos, y la mezclo. Con ello, en
-        // el siguiente bucle tomo los primeros individuals_to_mutate que marca la permutacion, que
-        // al haber sido mezclada asegura la aleatoriedad.
-        let mut individuals_to_mutate_pos: Vec<usize> = (0..individuals_to_mutate as usize).collect();
-        individuals_to_mutate_pos.shuffle(rng);
-
-        // Tomamos los primeros indices aleatorios generados
-        for index in 0..individuals_to_mutate as usize{
-            let random_index = individuals_to_mutate_pos[index];
+        for _ in 0..individuals_to_mutate as usize{
+            let random_index = *positions.choose(rng).expect("No se ha podido escoger un valor aleatorio");
             new_pop.individuals[random_index] = new_pop.individuals[random_index].mutated(rng);
         }
 
