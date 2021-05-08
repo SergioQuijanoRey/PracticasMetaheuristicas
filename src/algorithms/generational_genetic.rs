@@ -82,19 +82,16 @@ fn run<'a, 'b>(
         // A partir de la poblacion seleccionada, generamos una nueva poblacion a partir de los
         // cruces de los elementos de esa poblacion. El cruce depende del tipo de cruce que estemos
         // estableciendo
-        let mut crossed_population;
+        let crossed_population_result;
         if cross_uniform == true{
-            let crossed_population_result = selection_population.cross_population_uniform(crossover_probability, rng);
-            crossed_population = crossed_population_result.get_result();
-            iteration_fitness_evaluations += crossed_population_result.get_iterations_consumed();
-            debug_assert!(crossed_population.population_size() == population_size as usize, "La poblacion de seleccion tiene {} elementos", crossed_population.population_size());
+            crossed_population_result = selection_population.cross_population_uniform(crossover_probability, rng);
         }else{
-            let crossed_population_result = selection_population.cross_population_segment(crossover_probability, rng);
-            crossed_population = crossed_population_result.get_result();
-            iteration_fitness_evaluations += crossed_population_result.get_iterations_consumed();
-            debug_assert!(crossed_population.population_size() == population_size as usize, "La poblacion de seleccion tiene {} elementos", crossed_population.population_size());
-
+            crossed_population_result = selection_population.cross_population_segment(crossover_probability, rng);
         }
+
+        let crossed_population = crossed_population_result.get_result();
+        iteration_fitness_evaluations += crossed_population_result.get_iterations_consumed();
+        debug_assert!(crossed_population.population_size() == population_size as usize, "La poblacion de seleccion tiene {} elementos", crossed_population.population_size());
 
         // A partir de la poblacion cruzada, mutamos para generar una ultima poblacion
         // Esta operacion no consume iteraciones, por lo que no hacemos la suma
