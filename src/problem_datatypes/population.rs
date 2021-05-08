@@ -9,6 +9,7 @@ use rand::seq::SliceRandom;
 
 /// Representa una poblacion para los algoritmos geneticos
 // TODO -- pasar a una priority queue para mayor eficiencia
+#[derive(Debug)]
 pub struct Population<'a, 'b>{
     /// Individuos de la poblacion
     individuals: Vec<Solution<'a, 'b> >,
@@ -90,7 +91,7 @@ impl<'a, 'b> Population<'a, 'b>{
     pub fn get_index_worst_individual(&self) -> FitnessEvaluationResult<usize>{
         // Comprobacion inicial de seguridad
         // TODO -- esto deberia ser debug_assert?
-        assert!(self.population_size() > 0, "La poblacion no puede ser nula en get_index_worst_individual");
+        debug_assert!(self.population_size() > 0, "La poblacion no puede ser nula en get_index_worst_individual");
 
         let mut fit_eval_consumed = 0;
 
