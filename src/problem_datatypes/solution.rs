@@ -392,7 +392,7 @@ impl<'a, 'b> Solution<'a, 'b> {
         // Nueva solucion a partir de la informacion de uno de los padres
         let mut crossed_solution = first.copy();
 
-        // Tomamos los elemnentos aleatorios del primer padre
+        // Tomamos los elementos aleatorios del primer padre
         for index in 0..half_gen_size{
             // Tenemos que usar el indice que indica de la permutacion aleatoria
             let curr_index = positions_to_mutate[index];
