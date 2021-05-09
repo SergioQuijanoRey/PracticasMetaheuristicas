@@ -390,7 +390,7 @@ impl<'a, 'b> Solution<'a, 'b> {
         positions_to_mutate.shuffle(rng);
 
         // Nueva solucion a partir de la informacion de uno de los padres
-        let mut crossed_solution = Self::new(first.cluster_indexes.clone(), first.data_points, first.constraints, first.number_of_clusters);
+        let mut crossed_solution = first.copy();
 
         // Tomamos los elemnentos aleatorios del primer padre
         for index in 0..half_gen_size{
@@ -423,8 +423,7 @@ impl<'a, 'b> Solution<'a, 'b> {
     // TODO -- testear porque puede estar bastante mal
     pub fn cross_segment(first: &Self, second: &Self, rng: &mut StdRng) -> Self{
         // Nueva solucion a partir de la informacion de uno de los padres
-        // TODO -- BUG -- esto esta bien? Le estoy dando mucho peso a la primera solucion?
-        let mut crossed_solution = Self::new(first.cluster_indexes.clone(), first.data_points, first.constraints, first.number_of_clusters);
+        let mut crossed_solution = first.copy();
         let gen_size= first.cluster_indexes.len();
 
         // Seleccionamos el inicio y tamaño del segmento
