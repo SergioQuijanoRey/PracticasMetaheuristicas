@@ -113,7 +113,6 @@ impl<'a, 'b> Solution<'a, 'b> {
 
                 // No hemos encontrado ningun valor de indice que apunte a este cluster
                 None => {
-                    eprintln!("El cluster {} no tiene puntos asignados", cluster);
                     return false
                 },
             }
