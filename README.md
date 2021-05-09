@@ -13,6 +13,7 @@
 * [ ] Los cruces no se hacen bien
 * [ ] La mutación no se hace bien
 * [ ] Algun valor (probabilidad de cruce, probabilidad de mutacion) es demasiado bajo
+* [ ] La mutacion no permite soluciones no validas
 
 # Fichero de instrucciones para los profesores de practicas
 
