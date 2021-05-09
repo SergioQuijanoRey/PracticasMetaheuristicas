@@ -2,6 +2,7 @@ use crate::problem_datatypes::Solution;
 use crate::problem_datatypes::DataPoints;
 use crate::problem_datatypes::Constraints;
 use crate::fitness_evaluation_result::FitnessEvaluationResult;
+use crate::arg_parser::SearchType;
 
 use rand::Rng;
 use rand::rngs::StdRng;
@@ -17,7 +18,7 @@ pub struct Population<'a, 'b>{
     individuals: Vec<Solution<'a, 'b> >,
 }
 
-/// Genera una poblacion aleatoria inicial
+/// Implementacion para la parte de los algoritmos geneticos
 impl<'a, 'b> Population<'a, 'b>{
 
     /// Genera una poblacion vacia, sin individuos
@@ -402,5 +403,42 @@ impl<'a, 'b> Population<'a, 'b>{
         stdin().read(&mut [0]).unwrap();
     }
 
+
+}
+
+/// Implementacion para la parte de algoritmos memeticos
+impl<'a, 'b> Population<'a, 'b>{
+    /// Aplica la busqueda local suave, segun el criterio indicado por memetic_type, a la
+    /// poblacion, generando una nueva poblacion
+    pub fn soft_local_search(&self, memetic_type: SearchType, max_fails: i32, rng: &mut StdRng) -> FitnessEvaluationResult<Self>{
+        // Lanzamos la busqueda local suave correspondiente
+        match memetic_type{
+            SearchType::MemeticAll => {
+                return self.soft_local_search_all(max_fails, rng)
+            }
+
+            _ => {
+                panic!("Valor erroneo para memetic_type")
+            }
+        }
+    }
+
+    // Aplica la busqueda local suave, sobre todos los individuos de la poblacion
+    fn soft_local_search_all(&self, max_fails: i32, rng: &mut StdRng) -> FitnessEvaluationResult<Self>{
+        let mut new_pop = self.copy();
+        let mut fit_eval_cons = 0;
+
+        // Aplicamos la busqueda local suave a todos los individuos de la poblacion
+        // Itero sobre indices, asi que puedo iterar sobre self para no tener problemas de
+        // mutabilidad con new_pop
+        for (index, _individual) in self.individuals.iter().enumerate(){
+            let new_individual_result = new_pop.individuals[index].soft_local_search(max_fails, rng);
+            let new_individual = new_individual_result.get_result();
+            fit_eval_cons += new_individual_result.get_iterations_consumed();
+            new_pop.individuals[index] = new_individual.copy();
+        }
+
+        return FitnessEvaluationResult::new(new_pop, fit_eval_cons);
+    }
 
 }

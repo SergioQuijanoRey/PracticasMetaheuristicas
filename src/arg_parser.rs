@@ -13,14 +13,12 @@ pub enum SearchType{
     GenerationalGeneticSegment,
     SteadyGeneticUniform,
     SteadyGeneticSegment,
+    MemeticAll,
 }
 
 impl SearchType{
     /// Toma un string con el tipo de busqueda y lo convierte al struct
-    /// Los valores validos para code son:
-    ///     - "copkmeans"
-    ///     - "copkmeans_robust"
-    ///     - "local_search"
+    /// En el codigo se pueden ver los valores validos para el codigo
     pub fn from_str(code: &str) -> Result<Self, Box<dyn Error>>{
         if code == "copkmeans"{
             return Ok(SearchType::Copkmeans);
@@ -50,6 +48,11 @@ impl SearchType{
         if code == "gssegment"{
             return Ok(SearchType::SteadyGeneticSegment);
         }
+
+        if code == "memeall"{
+            return Ok(SearchType::MemeticAll);
+        }
+
 
         // Codigo no valido
         bail!("Valor del string para seleccionar la busqueda no valido");

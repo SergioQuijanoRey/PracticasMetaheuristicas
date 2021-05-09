@@ -9,6 +9,7 @@ use rand::seq::SliceRandom;
 use std::cell::RefCell;
 
 use crate::problem_datatypes::{DataPoints, Constraints, Point, ConstraintType, NeighbourGenerator};
+use crate::fitness_evaluation_result::FitnessEvaluationResult;
 
 /// Estructura que representa una solucion del problema
 ///
@@ -535,6 +536,97 @@ impl<'a, 'b> Solution<'a, 'b> {
 
         // Al haber modificado la solucion, debemos invalidar la cache del fitness
         self.invalid_fitness_cache();
+    }
+}
+
+/// Metodos asociados a la parte memetica de las practicas
+impl<'a, 'b> Solution<'a, 'b> {
+    pub fn soft_local_search(&self, max_fails: i32, rng: &mut StdRng) -> FitnessEvaluationResult<Self>{
+        let mut new_solution = self.copy();
+        let mut fit_eval_cons = 0;
+
+        // Recorreremos las posiciones de los puntos en orden aleatorio
+        let mut indixes: Vec<i32> = (0..self.data_points.len() as i32).collect();
+        indixes.shuffle(rng);
+
+        // Valores iniciales para el algoritmo
+        let mut fails = 0;
+        let mut i = 0;
+
+        // Iteramos sobre las asignaciones de clusters mientras no sobrepasemos el valor de fallos
+        while fails < max_fails && i < self.data_points.len(){
+            // Tomamos la posicion que toca cambiar en esta iteracion
+            let index = indixes[i];
+
+            // Seleccionamos el mejor cluster para este punto en la posicion index
+            let new_cluster_result = new_solution.select_best_cluster(index as u32);
+            let new_cluster = new_cluster_result.get_result();
+            fit_eval_cons += new_cluster_result.get_iterations_consumed();
+
+            // Realizamos el cambio, guardando el valor original de la asignacion
+            let past_cluster = new_solution.cluster_indexes[index as usize];
+            new_solution.cluster_indexes[index as usize] = *new_cluster;
+
+            // Comprobamos si hemos realizado un cambio o no, incrementando el contador de fallos
+            // en caso de que sea necesario
+            if *new_cluster == past_cluster{
+                fails += 1;
+            }
+
+            // Pasamos a la siguiente posicion
+            i += 1;
+        }
+
+        return FitnessEvaluationResult::new(new_solution, fit_eval_cons);
+    }
+
+    /// Selecciona la mejor asignacion de cluster para un punto dado por su indice.
+    /// La mejor asignacion es aquella que es valida y que tiene el minimo valor de fitness
+    /// Esta operacion va a consumir muchas evaluaciones del fitness
+    /// La solucion &self debe ser una solucion valida para poder hacer esta busqueda sin problemas
+    // TODO -- TEST -- bastante facil de testear, ademas es una parte critica de los memeticos
+    pub fn select_best_cluster(&self, point_index: u32) -> FitnessEvaluationResult<u32>{
+        // Comprobacion de seguridad
+        debug_assert!(
+            self.is_valid() == true,
+            "La solucion original no es valida, no se puede buscar la mejor asignacion de cluster"
+        );
+
+        let mut fit_eval_cons = 0;
+        let mut best_cluster = -1;
+        let mut best_fitness = -1.0;
+
+        // Recorremos todos las posibles asignaciones de cluster
+        for cluster in 0..self.number_of_clusters{
+
+            // Generamos la solucion asociada al cambio a este cluster
+            let mut new_sol = self.copy();
+            new_sol.cluster_indexes[point_index as usize] = cluster as u32;
+
+            // Comrpobamos que la solucion generada sea valida
+            if new_sol.is_valid() == false{
+                continue;
+            }
+
+            // Evaluamos el fitness. Para ello, previamente tenemos que invalidar la cache
+            new_sol.invalid_fitness_cache();
+            let (new_sol_fit, ev_cons) = new_sol.fitness_and_consumed();
+            fit_eval_cons += ev_cons;
+
+            // Comprobamos si esta es la mejor
+            if best_fitness == -1.0 || new_sol_fit < best_fitness{
+                best_fitness = new_sol_fit;
+                best_cluster = cluster;
+            }
+        }
+
+        // Comprobacion de seguridad
+        debug_assert!(
+            best_cluster != -1,
+            "No hemos encontrado una mejor asignacion. Esto no es correcto, pues la solucion original es valida y podria ser un primer candidato"
+        );
+
+        return FitnessEvaluationResult::new(best_cluster as u32, fit_eval_cons);
     }
 }
 

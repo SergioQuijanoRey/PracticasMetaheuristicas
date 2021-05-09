@@ -14,11 +14,12 @@ use algorithms::local_search;
 use algorithms::copkmeans;
 use algorithms::generational_genetic;
 use algorithms::steady_genetic;
+use algorithms::memetic;
 
 fn show_help(){
     println!("Modo de uso del programa:");
     println!("\t./PracticasMetaheuristicas <data_file> <constraints_file> <seed> <number_of_clusters> <search_type>");
-    println!("\t<search_type>: copkmeans | copkmeans_robust | local_search | gguniform | ggsegment | gsuniform | gssegment");
+    println!("\t<search_type>: copkmeans | copkmeans_robust | local_search | gguniform | ggsegment | gsuniform | gssegment | memeall");
 }
 
 fn main() {
@@ -102,6 +103,10 @@ fn main() {
         arg_parser::SearchType::SteadyGeneticSegment => {
             let cross_uniform = false;
             steady_genetic::run_and_show_results(&data_points, &constraints, program_arguments, cross_uniform, &mut rng);
+        }
+
+        arg_parser::SearchType::MemeticAll => {
+            memetic::run_and_show_results(&data_points, &constraints, program_arguments, arg_parser::SearchType::MemeticAll, &mut rng);
         }
     }
 }
