@@ -13,6 +13,8 @@ use std::io::{stdin, stdout, Read, Write};
 use priority_queue::PriorityQueue;
 use ordered_float::OrderedFloat;
 
+use std::collections::HashSet;
+
 
 /// Representa una poblacion para los algoritmos geneticos
 // TODO -- pasar a una priority queue para mayor eficiencia
@@ -422,6 +424,21 @@ impl<'a, 'b> Population<'a, 'b>{
         stdin().read(&mut [0]).unwrap();
     }
 
+    /// Intentamos medir la variedad que tenemos en nuestra poblacion. La variedad se medira como
+    /// el numero de elementos con distinto valor de fitness
+    /// WARNING -- Lo usamos para debuggear el codigo. No usar en codigo final porque puede evaluar
+    /// una poblacion sin considerar las evaluaciones del fitness
+    // TODO -- poner un panic para ver que no se use en codigo final
+    pub fn measure_variety(&self) -> u32{
+        panic!("NO USAR ESTA FUNCION, ALTERA LAS EVALUACIONES DE FITNESS CONSUMIDAS");
+        let mut fitness_values = HashSet::new();
+
+        for individual in self.individuals.iter(){
+            fitness_values.insert(OrderedFloat::<f64>::from(individual.fitness()));
+        }
+
+        return fitness_values.len() as u32;
+    }
 
 }
 
