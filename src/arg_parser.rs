@@ -14,6 +14,7 @@ pub enum SearchType{
     SteadyGeneticUniform,
     SteadyGeneticSegment,
     MemeticAll,
+    MemeticRandom,
 }
 
 impl SearchType{
@@ -53,6 +54,9 @@ impl SearchType{
             return Ok(SearchType::MemeticAll);
         }
 
+        if code == "memerandom"{
+            return Ok(SearchType::MemeticRandom)
+        }
 
         // Codigo no valido
         bail!("Valor del string para seleccionar la busqueda no valido");

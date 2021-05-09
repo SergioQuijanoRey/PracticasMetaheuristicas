@@ -414,7 +414,12 @@ impl<'a, 'b> Population<'a, 'b>{
         // Lanzamos la busqueda local suave correspondiente
         match memetic_type{
             SearchType::MemeticAll => {
-                return self.soft_local_search_all(max_fails, rng)
+                return self.soft_local_search_all(max_fails, rng);
+            }
+
+            SearchType::MemeticRandom => {
+                let search_percentage = 0.1;
+                return self.soft_local_search_random(max_fails, search_percentage, rng);
             }
 
             _ => {
@@ -432,6 +437,34 @@ impl<'a, 'b> Population<'a, 'b>{
         // Itero sobre indices, asi que puedo iterar sobre self para no tener problemas de
         // mutabilidad con new_pop
         for (index, _individual) in self.individuals.iter().enumerate(){
+            let new_individual_result = new_pop.individuals[index].soft_local_search(max_fails, rng);
+            let new_individual = new_individual_result.get_result();
+            fit_eval_cons += new_individual_result.get_iterations_consumed();
+            new_pop.individuals[index] = new_individual.copy();
+        }
+
+        return FitnessEvaluationResult::new(new_pop, fit_eval_cons);
+    }
+
+    // Aplica la busqueda local suave, sobre un porcentaje de individuos aleatorios de la poblacion
+    fn soft_local_search_random(&self, max_fails: i32, search_percentage: f64, rng: &mut StdRng) -> FitnessEvaluationResult<Self>{
+        let mut new_pop = self.copy();
+        let mut fit_eval_cons = 0;
+
+        // Numero de individuos sobre los que vamos a realizar la busqueda local suave
+        let number_of_individuals_to_intensify = (self.individuals.len() as f64 * search_percentage) as i32;
+
+        // Indices de todos los individuos ordenados aleatoriamente
+        let mut individuals_indixes: Vec<u32> = (0..self.individuals.len() as u32).collect();
+        individuals_indixes.shuffle(rng);
+
+        // Aplicamos la busqueda local solo a un numero dado de los individuos. Usando los indices
+        // en orden aleatorio, escogemos aleatoriamente a dichos individuos
+        for i in 0..number_of_individuals_to_intensify{
+            // Escogemos aleatoriamente al individuo
+            let index = individuals_indixes[i as usize] as usize;
+
+            // Aplicamos la busqueda local a ese individuo
             let new_individual_result = new_pop.individuals[index].soft_local_search(max_fails, rng);
             let new_individual = new_individual_result.get_result();
             fit_eval_cons += new_individual_result.get_iterations_consumed();

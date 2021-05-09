@@ -74,6 +74,7 @@ fn run<'a, 'b>(
     // enumerado puede llevar valores que no correspondan a memetico
     match memetic_type{
         SearchType::MemeticAll => (),
+        SearchType::MemeticRandom => (),
         _ => {
             println!("[Err] Tipo de busqueda memetica no correcta");
             println!("El tipo de busqueda memetica obtenida fue: {:?}", memetic_type);
