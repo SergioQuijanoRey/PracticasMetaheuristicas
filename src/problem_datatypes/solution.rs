@@ -439,12 +439,13 @@ impl<'a, 'b> Solution<'a, 'b> {
         }
 
         // Copiamos, con cruce uniforme, el resto de valores
-        for i in 0.. (gen_size - segment_size){
+        for i in 0..(gen_size - segment_size){
             // Calculamos el indice de la misma forma que antes, partiendo de donde nos quedamos
             let index = (segment_size + segment_start + i) % gen_size;
 
             // Padre del que queremos tomar la informacion
-            let choose_parent = rng.gen_range(0..1);
+            // Tenemos que poner el rango hasta 2, porque el extremo superior no se considera
+            let choose_parent = rng.gen_range(0..2);
             if choose_parent == 0{
                 crossed_solution.cluster_indexes[index] = first.cluster_indexes[index];
             }else{
