@@ -9,6 +9,10 @@ use rand::rngs::StdRng;
 use rand::seq::SliceRandom;
 use std::io::{stdin, stdout, Read, Write};
 
+// Para usar una cola con prioridad
+use priority_queue::PriorityQueue;
+use ordered_float::OrderedFloat;
+
 
 /// Representa una poblacion para los algoritmos geneticos
 // TODO -- pasar a una priority queue para mayor eficiencia
@@ -378,6 +382,21 @@ impl<'a, 'b> Population<'a, 'b>{
         return true;
     }
 
+    /// Comprobamos que todos los individuos de la poblacion tengan el valor del fitness cacheado
+    /// Notar que no es lo mismo que comprobar self.all_population_is_not_cached == false
+    pub fn all_population_is_cached(&self) -> bool{
+        for individual in self.individuals.iter(){
+
+            // Un individuo tiene el valor del fitness cacheado
+            if individual.is_fitness_cached() == false{
+                return false;
+            }
+        }
+
+        // Todos los individuos tienen el fitness cacheado
+        return true;
+    }
+
     /// Muestra las asignaciones de clusters de los individuos de la poblacion
     /// Lo usamos para debuggear el codigo, porque nuestra poblacion converge demasiado rapido a
     /// repetir el mismo individuo
@@ -420,6 +439,11 @@ impl<'a, 'b> Population<'a, 'b>{
             SearchType::MemeticRandom => {
                 let search_percentage = 0.1;
                 return self.soft_local_search_random(max_fails, search_percentage, rng);
+            }
+
+            SearchType::MemeticElitist => {
+                let search_percentage = 0.1;
+                return self.soft_local_search_elitist(max_fails, search_percentage, rng);
             }
 
             _ => {
@@ -472,6 +496,72 @@ impl<'a, 'b> Population<'a, 'b>{
         }
 
         return FitnessEvaluationResult::new(new_pop, fit_eval_cons);
+    }
+
+    // Aplica la busqueda local suave, sobre el mejor porcentaje de individuos de la poblacion
+    fn soft_local_search_elitist(&self, max_fails: i32, search_percentage: f64, rng: &mut StdRng) -> FitnessEvaluationResult<Self>{
+        let mut new_pop = self.copy();
+        let mut fit_eval_cons = 0;
+
+        // Numero de individuos sobre los que vamos a realizar la busqueda local suave
+        let number_of_individuals_to_intensify = (self.individuals.len() as f64 * search_percentage) as i32;
+
+        // Seleccionamos los indices del mejor porcentaje de la poblacion
+        let best_indixes_result = self.select_best_indixes(number_of_individuals_to_intensify);
+        let best_indixes = best_indixes_result.get_result();
+        fit_eval_cons += best_indixes_result.get_iterations_consumed();
+
+        // Aplicamos la busqueda local a este porcentaje mejor de individuos
+        for index in best_indixes{
+
+            // Aplicamos la busqueda local a ese individuo
+            let new_individual_result = new_pop.individuals[*index as usize].soft_local_search(max_fails, rng);
+            let new_individual = new_individual_result.get_result();
+            fit_eval_cons += new_individual_result.get_iterations_consumed();
+            new_pop.individuals[*index as usize] = new_individual.copy();
+        }
+
+        return FitnessEvaluationResult::new(new_pop, fit_eval_cons);
+    }
+
+    /// Dado un numero de individuos, selecciona los indices de los mejores individuos de la
+    /// poblacion. Es decir, aquellos indices de individuos con mejor valor de fitness
+    // TODO -- es bastante facil de testear
+    fn select_best_indixes(&self, number_of_individuals: i32) -> FitnessEvaluationResult<Vec<u32>>{
+        let mut fit_evals_cons = 0;
+        let mut best_indixes = vec![];
+
+        // Necesitamos que toda la poblacion este evaluada para poder ordenar a sus individuos
+        let eval_result = self.evaluate_all_individuals();
+        fit_evals_cons += eval_result.get_iterations_consumed();
+        debug_assert!(self.all_population_is_cached());
+
+        // Guardamos a los individuos de la poblacion en una priority queue.
+        // En verdad, solo necesitamos guardar los indices de los individuos ordenados por su valor
+        // de fitness.
+        // Podemos guardar todos los elementos en esta, sabiendo que el fitness ya esta evaluado
+        // porque hemos evaluado toda la poblacion anteriormente.
+        let mut priority_queue = PriorityQueue::new();
+        for (index, individual) in self.individuals.iter().enumerate(){
+            priority_queue.push(index, OrderedFloat::<f64>::from(individual.fitness()));
+        }
+
+        // Sacamos a los number_of_individuals primeros individuos de la prioqueu
+        for (it, index) in priority_queue.into_sorted_iter().enumerate(){
+            // Tomamos el valor del indice. index tiene el valor del indice, y su valor de fitness,
+            // que no nos interesa
+            best_indixes.push(index.0 as u32);
+
+            // Solo guardamos el numero dado de individuos
+            if it as i32 >= number_of_individuals - 1{
+                break;
+            }
+        }
+
+        // Comprobacion de seguridad
+        debug_assert!(best_indixes.len() == number_of_individuals as usize);
+
+        return FitnessEvaluationResult::new(best_indixes, fit_evals_cons);
     }
 
 }

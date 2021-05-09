@@ -73,8 +73,12 @@ fn run<'a, 'b>(
     // Comprobamos que el tipo de busqueda, dado por memetic_type, sea correcto. Esto porque el
     // enumerado puede llevar valores que no correspondan a memetico
     match memetic_type{
+        // Opciones validas
         SearchType::MemeticAll => (),
         SearchType::MemeticRandom => (),
+        SearchType::MemeticElitist => (),
+
+        // Hemos alcanzado una opcion que no es valida
         _ => {
             println!("[Err] Tipo de busqueda memetica no correcta");
             println!("El tipo de busqueda memetica obtenida fue: {:?}", memetic_type);

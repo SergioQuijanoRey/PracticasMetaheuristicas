@@ -19,7 +19,7 @@ use algorithms::memetic;
 fn show_help(){
     println!("Modo de uso del programa:");
     println!("\t./PracticasMetaheuristicas <data_file> <constraints_file> <seed> <number_of_clusters> <search_type>");
-    println!("\t<search_type>: copkmeans | copkmeans_robust | local_search | gguniform | ggsegment | gsuniform | gssegment | memeall | memerandom");
+    println!("\t<search_type>: copkmeans | copkmeans_robust | local_search | gguniform | ggsegment | gsuniform | gssegment | memeall | memerandom | memeelitist");
 }
 
 fn main() {
@@ -105,7 +105,7 @@ fn main() {
             steady_genetic::run_and_show_results(&data_points, &constraints, program_arguments, cross_uniform, &mut rng);
         }
 
-        arg_parser::SearchType::MemeticAll | arg_parser::SearchType::MemeticRandom => {
+        arg_parser::SearchType::MemeticAll | arg_parser::SearchType::MemeticRandom | arg_parser::SearchType::MemeticElitist => {
             let memetic_type = program_arguments.get_search_type();
             memetic::run_and_show_results(&data_points, &constraints, program_arguments, memetic_type, &mut rng);
         }
