@@ -430,7 +430,11 @@ impl<'a, 'b> Population<'a, 'b>{
     /// una poblacion sin considerar las evaluaciones del fitness
     // TODO -- poner un panic para ver que no se use en codigo final
     pub fn measure_variety(&self) -> u32{
-        panic!("NO USAR ESTA FUNCION, ALTERA LAS EVALUACIONES DE FITNESS CONSUMIDAS");
+        // Para comprobar que no podemos llamar a esta funcion
+        // Quitar esto cuando hagamos debug del codigo. Tenemos un test para comprobar que esta
+        // funcion no puede ser llamada
+        panic!("function disabled");
+
         let mut fitness_values = HashSet::new();
 
         for individual in self.individuals.iter(){
@@ -581,4 +585,19 @@ impl<'a, 'b> Population<'a, 'b>{
         return FitnessEvaluationResult::new(best_indixes, fit_evals_cons);
     }
 
+
+}
+
+mod test{
+    use crate::problem_datatypes::population::Population;
+
+    #[test]
+    #[should_panic(expected="function disabled")]
+    /// Comprobamos que tenemos desactivada esta funcion, porque si se puede llamar puede afectar
+    /// al comportamiento de los algoritmos (pues evalua el fitness de todos los elementos de la
+    /// poblacion sin notifcar cuantas evaluaciones efectivas del fitness estamos realizando)
+    fn test_measure_variety_disabled(){
+        let pop = Population::new_empty_population();
+        pop.measure_variety();
+    }
 }
