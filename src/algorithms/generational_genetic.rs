@@ -5,6 +5,8 @@ use crate::fitness_evolution::FitnessEvolution;
 use crate::arg_parser::ProgramParameters;
 use crate::problem_datatypes::population::Population;
 use crate::fitness_evaluation_result::FitnessEvaluationResult;
+use crate::utils;
+use crate::arg_parser::SearchType;
 
 use rand::rngs::StdRng;
 use std::time::Instant;
@@ -32,6 +34,14 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
     let duration = after.duration_since(before);
     let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
 
+    // Para la salida de resultados formateada
+    let search_type;
+    if cross_uniform == true{
+        search_type = SearchType::GenerationalGeneticUniform;
+    }else{
+        search_type = SearchType::GenerationalGeneticSegment;
+    }
+
     // Mostramos los resultados
     println!("==> Busqueda genetica, modelo generacional, cross_uniform: {}", cross_uniform);
     println!("\t--> La distancia global instracluster de la solucion es: {}", solucion.global_cluster_mean_distance());
@@ -39,7 +49,7 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
     println!("\t--> El valor de fitness es: {}", solucion.fitness());
     println!("\t--> El valor de lambda es: {}", solucion.get_lambda());
     println!("\t--> Tiempo transcurrido (segundos): {}", duration_numeric);
-    println!("\t--> Evolucion del fitness: {}", fitness_evolution);
+    println!("\t--> Salvado del fitness: {:?}", fitness_evolution.save_as_numpy_file(&utils::generate_file_name(search_type)));
     println!("");
 }
 

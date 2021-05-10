@@ -6,6 +6,7 @@ use crate::arg_parser::ProgramParameters;
 use crate::problem_datatypes::population::Population;
 use crate::fitness_evaluation_result::FitnessEvaluationResult;
 use crate::arg_parser::SearchType;
+use crate::utils;
 
 use rand::rngs::StdRng;
 use std::time::Instant;
@@ -50,7 +51,7 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
     println!("\t--> El valor de fitness es: {}", solucion.fitness());
     println!("\t--> El valor de lambda es: {}", solucion.get_lambda());
     println!("\t--> Tiempo transcurrido (segundos): {}", duration_numeric);
-    println!("\t--> Evolucion del fitness: {}", fitness_evolution);
+    println!("\t--> Salvado del fitness: {:?}", fitness_evolution.save_as_numpy_file(&utils::generate_file_name(memetic_type)));
     println!("");
 }
 
