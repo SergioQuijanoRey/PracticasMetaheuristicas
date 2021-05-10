@@ -896,7 +896,7 @@ mod tests{
     }
 
     #[test]
-    fn test_mutated_solution_differs_only_one_position(){
+    fn test_mutated_solution_differs_at_least_one_position(){
         generate_basic_solution(|solution| {
             let mut rng = StdRng::seed_from_u64(123456789);
 
@@ -914,8 +914,9 @@ mod tests{
                 }
 
                 let calc_diffs = calc_diffs;
-                let expected_diffs = 1;
-                assert_eq!(expected_diffs, calc_diffs);
+                let expected_min_diffs = 1;
+                println!("Calc diffs = {}", calc_diffs);
+                assert!(calc_diffs >= expected_min_diffs);
             }
 
 
