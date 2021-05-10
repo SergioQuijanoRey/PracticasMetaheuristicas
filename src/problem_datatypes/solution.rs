@@ -501,6 +501,12 @@ impl<'a, 'b> Solution<'a, 'b> {
             mutated_sol.repair_solution(rng);
         }
 
+        // Comprobamos que la solucion no sea la misma (puede ocurrir al reparar). En caso de que
+        // sea la misma solucion, volvemos a mutar
+        if mutated_sol.cluster_indexes == self.cluster_indexes{
+            return self.mutated(rng);
+        }
+
         return mutated_sol;
     }
 
@@ -915,8 +921,7 @@ mod tests{
 
                 let calc_diffs = calc_diffs;
                 let expected_min_diffs = 1;
-                println!("Calc diffs = {}", calc_diffs);
-                assert!(calc_diffs >= expected_min_diffs);
+                assert!(calc_diffs >= expected_min_diffs, "Se esperaba al menos una diferencia, se obtuvieron {} diferencias", calc_diffs);
             }
 
 
