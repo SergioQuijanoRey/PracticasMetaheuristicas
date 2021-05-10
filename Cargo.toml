@@ -14,6 +14,7 @@ assert_approx_eq = "1.1.0"  # Assert almost equals
 priority-queue = "1.1.0"    # Genetic individuals ordered by fitness
 ordered-float = "2.0"       # Floats do not implement Ord by default
 csv = "1.1"                 # Read csv files
+chrono = "0.4"              # Timestamp into string
 
 npy = "0.4"                 # Saving file in numpy's format
 npy-derive = "0.4"          # Saving file in numpy's format

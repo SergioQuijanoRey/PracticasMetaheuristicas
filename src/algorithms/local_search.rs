@@ -3,6 +3,8 @@ use crate::problem_datatypes::DataPoints;
 use crate::problem_datatypes::Constraints;
 use crate::fitness_evolution::FitnessEvolution;
 use crate::arg_parser::ProgramParameters;
+use crate::utils;
+use crate::arg_parser::SearchType;
 
 use rand::rngs::StdRng;
 use std::time::Instant;
@@ -27,7 +29,7 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
     println!("El valor de fitness es: {}", solucion_local.fitness());
     println!("El valor de lambda es: {}", solucion_local.get_lambda());
     println!("Tiempo transcurrido (segundos): {}", duration_numeric);
-    println!("Salvado del fitness: {:?}", fitness_evolution.save_as_numpy_file("./pruebas_salvado.npy"));
+    println!("Salvado del fitness: {:?}", fitness_evolution.save_as_numpy_file(&utils::generate_file_name(SearchType::LocalSearch)));
     println!("");
 
 }

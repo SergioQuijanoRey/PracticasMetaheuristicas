@@ -9,6 +9,7 @@ mod problem_datatypes;
 mod algorithms;
 mod fitness_evolution;
 mod fitness_evaluation_result;
+mod utils;
 
 use algorithms::local_search;
 use algorithms::copkmeans;
