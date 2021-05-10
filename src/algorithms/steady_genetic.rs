@@ -133,6 +133,11 @@ fn run<'a, 'b>(
         // deberia consumir demasiado tiempo
         let evaluate_poblation_result = final_population.evaluate_all_individuals();
         iteration_fitness_evaluations += evaluate_poblation_result.get_iterations_consumed();
+        debug_assert!(
+            evaluate_poblation_result.get_iterations_consumed() == 0,
+            "La poblacion deberia estar evaluada tras la competicion, pero estamos consumiendo {} evaluaciones",
+            evaluate_poblation_result.get_iterations_consumed()
+        );
 
         // Realizamos el cambio de poblacion
         // Hacemos una comprobacion de seguridad sobne la poblacion, tras las competicion de los

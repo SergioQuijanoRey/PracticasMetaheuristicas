@@ -251,15 +251,19 @@ impl<'a, 'b> Population<'a, 'b>{
     /// Esta operacion no consume iteraciones sobre la poblacion
     /// A diferencia de mutate_population, no usamos el numero esperado de mutaciones, sino tiradas
     /// aleatorias. Por ello, la poblacion con la que trabajamos no debiera ser demasiado grande
-    pub fn mutate_population_given_prob(&self, mutation_probability: f64, rng: &mut StdRng) -> Self{
+    pub fn mutate_population_given_prob(&self, mutation_probability_per_gen: f64, rng: &mut StdRng) -> Self{
         let mut new_pop = self.copy();
 
         // Iteramos sobre los individuos y decidimos si mutamos o no aleatoriamente
         for (index, _individual) in self.individuals.iter().enumerate(){
-            let do_mutation = rng.gen::<f64>() <= mutation_probability;
 
-            if do_mutation == true{
-                new_pop.individuals[index] = new_pop.individuals[index].mutated(rng);
+            // Iteramos sobre los genes. Realmente lanzamos numero_genes de veces los aleatorios,
+            // pues estamos trabajando con probabilidad por gen
+            for _ in 0..self.individuals[0].get_cluster_indexes().len(){
+                let do_mutation = rng.gen::<f64>() <= mutation_probability_per_gen;
+                if do_mutation == true{
+                    new_pop.individuals[index] = new_pop.individuals[index].mutated(rng);
+                }
             }
         }
 
@@ -319,21 +323,22 @@ impl<'a, 'b> Population<'a, 'b>{
     // candidata luchan contra los peores individuos de la poblacion original (&self) para quedarse
     // en dicha poblacion
     // La poblacion original no se modifica, se devuelve una copia con la poblacion resultante
+    // TODO -- BUG -- aqui hay un fallo
     pub fn compete_with_new_individuals(&self, candidate_population: &Population<'a, 'b>) -> FitnessEvaluationResult<Self>{
         let mut new_pop = self.copy();
         let mut fit_eval_cons = 0;
 
         for candidate in candidate_population.individuals.iter(){
 
-            // Tomamos el peor individuo de la poblacion original
-            let worst_individual_result = self.get_index_worst_individual();
+            // Tomamos el peor individuo de la poblacion
+            let worst_individual_result = new_pop.get_index_worst_individual();
             let worst_individual_index = worst_individual_result.get_result();
             fit_eval_cons += worst_individual_result.get_iterations_consumed();
 
             // Evaluamos el fitness del peor individuo y del candidato. En ambos casos tenemos en
             // cuenta las evaluaciones que esto puede suponer. El peor individuo deberia estar
             // evaluado, mientras que el candidato no. Hacemos las dos cuentas por seguridad
-            let (worst_fitness, worst_it_cons) = self.individuals[*worst_individual_index].fitness_and_consumed();
+            let (worst_fitness, worst_it_cons) = new_pop.individuals[*worst_individual_index].fitness_and_consumed();
             let (candidate_fitness, candidate_it_cons) = candidate.fitness_and_consumed();
             fit_eval_cons += worst_it_cons + candidate_it_cons;
 
