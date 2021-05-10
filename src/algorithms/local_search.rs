@@ -27,7 +27,7 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
     println!("El valor de fitness es: {}", solucion_local.fitness());
     println!("El valor de lambda es: {}", solucion_local.get_lambda());
     println!("Tiempo transcurrido (segundos): {}", duration_numeric);
-    println!("Evolucion del fitness: {}", fitness_evolution);
+    println!("Salvado del fitness: {:?}", fitness_evolution.save_as_numpy_file("./pruebas_salvado.npy"));
     println!("");
 
 }

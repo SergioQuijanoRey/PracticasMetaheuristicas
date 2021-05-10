@@ -1,8 +1,10 @@
 use std::fmt;
+use npy::to_file;
+use serde::{Serialize};
 
 /// Representa la evolucion en fitness de los distintos algoritmos de búsqueda
 /// iterativa
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct FitnessEvolution{
     fitness_at_iteration: Vec<f64>,
 }
@@ -28,10 +30,26 @@ impl FitnessEvolution{
     pub fn get_fitness_at_iteration(&self) -> Vec<f64>{
         return self.fitness_at_iteration.clone();
     }
+
+    /// Guardamos el resultado en un fichero de Numpy. Esto porque vamos a mostrar graficas usando
+    /// scripts de python, trabajando con numpy
+    pub fn save_as_numpy_file(&self, file_path: &str) -> Option<()>{
+        let result = npy::to_file(file_path, self.fitness_at_iteration.clone());
+
+        // No quiero tanto control, asi que paso de Result a Option
+        match result {
+            Ok(_) => return Some(()),
+            Err(e) => {
+                eprintln!("[Err] No se pudo guardar el archivo npy");
+                eprintln!("Codigo de error: {}", e);
+                return None;
+            }
+        }
+    }
 }
 
+// Para poder mostrar por pantalla el FitnessEvolution
 impl fmt::Display for FitnessEvolution {
-    // This trait requires `fmt` with this exact signature.
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
 
         // Numero de valores que vamos a mostrar en una fila

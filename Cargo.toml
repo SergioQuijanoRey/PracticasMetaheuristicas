@@ -8,12 +8,16 @@ edition = "2018"
 
 [dependencies]
 simple-error="0.2.3"        # Raising simple errors
-csv = "1.1"                 # Read csv files
 rand = "0.8.3"              # Generate random numbers
 ndarray = "0.14.0"          # Work with matrices and vectors
 assert_approx_eq = "1.1.0"  # Assert almost equals
 priority-queue = "1.1.0"    # Genetic individuals ordered by fitness
 ordered-float = "2.0"       # Floats do not implement Ord by default
+csv = "1.1"                 # Read csv files
+
+npy = "0.4"                 # Saving file in numpy's format
+npy-derive = "0.4"          # Saving file in numpy's format
+serde = { version = "1.0", features = ["derive"] } # Derive Serialize trait for npy
 
 
 # Para que flamegraph mejore el grafico del perf
