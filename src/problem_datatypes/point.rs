@@ -6,7 +6,6 @@ use rand::rngs::StdRng;
 use ndarray::Array;
 
 /// Representa un punto
-// TODO -- este clone me molesta
 #[derive(Debug, PartialEq, Clone)]
 pub struct Point {
     coordinates: ndarray::Array1<f64>,
