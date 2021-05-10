@@ -467,25 +467,27 @@ impl<'a, 'b> Solution<'a, 'b> {
     }
 
     /// Devuelve una solucion mutada
+    ///
+    /// Permitimos que se mute a una solucion no valida, que luego es reparada. Si no hacemos esto,
+    /// perdemos mucha variabilidad que queremos introducir con la mutacion. Por ejemplo, si
+    /// dejamos un cluster con un solo punto, esta posicion se queda "atascada" al no poder ser
+    /// cambiada por mutacion. Esto era lo que provocaba el mal comportamiento
     pub fn mutated(&self, rng: &mut StdRng) -> Self{
         // Copiamos la solucion para realizar una modificacion
         let mut mutated_sol = self.copy();
 
-        // Tomamos una posicion a mutar. Esta posicion no puede apuntar a un cluster que solo tenga
-        // a ese punto asignado, porque entonces dejariamos el cluster inicial vacio. Por tanto,
-        // los valores seguros para mutar son aquellos que tienen al menos dos puntos
-        let clusters_with_more_than_one_point = mutated_sol.get_clusters_with_more_than_one_point();
-        let mut_position = clusters_with_more_than_one_point.choose(rng).expect("No tenemos clusters con mas de un punto");
+        // Tomamos una posicion a mutar. Esta posicion puede ser la de un cluster que no tenga mas
+        // de dos puntos. En ese caso, deja al cluster vacio. Por ello, debemos reparar la solucion
+        // si se da el caso. Otra opcion es comprobar que el cluster escogido tenga al menos dos
+        // puntos asignados, pero entonces excluimos clusters con solo un punto, disminuyendo en
+        // parte la variabilidad que introduce la mutacion
+        let mut_position_candidates: Vec<i32> = (0..mutated_sol.data_points.len() as i32).collect();
+        let mut_position = mut_position_candidates.choose(rng).expect("No tenemos puntos en nuestro dataset que asignar a clusters");
 
         // Podemos elegir como nuevo valor aquellos que esten en el itervalo adecuado y que no sean
         // el cluster original que ya teniamos, pues estariamos perdiendo una mutacion efectiva
-        //
-        // Elegimos como valor a mutar un cluster que tenga mas de un punto. Estos clusters son
-        // seguros para mutar, de otra forma, podriamos dejar un cluster sin puntos asingados
         let mut new_cluster_candidates: Vec<i32> = (0..mutated_sol.number_of_clusters).collect();
         new_cluster_candidates.retain(|&x| x != mutated_sol.cluster_indexes[*mut_position as usize] as i32);
-
-        // Mutamos la posicion a uno de los valores permitidos
         let mut_value = new_cluster_candidates.choose(rng).expect("No hemos podido generar una lista de clusters candidatos");
 
         // Mutamos el valor
@@ -493,6 +495,11 @@ impl<'a, 'b> Solution<'a, 'b> {
 
         // Reseteamos el fitness, porque estamos haciendo un cambio a la solucion que devolvemos
         mutated_sol.invalid_fitness_cache();
+
+        // Comprobamos que la solucion sea valida. En caso de que no lo sea, la reparamos
+        if mutated_sol.is_valid() == false{
+            mutated_sol.repair_solution(rng);
+        }
 
         return mutated_sol;
     }
