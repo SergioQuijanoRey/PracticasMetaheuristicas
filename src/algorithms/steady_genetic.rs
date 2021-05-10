@@ -90,7 +90,7 @@ fn run<'a, 'b>(
 
         // Cruzamos los dos individuos que hemos tomado de la poblacion, generando otros dos
         // individuos. Esto no deberia provocar evaluaciones del fitness
-        let crossover_probability = 1.0; // Cruzamos forzosamente a los individuos
+        let crossover_probability = 1.00; // Cruzamos forzosamente a los individuos
         let crossed_population_result;
         if cross_uniform == true{
             crossed_population_result = selection_population.cross_population_uniform(crossover_probability, rng);
