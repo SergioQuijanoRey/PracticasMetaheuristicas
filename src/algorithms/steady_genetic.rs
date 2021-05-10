@@ -53,7 +53,6 @@ fn run<'a, 'b>(
     -> (Solution<'a, 'b>, FitnessEvolution){
 
     // Llevamos la cuenta del fitness del mejor individuo en cada iteracion sobre la poblacion
-    // TODO -- puede relantecer demasiado el algoritmo?
     let mut fitness_evolution = FitnessEvolution::new();
 
     // Poblacion inicial aleatoria

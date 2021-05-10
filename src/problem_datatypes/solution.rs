@@ -16,7 +16,7 @@ use crate::fitness_evaluation_result::FitnessEvaluationResult;
 /// La solucion viene representada como un vector de indices
 /// En dicho vector, la posicion i-esima indica el cluster al que pertenece el i-esimo
 /// punto del conjunto de datos
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Solution<'a, 'b> {
     cluster_indexes: Vec<u32>,
     data_points: &'a DataPoints,
@@ -168,7 +168,16 @@ impl<'a, 'b> Solution<'a, 'b> {
 
     /// Devuelve el primer vecino de la solucion valido que mejora la solucion
     /// actual (el primero mejor)
-    pub fn get_neighbour(&self, rng: &mut StdRng) -> Option<Self> {
+    /// Necesitamos saber cuantas evaluaciones podemos consumir como criterio de parada, para
+    /// evitar generar todo un vecindario cuando esto no sea posible por agotar las evaluaciones
+    pub fn get_neighbour(&self, left_iterations: i32, rng: &mut StdRng) -> FitnessEvaluationResult<Option<Self>> {
+
+        // Para llevar las cuentas de las llamadas a funcion fitness consumidas en la operacion
+        let mut fitness_consumed = 0;
+
+        // Fitness de la solucion a mejorar. Solo lo calculamos una unica vez
+        let (fitness_to_beat, ev_cons) = self.fitness_and_consumed();
+        fitness_consumed += ev_cons;
 
         // Tomo los generadores de vecinos
         let mut neighbours_generator = NeighbourGenerator::generate_all_neighbours(self.data_points.len() as i32, self.number_of_clusters);
@@ -177,15 +186,34 @@ impl<'a, 'b> Solution<'a, 'b> {
         neighbours_generator.shuffle(rng);
 
         for current_generator in neighbours_generator{
+
+            // Generamos la nueva solucion
             let current_solution = self.generate_solution_from(current_generator);
 
-            if current_solution.is_valid() && current_solution.fitness() < self.fitness(){
-                return Some(current_solution);
+            // Si la solucion no es valida, no perdemos evaluaciones del fitness
+            if current_solution.is_valid() == false{
+                continue;
+            }
+
+            // Tomamos el valor del fitness de la nueva solucion
+            let (current_fitness, ev_cons) = current_solution.fitness_and_consumed();
+            fitness_consumed += ev_cons;
+
+
+            // Comprobamos si hemos mejorado a la solucion original
+            if current_fitness < fitness_to_beat{
+                return FitnessEvaluationResult::new(Some(current_solution), fitness_consumed);
+            }
+
+            // Comprobamos si hemos excedido el maximo de evaluaciones de las que disponiamos
+            if fitness_consumed >= left_iterations as u32{
+                // No hemos encontrado un vecino mejor a tiempo
+                return FitnessEvaluationResult::new(None, fitness_consumed);
             }
         }
 
         // No hemos encontrado un vecino mejor
-        return None;
+        return FitnessEvaluationResult::new(None, fitness_consumed);
     }
 
     /// A partir de un NeighbourGenerator, genera la solucion que representa el
@@ -513,7 +541,6 @@ impl<'a, 'b> Solution<'a, 'b> {
     /// Repara una solucion. Toma los clusters sin puntos asignados, y asigna aleatoriamente un
     /// punto de un cluster que tenga mas de un punto asignado (pues no podemos dejar otros
     /// clusters vacios en el proceso de reparacion)
-    // TODO -- testear, es bastante sencillo y es bastante critico que funcione bien
     pub fn repair_solution(&mut self, rng: &mut StdRng){
         // Tomamos los clusters sin puntos asignados
         let clusters_without_points = self.get_cluster_without_points();

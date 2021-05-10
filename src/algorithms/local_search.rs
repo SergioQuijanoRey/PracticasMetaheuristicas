@@ -12,10 +12,10 @@ use std::time::Instant;
 pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints, program_arguments: ProgramParameters, rng: &mut StdRng){
     // Numero maximo de iteraciones para la busqueda local
     // TODO -- deberia ser numero maximo de evaluaciones del fitness
-    let max_iterations = 100000;
+    let max_fitness_evaluations = 100000;
 
     let before = Instant::now();
-    let (solucion_local, fitness_evolution) = run(&data_points, &constraints, program_arguments.get_number_of_clusters(), max_iterations, rng);
+    let (solucion_local, fitness_evolution) = run(&data_points, &constraints, program_arguments.get_number_of_clusters(), max_fitness_evaluations, rng);
     let after = Instant::now();
     let duration = after.duration_since(before);
     let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
@@ -33,9 +33,7 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
 }
 
 /// Ejecuta la metaheuristica de busqueda local y devuelve la solucion encontrada
-// TODO -- BUG -- creo que aqui, el numero maximo de iteraciones lo estamos haciendo mal
-// TODO -- BUG -- una iteracion es una evaluacion de la funcion fitness
-fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, number_of_clusters: i32, max_iterations: i32, rng: &mut StdRng) -> (Solution<'a, 'b>, FitnessEvolution){
+fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, number_of_clusters: i32, max_fitness_evaluations: i32, rng: &mut StdRng) -> (Solution<'a, 'b>, FitnessEvolution){
     // Cuenta de como avanza la evolucion del fitness a traves de las iteraciones
     let mut fitness_evolution = FitnessEvolution::new();
 
@@ -43,11 +41,21 @@ fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, number
     let mut current_solution = Solution::generate_random_solution(data_points, constraints, number_of_clusters, rng);
     fitness_evolution.add_iteration(current_solution.fitness());
 
-    // Realizamos las iteraciones pertinentes
-    for i in 0..max_iterations{
+    // Realizamos las iteraciones pertinentes mientras no hayamos consumido todas las evaluaciones
+    // sobre el fitness
+    let mut fitness_evaluations_consumed = 0;
+    while fitness_evaluations_consumed < max_fitness_evaluations{
 
-        // Tomamos el vecino
-        let new_solution = match current_solution.get_neighbour(rng){
+        // Las evaluaciones de fitness que se consumen en esta iteracion
+        let mut current_fitness_consumed = 0;
+
+        // Tomamos el vecino y tenemos en cuenta las evaluaciones del fitness consumidas
+        let evaluations_left = max_fitness_evaluations - fitness_evaluations_consumed;
+        let find_new_solution_result = current_solution.get_neighbour(evaluations_left, rng);
+        let new_solution = find_new_solution_result.get_result();
+        current_fitness_consumed += find_new_solution_result.get_iterations_consumed();
+
+        let new_solution = match new_solution{
             Some(sol) => sol,
 
             // No hemos encontrado ningun vecino mejor, asi que paramos de iterar
@@ -58,9 +66,14 @@ fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, number
         };
 
         // Hacemos el cambio de solucion y guardamos la mejora del fitness
-        current_solution = new_solution;
+        // Este valor del fitness ya ha sido calculado en la busqueda del vecinadario, y por tanto,
+        // no consume evaluaciones del fitness
+        current_solution = new_solution.clone();
         fitness_evolution.add_iteration(current_solution.fitness());
+        debug_assert!(current_solution.is_fitness_cached() == true, "El vecino generado debe tener el valor del fitness cacheado");
 
+        // Añadimos todas las evaluaciones que se hayan consumido en la busqueda
+        fitness_evaluations_consumed += current_fitness_consumed as i32;
     }
 
     return (current_solution, fitness_evolution);
