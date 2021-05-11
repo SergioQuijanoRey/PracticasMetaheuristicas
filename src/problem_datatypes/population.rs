@@ -17,7 +17,6 @@ use std::collections::HashSet;
 
 
 /// Representa una poblacion para los algoritmos geneticos
-// TODO -- pasar a una priority queue para mayor eficiencia
 #[derive(Debug, Clone)]
 pub struct Population<'a, 'b>{
     /// Individuos de la poblacion
