@@ -221,7 +221,6 @@ fn run_steady<'a, 'b>(
     // Realizamos las iteraciones pertinentes
     let mut consumed_fitness_evaluations = 0;
     let mut current_generation = 0;
-
     while consumed_fitness_evaluations < max_fitness_evaluations{
 
         // Las evaluaciones del fitness que se consumen en este ciclo
@@ -242,7 +241,7 @@ fn run_steady<'a, 'b>(
 
         // Cruzamos los dos individuos que hemos tomado de la poblacion, generando otros dos
         // individuos. Esto no deberia provocar evaluaciones del fitness
-        let crossover_probability = 1.0; // Cruzamos forzosamente a los individuos
+        let crossover_probability = 1.00; // Cruzamos forzosamente a los individuos
         let crossed_population_result = selection_population.cross_population_uniform(crossover_probability, rng);
         let crossed_population = crossed_population_result.get_result();
         iteration_fitness_evaluations += crossed_population_result.get_iterations_consumed();
@@ -279,6 +278,11 @@ fn run_steady<'a, 'b>(
         // deberia consumir demasiado tiempo
         let evaluate_poblation_result = final_population.evaluate_all_individuals();
         iteration_fitness_evaluations += evaluate_poblation_result.get_iterations_consumed();
+        debug_assert!(
+            evaluate_poblation_result.get_iterations_consumed() == 0,
+            "La poblacion deberia estar evaluada tras la competicion, pero estamos consumiendo {} evaluaciones",
+            evaluate_poblation_result.get_iterations_consumed()
+        );
 
         // Cada diez iteraciones, aplicamos la busqueda local suave segun el criterio que indica
         // memetic_type. Llevamos las cuentas de las evaluaciones adicionales que consume esta
