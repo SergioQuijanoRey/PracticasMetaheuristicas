@@ -1,0 +1,3056 @@
+warning: unused import: `crate::problem_datatypes::population::Population`
+   --> src/problem_datatypes/population.rs:580:9
+    |
+580 |     use crate::problem_datatypes::population::Population;
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(unused_imports)]` on by default
+
+warning: unused import: `crate::fitness_evaluation_result::FitnessEvaluationResult`
+ --> src/algorithms/generational_genetic.rs:7:5
+  |
+7 | use crate::fitness_evaluation_result::FitnessEvaluationResult;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `crate::fitness_evaluation_result::FitnessEvaluationResult`
+ --> src/algorithms/steady_genetic.rs:7:5
+  |
+7 | use crate::fitness_evaluation_result::FitnessEvaluationResult;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `crate::fitness_evaluation_result::FitnessEvaluationResult`
+ --> src/algorithms/memetic.rs:7:5
+  |
+7 | use crate::fitness_evaluation_result::FitnessEvaluationResult;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `npy::to_file`
+ --> src/fitness_evolution.rs:2:5
+  |
+2 | use npy::to_file;
+  |     ^^^^^^^^^^^^
+
+warning: unused import: `DateTime`
+ --> src/utils.rs:4:14
+  |
+4 | use chrono::{DateTime, Utc};
+  |              ^^^^^^^^
+
+warning: unreachable statement
+   --> src/problem_datatypes/population.rs:428:9
+    |
+426 |         panic!("function disabled");
+    |         ---------------------------- any code following this expression is unreachable
+427 | 
+428 |         let mut fitness_values = HashSet::new();
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ unreachable statement
+    |
+    = note: `#[warn(unreachable_code)]` on by default
+
+warning: unused variable: `crossover_probability`
+   --> src/algorithms/memetic.rs:193:5
+    |
+193 |     crossover_probability: f64,
+    |     ^^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_crossover_probability`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: associated function is never used: `get_data_points`
+  --> src/problem_datatypes/solution.rs:68:12
+   |
+68 |     pub fn get_data_points(&self) -> &DataPoints{
+   |            ^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: associated function is never used: `show_intra_cluster_distances`
+   --> src/problem_datatypes/solution.rs:326:12
+    |
+326 |     pub fn show_intra_cluster_distances(&self){
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: associated function is never used: `new`
+  --> src/problem_datatypes/point.rs:15:12
+   |
+15 |     pub fn new(coordinates: ndarray::Array1<f64>) -> Self{
+   |            ^^^
+
+warning: associated function is never used: `zeros`
+  --> src/problem_datatypes/point.rs:99:12
+   |
+99 |     pub fn zeros(dimension: usize) -> Self{
+   |            ^^^^^
+
+warning: associated function is never used: `new`
+  --> src/problem_datatypes/neighbour_generator.rs:14:12
+   |
+14 |     pub fn new(element_index: i32, new_cluster: u32) -> Self{
+   |            ^^^
+
+warning: associated function is never used: `set_individual`
+   --> src/problem_datatypes/population.rs:111:12
+    |
+111 |     pub fn set_individual(&mut self, index: usize, individual: Solution<'a, 'b>){
+    |            ^^^^^^^^^^^^^^
+
+warning: associated function is never used: `show_population`
+   --> src/problem_datatypes/population.rs:395:12
+    |
+395 |     pub fn show_population(&self){
+    |            ^^^^^^^^^^^^^^^
+
+warning: associated function is never used: `wait_for_user_input`
+   --> src/problem_datatypes/population.rs:410:8
+    |
+410 |     fn wait_for_user_input() {
+    |        ^^^^^^^^^^^^^^^^^^^
+
+warning: associated function is never used: `measure_variety`
+   --> src/problem_datatypes/population.rs:422:12
+    |
+422 |     pub fn measure_variety(&self) -> u32{
+    |            ^^^^^^^^^^^^^^^
+
+warning: function is never used: `run_steady`
+   --> src/algorithms/memetic.rs:185:4
+    |
+185 | fn run_steady<'a, 'b>(
+    |    ^^^^^^^^^^
+
+warning: associated function is never used: `from_vec`
+  --> src/fitness_evolution.rs:19:12
+   |
+19 |     pub fn from_vec(fitness_at_iteration: Vec<f64>) -> Self{
+   |            ^^^^^^^^
+
+warning: associated function is never used: `get_fitness_at_iteration`
+  --> src/fitness_evolution.rs:30:12
+   |
+30 |     pub fn get_fitness_at_iteration(&self) -> Vec<f64>{
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: associated function is never used: `get_mut_result`
+  --> src/fitness_evaluation_result.rs:21:12
+   |
+21 |     pub fn get_mut_result(&mut self) -> &mut T{
+   |            ^^^^^^^^^^^^^^
+
+warning: associated function is never used: `get_mut_iterations_consumed`
+  --> src/fitness_evaluation_result.rs:25:12
+   |
+25 |     pub fn get_mut_iterations_consumed(&mut self) -> u32{
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: crate `PracticasMetaheuristicas` should have a snake case name
+  |
+  = note: `#[warn(non_snake_case)]` on by default
+  = help: convert the identifier to snake case: `practicas_metaheuristicas`
+
+warning: 23 warnings emitted
+
+    Finished release [optimized + debuginfo] target(s) in 0.12s
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1140
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1183
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1212
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1175
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1181
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1150
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1213
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1265
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1159
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1207
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1228
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1211
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1190
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1299
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1251
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1146
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1162
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1247
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1144
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1248
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1248
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1183
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1236
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1228
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1245
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2219
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2275
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2278
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2227
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2217
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2203
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2344
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2466
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2184
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2210
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2328
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2308
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2294
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2450
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2382
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2155
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2207
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2411
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2167
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2340
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2405
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2339
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2306
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2274
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2384
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2476
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2321
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2437
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2275
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2356
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2445
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2328
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2276
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2480
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2328
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2287
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2317
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2242
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2303
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2361
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2208
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2193
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2456
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2145
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2385
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2257
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2225
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2301
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2252
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2294
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2338
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2355
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2270
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2263
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2233
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2329
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2290
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2355
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2215
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2328
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2319
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2214
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2228
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2318
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2304
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2216
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2242
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2263
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2338
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2268
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2290
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2228
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2389
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2602
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2470
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2376
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2337
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2423
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2247
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2356
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2316
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2284
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2388
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2189
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2221
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2380
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2263
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2520
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2348
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2309
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2458
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2339
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2302
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2234
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2241
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2272
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2242
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2199
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2224
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2221
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [6]
+Restricciones violadas: 90
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [6]
+Restricciones violadas: 198
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1263
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1156
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1230
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1157
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1153
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1207
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1352
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2339
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2225
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2348
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2164
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2226
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2280
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2563
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2397
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2456
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2289
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2357
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2212
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2284
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2283
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2244
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2328
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2260
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2444
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2202
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2449
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2317
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2615
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2267
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2385
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2139
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2305
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2332
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2362
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2249
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2228
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2319
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2363
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2492
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2300
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2218
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2203
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2346
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2211
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2303
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2256
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2242
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2210
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2326
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2207
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2463
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2245
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2518
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2236
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2250
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2304
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2302
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2286
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2309
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2247
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2177
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2205
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2228
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2280
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2363
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2383
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2385
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2234
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2233
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2189
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2151
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2306
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2332
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2164
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2356
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2293
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2299
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2173
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2216
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2193
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2218
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2375
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2340
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2451
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2229
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2307
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2183
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2473
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2349
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2494
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2335
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2355
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2192
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2203
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2469
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2427
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2356
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2333
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2296
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2147
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2334
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2277
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2287
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2266
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2362
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2271
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [3]
+Restricciones violadas: 100
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [3]
+Restricciones violadas: 224
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2405
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2374
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2237
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2282
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2247
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2255
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2215
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2293
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2316
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2336
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2335
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2275
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2247
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2258
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2295
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2229
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2231
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2303
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2302
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2287
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2354
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0, 15]
+Restricciones violadas: 2331
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2290
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2329
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2197
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2319
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2273
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2341
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2313
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2185
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2401
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2319
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2294
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2270
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2255
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2517
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2239
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2598
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2327
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2241
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2220
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2279
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2307
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2233
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2341
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2256
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2387
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2251
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2468
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2286
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2233
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2294
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2335
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2361
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2252
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2470
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2346
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2361
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2264
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2171
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2339
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2221
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2194
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2343
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2344
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2319
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2166
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2454
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2313
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2356
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2246
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2247
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2255
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2545
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2313
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2345
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2248
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2349
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2293
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2436
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2573
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2412
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2215
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2326
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2264
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2345
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2286
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2433
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2211
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2294
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2226
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2267
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2288
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2601
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2325
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2342
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2229
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2300
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2269
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2442
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 380
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1342
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1283
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1188
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1200
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1203
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1157
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1389
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1196
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1280
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1214
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1199
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1213
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1325
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1199
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1213
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1190
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1164
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1175
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1143
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1192
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1149
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1188
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1207
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1185
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1188
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1218
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1162
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2622
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2444
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2266
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2284
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2292
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2237
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2678
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2272
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2409
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2289
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2254
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2346
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2554
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2288
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2280
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2299
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2311
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2203
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2227
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2268
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2221
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2302
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2245
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2228
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2259
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2222
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2245
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2302
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2309
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2509
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2324
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2413
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2320
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2729
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2188
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2278
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2162
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2188
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2266
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2549
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2513
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2370
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2263
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0, 9]
+Restricciones violadas: 2481
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2349
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2217
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2313
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2655
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2345
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2255
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2330
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2293
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2239
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2384
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2565
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2330
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2196
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2441
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2396
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2244
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2259
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2320
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2194
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2417
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2428
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2353
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2159
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2218
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2339
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2381
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2255
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2219
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2306
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2214
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2291
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2280
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2232
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2277
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2247
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2302
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2254
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2487
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2366
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2255
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2320
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2456
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2450
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2269
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2359
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2098
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2179
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2427
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2351
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2264
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2284
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2235
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2369
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2526
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2257
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2234
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [6]
+Restricciones violadas: 5
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1176
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 973
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1219
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1194
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1206
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1149
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1221
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1165
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1218
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1205
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1179
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1227
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1246
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1271
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1135
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 1262
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2276
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2228
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2380
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2312
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2271
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2356
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2273
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2342
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2179
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2270
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2335
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2272
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2374
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2295
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2496
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2169
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2423
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2218
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2329
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2271
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2216
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2252
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2356
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2342
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2322
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2400
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2287
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2276
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2286
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2178
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2244
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2495
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2385
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2214
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2476
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2230
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2307
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2245
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2277
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2322
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2208
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2382
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2274
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2316
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2223
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2606
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2232
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2357
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2599
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2536
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2269
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2220
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2298
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2460
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2360
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2375
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2292
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2290
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2382
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2448
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2361
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2298
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2218
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2235
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2276
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2516
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2327
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 3234
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2296
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2383
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2382
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2413
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2218
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2317
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2311
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2163
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2247
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2241
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2402
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2326
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2179
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2225
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2210
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2216
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2257
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2248
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2314
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2434
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2589
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2330
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2351
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2369
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2208
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2300
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2199
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2278
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2347
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2234
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2613
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
+[Err] La solucion greedy actual ha dejado clusters sin puntos
+Estos clusters vacios son: [0]
+Restricciones violadas: 2452
+Devolvemos una solucion vacia para que se vuelva a iniciar el algoritmo con otros centroides aleatorios
+Este contratiempo cuenta en el tiempo de ejecucion del algoritmo
