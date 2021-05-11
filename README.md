@@ -3,18 +3,6 @@
 * Repositorio para desarrollar las prácticas de la asignatura Metaheurísticas
 * A continuación, el contenido LEEME para los profesores:
 
-# El algoritmo genetico da malos resultados
-
-* Todos los individuos de la población acaban siendo el mismo individuo repetido demasiado rápido, a una solución muy mala
-* Cuando uso la intensificación de los algoritmos meméticos, obtengo muchos mejores resultados. Cuando uso memetico random, muy buenos resultados. Cuando uso memético sobre toda la población, no tan buenos. Cuando uso memético con elitismo, bastante malos resultados, parecidos a los genéticos
-
-## Posibles motivos
-
-* [ ] Los cruces no se hacen bien
-* [ ] La mutación no se hace bien
-* [ ] Algun valor (probabilidad de cruce, probabilidad de mutacion) es demasiado bajo
-* [ ] La mutacion no permite soluciones no validas
-
 # Fichero de instrucciones para los profesores de practicas
 
 ## Instalación de Rust
