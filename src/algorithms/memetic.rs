@@ -31,14 +31,14 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
     let individuals_to_mutate = (mutation_probability_per_gen * gen_size as f64 * population_size as f64) as i32;
 
     let before = Instant::now();
-    let (solucion, fitness_evolution) = run_steady(
+    let (solucion, fitness_evolution) = run_generational(
         &data_points,
         &constraints,
         program_arguments.get_number_of_clusters(),
         max_fitness_evaluations,
         rng,
         population_size,
-        mutation_probability_per_gen,
+        individuals_to_mutate,
         crossover_probability,
         max_fails,
         memetic_type
