@@ -23,44 +23,42 @@ seeds=(
     567891234
 )
 
-# Lanzamos las busquedas locales
-echo "==> Lanzando las busquedas locales"
-for seed in "${seeds[@]}"
+# Colocamos las busquedas que queremos realizar en el orden deseado
+search_types=(
+    gguniform
+    ggsegment
+    gsuniform
+    gssegment
+    memeall
+    memerandom
+    memeelitist
+    local_search
+
+    # Copkmeans robust antes que copkmeans porque copkmeans se puede quedar colgado
+    copkmeans_robust
+    copkmeans
+)
+
+# Por cada tipo de busqueda, lanzamos la busqueda sobre las distintas semillas en los distintos datasets
+for search_type in "${search_types[@]}"
 do
-    echo "Lanzando zoo en sus dos variantes de restricciones"
-    $program ./data/zoo_set.dat ./data/zoo_set_const_10.const $seed $small_number_of_clusters local_search
-    $program ./data/zoo_set.dat ./data/zoo_set_const_20.const $seed $small_number_of_clusters local_search
-    echo ""
+    echo "==> Lanzando las busquedas tipo ${local_search}"
+    for seed in "${seeds[@]}"
+    do
+        echo "Lanzando zoo en sus dos variantes de restricciones"
+        $program ./data/zoo_set.dat ./data/zoo_set_const_10.const $seed $small_number_of_clusters $search_type
+        $program ./data/zoo_set.dat ./data/zoo_set_const_20.const $seed $small_number_of_clusters $search_type
+        echo ""
 
-    echo "Lanzando glass en sus dos variantes de restricciones"
-    $program ./data/glass_set.dat ./data/glass_set_const_10.const $seed $small_number_of_clusters local_search
-    $program ./data/glass_set.dat ./data/glass_set_const_20.const $seed $small_number_of_clusters local_search
-    echo ""
+        echo "Lanzando glass en sus dos variantes de restricciones"
+        $program ./data/glass_set.dat ./data/glass_set_const_10.const $seed $small_number_of_clusters $search_type
+        $program ./data/glass_set.dat ./data/glass_set_const_20.const $seed $small_number_of_clusters $search_type
+        echo ""
 
-    echo "Lanzando bupa en sus dos variantes de restricciones"
-    $program ./data/bupa_set.dat ./data/bupa_set_const_10.const $seed $big_number_of_clusters local_search
-    $program ./data/bupa_set.dat ./data/bupa_set_const_20.const $seed $big_number_of_clusters local_search
-    echo ""
+        echo "Lanzando bupa en sus dos variantes de restricciones"
+        $program ./data/bupa_set.dat ./data/bupa_set_const_10.const $seed $big_number_of_clusters $search_type
+        $program ./data/bupa_set.dat ./data/bupa_set_const_20.const $seed $big_number_of_clusters $search_type
+        echo ""
 
-done
-
-# Lanzamos los algoritmos greedy
-echo "==> Lanzando los algoritmos greedy"
-for seed in "${seeds[@]}"
-do
-    echo "Lanzando zoo en sus dos variantes de restricciones"
-    $program ./data/zoo_set.dat ./data/zoo_set_const_10.const $seed $small_number_of_clusters copkmeans_robust
-    $program ./data/zoo_set.dat ./data/zoo_set_const_20.const $seed $small_number_of_clusters copkmeans_robust
-    echo ""
-
-    echo "Lanzando glass en sus dos variantes de restricciones"
-    $program ./data/glass_set.dat ./data/glass_set_const_10.const $seed $small_number_of_clusters copkmeans_robust
-    $program ./data/glass_set.dat ./data/glass_set_const_20.const $seed $small_number_of_clusters copkmeans_robust
-    echo ""
-
-    echo "Lanzando bupa en sus dos variantes de restricciones"
-    $program ./data/bupa_set.dat ./data/bupa_set_const_10.const $seed $big_number_of_clusters copkmeans_robust
-    $program ./data/bupa_set.dat ./data/bupa_set_const_20.const $seed $big_number_of_clusters copkmeans_robust
-    echo ""
-
+    done
 done
