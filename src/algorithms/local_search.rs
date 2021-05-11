@@ -13,7 +13,6 @@ use std::time::Instant;
 /// Esto para no incluir todo este codigo en el cuerpo de la funcion main
 pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints, program_arguments: ProgramParameters, rng: &mut StdRng){
     // Numero maximo de iteraciones para la busqueda local
-    // TODO -- deberia ser numero maximo de evaluaciones del fitness
     let max_fitness_evaluations = 100000;
 
     let before = Instant::now();

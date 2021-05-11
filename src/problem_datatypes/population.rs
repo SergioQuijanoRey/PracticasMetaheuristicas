@@ -308,7 +308,6 @@ impl<'a, 'b> Population<'a, 'b>{
     // candidata luchan contra los peores individuos de la poblacion original (&self) para quedarse
     // en dicha poblacion
     // La poblacion original no se modifica, se devuelve una copia con la poblacion resultante
-    // TODO -- BUG -- aqui hay un fallo
     pub fn compete_with_new_individuals(&self, candidate_population: &Population<'a, 'b>) -> FitnessEvaluationResult<Self>{
         let mut new_pop = self.clone();
         let mut fit_eval_cons = 0;

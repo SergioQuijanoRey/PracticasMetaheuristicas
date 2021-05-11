@@ -6,6 +6,8 @@ use crate::problem_datatypes::Point;
 use crate::problem_datatypes::Solution;
 use crate::fitness_evolution::FitnessEvolution;
 use crate::arg_parser::ProgramParameters;
+use crate::arg_parser::SearchType;
+use crate::utils;
 
 use rand::rngs::StdRng;
 use std::process::exit; // Para hacer shuffle de un vector
@@ -76,7 +78,7 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
     println!("El valor de fitness es: {}", greedy_solution.fitness());
     println!("El valor de lambda es: {}", greedy_solution.get_lambda());
     println!("Tiempo transcurrido (segundos): {}", duration_numeric);
-    println!("Evolucion del fitness: {}", fitness_evolution);
+    println!("Salvado del fitness: {:?}", fitness_evolution.save_as_numpy_file(&utils::generate_file_name(SearchType::LocalSearch)));
     println!("");
 
 
