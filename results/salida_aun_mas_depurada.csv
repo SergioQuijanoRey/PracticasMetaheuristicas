@@ -40,7 +40,7 @@ LocalSearch,bupa_set_const_20,456789123,219,0.11422980132071558,0.14476738825245
 LocalSearch,bupa_set_const_20,567891234,168,0.11954846959682583,0.14297456368144723,7.337147713
 
 
-/*Genetico Generacional con Cruce uniforme - 20%*/
+/*Genetico Generacional con Cruce uniforme - 10%*/
 Nombre Algoritmo, Dataset (con restricciones), Semilla, Infeasible, IntraCluster, Fitness, Ellapsed(s)
 GenerationalGeneticUniform,zoo_set_const_10,567891234,8,0.5976856461310784,0.6583067155247255,1.451629207
 GenerationalGeneticUniform,zoo_set_const_10,456789123,5,0.6034321549191931,0.6413203232902225,1.448685811
