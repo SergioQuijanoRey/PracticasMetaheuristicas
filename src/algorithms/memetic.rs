@@ -147,16 +147,16 @@ fn run<'a, 'b>(
         let soft_local_search_pop;
         if current_generation % 10 == 0{
             let soft_local_search_pop_result = final_population.soft_local_search(memetic_type, max_fails, rng);
-            soft_local_search_pop = soft_local_search_pop_result.get_result().copy();
+            soft_local_search_pop = soft_local_search_pop_result.get_result().clone();
             iteration_fitness_evaluations += soft_local_search_pop_result.get_iterations_consumed();
         }else{
-            soft_local_search_pop = final_population.copy();
+            soft_local_search_pop = final_population.clone();
         }
 
         // Realizamos el cambio de poblacion
         // Hacemos una comprobacion de seguridad sobne la poblacion, tras las competicion de los
         // dos nuevos individuos
-        current_population = soft_local_search_pop.copy();
+        current_population = soft_local_search_pop.clone();
         debug_assert!(current_population.population_size() == population_size as usize, "La poblacion final tras la iteracion tiene {} elementos", current_population.population_size());
 
         // Añadimos las evaluaciones de fitness consumidas en esta pasada
@@ -175,5 +175,5 @@ fn run<'a, 'b>(
         fitness_evolution.add_iteration(best_individual_fitness);
     }
 
-    return (current_population.get_best_individual().get_result().0.copy(), fitness_evolution);
+    return (current_population.get_best_individual().get_result().0.clone(), fitness_evolution);
 }

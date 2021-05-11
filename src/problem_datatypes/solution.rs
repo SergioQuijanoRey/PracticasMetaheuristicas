@@ -57,28 +57,6 @@ impl<'a, 'b> Solution<'a, 'b> {
         };
     }
 
-    /// Copia de forma eficiente los datos de una solucion
-    /// WARNING -- copia tambien el valor de fitness, no lo resetea
-    pub fn copy(&self) -> Self{
-        return Self{
-            cluster_indexes: self.cluster_indexes.clone(),
-            data_points: self.data_points,
-            constraints: self.constraints,
-            number_of_clusters: self.number_of_clusters,
-
-            /// Representa el peso de infeasibility en el calculo de fitness
-            /// Solo se calcula una vez al invocar a Solution::new
-            lambda: self.lambda,
-
-            // Para cachear el valor de fitness pues es un calculo costoso de realizar
-            // Como los datos del struct no cambian, podemos hacer el cacheo sin miedo
-            // Usamos RefCell para tener un patron de mutabilidad interior
-            fitness: self.fitness.clone(),
-
-        }
-
-    }
-
     pub fn get_cluster_indexes(&self) -> Vec<u32>{
         return self.cluster_indexes.clone();
     }
@@ -95,7 +73,6 @@ impl<'a, 'b> Solution<'a, 'b> {
     /// Una solucion no es valida cuando existen clusters que no tienen ningun punto asignado
     /// Tambien es invalido cuando la dimensionalidad del vector de asignacion a cluster no
     /// coincide con la cantidad de puntos que tenemos que asignar
-    // TODO -- BUG -- antes era privado, debe seguir siendo privado
     pub fn is_valid(&self) -> bool {
 
         // Condicion de seguridad que nunca deberia ocurrir
@@ -418,7 +395,7 @@ impl<'a, 'b> Solution<'a, 'b> {
         positions_to_mutate.shuffle(rng);
 
         // Nueva solucion a partir de la informacion de uno de los padres
-        let mut crossed_solution = first.copy();
+        let mut crossed_solution = first.clone();
 
         // Tomamos los elementos aleatorios del primer padre
         for index in 0..half_gen_size{
@@ -451,7 +428,7 @@ impl<'a, 'b> Solution<'a, 'b> {
     // TODO -- testear porque puede estar bastante mal
     pub fn cross_segment(first: &Self, second: &Self, rng: &mut StdRng) -> Self{
         // Nueva solucion a partir de la informacion de uno de los padres
-        let mut crossed_solution = first.copy();
+        let mut crossed_solution = first.clone();
         let gen_size= first.cluster_indexes.len();
 
         // Seleccionamos el inicio y tamaño del segmento
@@ -502,7 +479,7 @@ impl<'a, 'b> Solution<'a, 'b> {
     /// cambiada por mutacion. Esto era lo que provocaba el mal comportamiento
     pub fn mutated(&self, rng: &mut StdRng) -> Self{
         // Copiamos la solucion para realizar una modificacion
-        let mut mutated_sol = self.copy();
+        let mut mutated_sol = self.clone();
 
         // Tomamos una posicion a mutar. Esta posicion puede ser la de un cluster que no tenga mas
         // de dos puntos. En ese caso, deja al cluster vacio. Por ello, debemos reparar la solucion
@@ -581,7 +558,7 @@ impl<'a, 'b> Solution<'a, 'b> {
 /// Metodos asociados a la parte memetica de las practicas
 impl<'a, 'b> Solution<'a, 'b> {
     pub fn soft_local_search(&self, max_fails: i32, rng: &mut StdRng) -> FitnessEvaluationResult<Self>{
-        let mut new_solution = self.copy();
+        let mut new_solution = self.clone();
         let mut fit_eval_cons = 0;
 
         // Recorreremos las posiciones de los puntos en orden aleatorio
@@ -639,7 +616,7 @@ impl<'a, 'b> Solution<'a, 'b> {
         for cluster in 0..self.number_of_clusters{
 
             // Generamos la solucion asociada al cambio a este cluster
-            let mut new_sol = self.copy();
+            let mut new_sol = self.clone();
             new_sol.cluster_indexes[point_index as usize] = cluster as u32;
 
             // Comrpobamos que la solucion generada sea valida
@@ -885,7 +862,7 @@ mod tests{
             // sobre la solucion mala original y vemos que se hace bien
             let mut rng = StdRng::seed_from_u64(123456789);
             for _ in 0..max_test_iterations(){
-                let mut curr_sol = solution.copy();
+                let mut curr_sol = solution.clone();
                 curr_sol.repair_solution(&mut rng);
 
                 let expected_is_valid = true;
@@ -901,7 +878,7 @@ mod tests{
             // sobre la solucion mala original y vemos que se hace bien
             let mut rng = StdRng::seed_from_u64(123456789);
             for _ in 0..max_test_iterations(){
-                let mut curr_sol = solution.copy();
+                let mut curr_sol = solution.clone();
                 curr_sol.repair_solution(&mut rng);
 
                 let expected_is_valid = true;

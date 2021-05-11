@@ -126,7 +126,7 @@ fn run<'a, 'b>(
         iteration_fitness_evaluations += evaluate_poblation_result.get_iterations_consumed();
 
         // Realizamos el cambio de poblacion
-        current_population = final_population.copy();
+        current_population = final_population.clone();
         debug_assert!(current_population.population_size() == population_size as usize, "La poblacion final tras la iteracion tiene {} elementos", current_population.population_size());
 
         // Añadimos las evaluaciones de fitness consumidas en esta pasada
@@ -139,5 +139,5 @@ fn run<'a, 'b>(
         fitness_evolution.add_iteration(best_individual_fitness);
     }
 
-    return (current_population.get_best_individual().get_result().0.copy(), fitness_evolution);
+    return (current_population.get_best_individual().get_result().0.clone(), fitness_evolution);
 }

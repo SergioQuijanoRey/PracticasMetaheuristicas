@@ -18,7 +18,7 @@ use std::collections::HashSet;
 
 /// Representa una poblacion para los algoritmos geneticos
 // TODO -- pasar a una priority queue para mayor eficiencia
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Population<'a, 'b>{
     /// Individuos de la poblacion
     individuals: Vec<Solution<'a, 'b> >,
@@ -45,20 +45,6 @@ impl<'a, 'b> Population<'a, 'b>{
         }
 
         return rand_population;
-    }
-
-    /// Copia los datos de esta poblacion
-    /// TODO -- es esto muy lento?
-    pub fn copy(&self) -> Self{
-        let mut new_individuals = vec![];
-
-        for individual in &self.individuals{
-            new_individuals.push(individual.copy());
-        }
-
-        return Self{
-            individuals: new_individuals
-        };
     }
 
     /// Devuelve el numero de individuos de nuestra poblacion
@@ -144,7 +130,7 @@ impl<'a, 'b> Population<'a, 'b>{
 
             // Seleccionamos el ganador
             let (winner, fit_consumed) = Solution::binary_tournament(first_candidate, second_candidate);
-            new_pop.individuals.push(winner.copy());
+            new_pop.individuals.push(winner.clone());
             fit_ev_consumed += fit_consumed;
         }
 
@@ -158,7 +144,7 @@ impl<'a, 'b> Population<'a, 'b>{
     /// proceso de seleccion, que introduce aleatoriedad, como ya hemos comentado
     pub fn cross_population_uniform(&self, crossover_probability: f64, rng: &mut StdRng) -> FitnessEvaluationResult<Self>{
         // Partimos de una poblacion identica a la dada
-        let mut new_population = self.copy();
+        let mut new_population = self.clone();
 
         // Mutamos el numero de individuos que coincide con la esperanza matematica, para
         // ahorrarnos evaluaciones de los numeros aleatorios
@@ -169,8 +155,8 @@ impl<'a, 'b> Population<'a, 'b>{
         while index < inidividuals_to_cross - 1{
 
             // Tomamos los dos padres
-            let first_parent = new_population.individuals[index].copy();
-            let second_parent = new_population.individuals[index + 1].copy();
+            let first_parent = new_population.individuals[index].clone();
+            let second_parent = new_population.individuals[index + 1].clone();
 
             // Generamos los dos hijos usando los dos padres
             let first_child = Solution::uniform_cross(&first_parent, &second_parent, rng);
@@ -196,7 +182,7 @@ impl<'a, 'b> Population<'a, 'b>{
     /// proceso de seleccion, que introduce aleatoriedad, como ya hemos comentado
     pub fn cross_population_segment(&self, crossover_probability: f64, rng: &mut StdRng) -> FitnessEvaluationResult<Self>{
         // Partimos de una poblacion identica a la dada
-        let mut new_population = self.copy();
+        let mut new_population = self.clone();
 
         // Mutamos el numero de individuos que coincide con la esperanza matematica, para
         // ahorrarnos evaluaciones de los numeros aleatorios
@@ -207,8 +193,8 @@ impl<'a, 'b> Population<'a, 'b>{
         while index < inidividuals_to_cross - 1{
 
             // Tomamos los dos padres
-            let first_parent = new_population.individuals[index].copy();
-            let second_parent = new_population.individuals[index + 1].copy();
+            let first_parent = new_population.individuals[index].clone();
+            let second_parent = new_population.individuals[index + 1].clone();
 
             // Generamos los dos hijos usando los dos padres
             let first_child = Solution::cross_segment(&first_parent, &second_parent, rng);
@@ -234,7 +220,7 @@ impl<'a, 'b> Population<'a, 'b>{
     /// de pasar la probabilida de mutacion, pasamos el numero de individuos a mutar
     /// Notar que un individuo puede mutar mas de una vez
     pub fn mutate_population(&self, individuals_to_mutate: i32, rng: &mut StdRng) -> Self{
-        let mut new_pop = self.copy();
+        let mut new_pop = self.clone();
 
         // Posiciones sobre las que podemos elegir aleatoriamente
         let positions: Vec<usize> = (0..self.population_size() as usize).collect();
@@ -252,7 +238,7 @@ impl<'a, 'b> Population<'a, 'b>{
     /// A diferencia de mutate_population, no usamos el numero esperado de mutaciones, sino tiradas
     /// aleatorias. Por ello, la poblacion con la que trabajamos no debiera ser demasiado grande
     pub fn mutate_population_given_prob(&self, mutation_probability_per_gen: f64, rng: &mut StdRng) -> Self{
-        let mut new_pop = self.copy();
+        let mut new_pop = self.clone();
 
         // Iteramos sobre los individuos y decidimos si mutamos o no aleatoriamente
         for (index, _individual) in self.individuals.iter().enumerate(){
@@ -275,7 +261,7 @@ impl<'a, 'b> Population<'a, 'b>{
     /// en esta poblacion. En caso de que no este, se introduce en la nueva poblacion, en la
     /// posicion en la que estaba en la poblacion original
     pub fn preserve_best_past_parent(&self, original_population: &Population<'a, 'b>) -> FitnessEvaluationResult<Self>{
-        let mut new_pop = self.copy();
+        let mut new_pop = self.clone();
         let mut fit_eval_cons = 0;
 
         // Tomamos el mejor individuo de la poblacion original
@@ -292,7 +278,7 @@ impl<'a, 'b> Population<'a, 'b>{
         match search_result{
             // El mejor individuo pasado ha sobrevivido, devolvemos la poblacion sin modificar
             // junto a las evaluaciones consumidas
-            Some(_) => return FitnessEvaluationResult::new(self.copy(), fit_eval_cons),
+            Some(_) => return FitnessEvaluationResult::new(self.clone(), fit_eval_cons),
 
             // No hemos encontrado el individuo, no hacemos nada, por lo que seguimos con el
             // proceso de incluir el mejor individuo pasado en la poblacion
@@ -301,7 +287,7 @@ impl<'a, 'b> Population<'a, 'b>{
 
         // El mejor individuo pasado no esta en la nueva poblacion, lo introducimos en su posicion
         // de la poblacion original en la nueva poblacion
-        new_pop.individuals[*best_individual_index_original_pop as usize] = best_individual_at_original_pop.copy();
+        new_pop.individuals[*best_individual_index_original_pop as usize] = (*best_individual_at_original_pop).clone();
         return FitnessEvaluationResult::new(new_pop, fit_eval_cons);
     }
 
@@ -325,7 +311,7 @@ impl<'a, 'b> Population<'a, 'b>{
     // La poblacion original no se modifica, se devuelve una copia con la poblacion resultante
     // TODO -- BUG -- aqui hay un fallo
     pub fn compete_with_new_individuals(&self, candidate_population: &Population<'a, 'b>) -> FitnessEvaluationResult<Self>{
-        let mut new_pop = self.copy();
+        let mut new_pop = self.clone();
         let mut fit_eval_cons = 0;
 
         for candidate in candidate_population.individuals.iter(){
@@ -347,7 +333,7 @@ impl<'a, 'b> Population<'a, 'b>{
 
             // Decidimos si el candidato entra o no en la poblacion
             if candidate_fitness < worst_fitness {
-                new_pop.individuals[*worst_individual_index] = candidate.copy();
+                new_pop.individuals[*worst_individual_index] = candidate.clone();
             }
         }
 
@@ -480,7 +466,7 @@ impl<'a, 'b> Population<'a, 'b>{
 
     // Aplica la busqueda local suave, sobre todos los individuos de la poblacion
     fn soft_local_search_all(&self, max_fails: i32, rng: &mut StdRng) -> FitnessEvaluationResult<Self>{
-        let mut new_pop = self.copy();
+        let mut new_pop = self.clone();
         let mut fit_eval_cons = 0;
 
         // Aplicamos la busqueda local suave a todos los individuos de la poblacion
@@ -490,7 +476,7 @@ impl<'a, 'b> Population<'a, 'b>{
             let new_individual_result = new_pop.individuals[index].soft_local_search(max_fails, rng);
             let new_individual = new_individual_result.get_result();
             fit_eval_cons += new_individual_result.get_iterations_consumed();
-            new_pop.individuals[index] = new_individual.copy();
+            new_pop.individuals[index] = new_individual.clone();
         }
 
         return FitnessEvaluationResult::new(new_pop, fit_eval_cons);
@@ -498,7 +484,7 @@ impl<'a, 'b> Population<'a, 'b>{
 
     // Aplica la busqueda local suave, sobre un porcentaje de individuos aleatorios de la poblacion
     fn soft_local_search_random(&self, max_fails: i32, search_percentage: f64, rng: &mut StdRng) -> FitnessEvaluationResult<Self>{
-        let mut new_pop = self.copy();
+        let mut new_pop = self.clone();
         let mut fit_eval_cons = 0;
 
         // Numero de individuos sobre los que vamos a realizar la busqueda local suave
@@ -518,7 +504,7 @@ impl<'a, 'b> Population<'a, 'b>{
             let new_individual_result = new_pop.individuals[index].soft_local_search(max_fails, rng);
             let new_individual = new_individual_result.get_result();
             fit_eval_cons += new_individual_result.get_iterations_consumed();
-            new_pop.individuals[index] = new_individual.copy();
+            new_pop.individuals[index] = new_individual.clone();
         }
 
         return FitnessEvaluationResult::new(new_pop, fit_eval_cons);
@@ -526,7 +512,7 @@ impl<'a, 'b> Population<'a, 'b>{
 
     // Aplica la busqueda local suave, sobre el mejor porcentaje de individuos de la poblacion
     fn soft_local_search_elitist(&self, max_fails: i32, search_percentage: f64, rng: &mut StdRng) -> FitnessEvaluationResult<Self>{
-        let mut new_pop = self.copy();
+        let mut new_pop = self.clone();
         let mut fit_eval_cons = 0;
 
         // Numero de individuos sobre los que vamos a realizar la busqueda local suave
@@ -544,7 +530,7 @@ impl<'a, 'b> Population<'a, 'b>{
             let new_individual_result = new_pop.individuals[*index as usize].soft_local_search(max_fails, rng);
             let new_individual = new_individual_result.get_result();
             fit_eval_cons += new_individual_result.get_iterations_consumed();
-            new_pop.individuals[*index as usize] = new_individual.copy();
+            new_pop.individuals[*index as usize] = new_individual.clone();
         }
 
         return FitnessEvaluationResult::new(new_pop, fit_eval_cons);
@@ -589,8 +575,6 @@ impl<'a, 'b> Population<'a, 'b>{
 
         return FitnessEvaluationResult::new(best_indixes, fit_evals_cons);
     }
-
-
 }
 
 mod test{
