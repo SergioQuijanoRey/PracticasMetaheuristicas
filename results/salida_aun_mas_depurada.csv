@@ -18,6 +18,7 @@ LocalSearch,bupa_set_const_10,3456789,182,0.1170908992594519,0.1658647592090738,
 LocalSearch,bupa_set_const_10,456789123,104,0.11977989385106484,0.14765067096513448,6.424549864
 LocalSearch,bupa_set_const_10,567891234,88,0.11120049126011869,0.13478345651048532,6.444379013
 
+
 /*Local Search 20%*/
 Nombre Algoritmo, Dataset (con restricciones), Semilla, Infeasible, IntraCluster, Fitness, Ellapsed(s)
 LocalSearch,zoo_set_const_20,123456789,30,0.7180362670157564,0.839178700096811,0.061789222000000005
@@ -37,6 +38,7 @@ LocalSearch,bupa_set_const_20,234567891,221,0.11587016251745444,0.14668663152162
 LocalSearch,bupa_set_const_20,3456789,204,0.1164937712619489,0.14493974265041773,5.676390463
 LocalSearch,bupa_set_const_20,456789123,219,0.11422980132071558,0.1447673882524542,6.287851524
 LocalSearch,bupa_set_const_20,567891234,168,0.11954846959682583,0.14297456368144723,7.337147713
+
 
 /*Genetico Generacional con Cruce uniforme - 20%*/
 Nombre Algoritmo, Dataset (con restricciones), Semilla, Infeasible, IntraCluster, Fitness, Ellapsed(s)
@@ -58,6 +60,7 @@ GenerationalGeneticUniform,bupa_set_const_10,3456789,409,0.14657540857491913,0.2
 GenerationalGeneticUniform,bupa_set_const_10,456789123,424,0.1473387751681767,0.2609657895563068,7.070619086
 GenerationalGeneticUniform,bupa_set_const_10,567891234,503,0.15292355493562737,0.2877216404007912,7.094780416
 
+
 /*Genetico Generacional con Cruce uniforme - 20%*/
 Nombre Algoritmo, Dataset (con restricciones), Semilla, Infeasible, IntraCluster, Fitness, Ellapsed(s)
 GenerationalGeneticUniform,zoo_set_const_20,567891234,34,0.6026004947696514,0.7398952522615132,1.698082799
@@ -78,6 +81,7 @@ GenerationalGeneticUniform,bupa_set_const_20,3456789,888,0.13830696081934266,0.2
 GenerationalGeneticUniform,bupa_set_const_20,456789123,807,0.14423839979413836,0.25676731602205183,10.008086438
 GenerationalGeneticUniform,bupa_set_const_20,567891234,1039,0.15092687177161287,0.29580610840209876,9.961034096
 
+
 /*Genetico Generacinal con segmento - 10%*/
 Nombre Algoritmo, Dataset (con restricciones), Semilla, Infeasible, IntraCluster, Fitness, Ellapsed(s)
 GenerationalGeneticSegment,zoo_set_const_10,234567891,6,0.5995484116847628,0.6450142137299981,1.436370341
@@ -97,6 +101,7 @@ GenerationalGeneticSegment,bupa_set_const_10,456789123,493,0.16052204938089304,0
 GenerationalGeneticSegment,bupa_set_const_10,3456789,661,0.14894485504554386,0.326085082664775,6.986274894
 GenerationalGeneticSegment,bupa_set_const_10,234567891,342,0.1527067633579934,0.24435874194464552,7.029803172
 GenerationalGeneticSegment,bupa_set_const_10,123456789,368,0.14920618547825534,0.24782585834342485,6.991611285
+
 
 /*Genetico Generacinal con segmento - 20%*/
 Nombre Algoritmo, Dataset (con restricciones), Semilla, Infeasible, IntraCluster, Fitness, Ellapsed(s)
