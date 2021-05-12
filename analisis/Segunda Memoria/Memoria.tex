@@ -492,7 +492,7 @@ def generate_random_solution(data_points, constraints, number_of_clusters):
             \begin{enumerate}
                 \item Seleccionar elementos de la población, a partir de torneos binarios, generando una nueva población del mismo tamaño que la población anterior
                 \item Cruzar con cierta probabilidad dicha población. Más adelante discutimos los distintos esquemas de cruce
-                \item Mutar con cierta probabilidad genes de la población cruzada
+                \item Mutar con cierta probabilidad genes de la población cruzada. Usaremos en todos los casos mutación uniforme
                 \item Evaluar todos los elementos de la población (calcular el valor de \emph{fitness})
                 \item Reemplazar la población anterior con esta nueva población. En caso de que el individuo mejor (el de menor valor de \emph{fitness}) no haya sobrevivido, lo introducimos en la nueva población.
                 \item \textbf{Consideración importante}: en el guión se nos indicaba que el mejor individuo reemplazase, en caso de ser necesario, al peor individuo de la población nueva. Sin embargo, por los problemas que tuve con la diversidad de la población, y por consejo del profesor de prácticas, este reemplazo se hace en la posición que ocupaba el mejor individuo en la población anterior
@@ -511,9 +511,13 @@ Vamos a trabajar con dos esquemas de cruce:
 
 Por cada dos padres escogidos, cruzamos generando dos hijos. Para hacer esto, cada cruce produce un único hijo. Lo que hacemos para generar, dados dos padres, dos hijos, es cruzar el primer padre con el segundo y después el segundo con el primero. Esto es claro cuando consideramos el cruce por segmento fijo, en el que hay una dependencia en el orden de los padres (da mucho más peso al primer padre).
 
+También usaremos una optimización para el cruce. Los individuos a cruzar deberían ser aleatorios, pero como la población que cruzamos viene del proceso de selección, que ya introduce aleatoriedad, podemos cruzar dos a dos los primeros elementos de la población de selección. Esto se verá detallado en el pseudocódigo correspondiente.
+
 Los detalles sobre la implementación se desarrollan en los pseudocódigos.
 
 \subsection{Pseudocódigos}
+
+\subsubsection{Bucle principal de ejecución}
 
 Comenzamos mostrando el pseudocódigo de mayor nivel, asociado al bucle principal de ejecución:
 
@@ -580,7 +584,7 @@ return current_population.get_best_individual()
 
 Si se lee el código de esta parte, que se encuentra en \lstinline{generational_genetic.rs}, se puede ver cómo usamos \lstinline{FitnessEvaluationResult} para controlar las evaluaciones del fitness consumidas. También se puede ver que estamos usando muchos \lstinline{debug_assert!} para realizar comprobaciones de seguridad. Estas comprobaciones no se tienen en cuenta cuando ejecutamos el programa con \lstinline{--release}.
 
-Mostramos el pseudocódigo de la función que genera la solución inicial aleatoria:
+\subsubsection{Solución inicial aleatoria}
 
 \begin{lstlisting}[language=Python, style=Boxed]
 # Del struct Population
@@ -608,7 +612,7 @@ def generate_random_solution():
     )
 \end{lstlisting}
 
-Mostramos el pseudocódigo del operador de selección:
+\subsubsection{Operador de selección}
 
 \begin{lstlisting}[language=Python, style=Boxed]
 # self es la poblacion sobre la que realizamos la seleccion
@@ -639,7 +643,9 @@ pub fn binary_tournament(first, second):
         return second
 \end{lstlisting}
 
-Mostramos ahora el pseudocódigo de los dos operadores de cruce. Notar que estamos cruzando los primeros individuos de la población de selección. El proceso de selección ya introduce la aleatoriedad necesaria, por lo que nos ahorramos tiradas de números aleatorios.
+\subsubsection{Operadores de cruce}
+
+Mostramos ahora el pseudocódigo de los dos operadores de cruce. Notar de nuevo que estamos cruzando los primeros individuos de la población de selección. El proceso de selección ya introduce la aleatoriedad necesaria, por lo que nos ahorramos tiradas de números aleatorios.
 
 \begin{lstlisting}[language=Python, style=Boxed]
 def cross_population_uniform(self, crossover_probability):
@@ -756,7 +762,94 @@ def cross_segment(first, second):
     return crossed_solution;
 \end{lstlisting}
 
+\subsubsection{Operador de mutación}
 
+Tenemos dos funciones para mutar una población. Una se usa en el algoritmo genético generacional, y la otra en el estacionario. Por tanto, aquí mostramos la función de mutación para el generacional, y el operador de mutación uniforme, común para todos los algoritmos poblacionales.
+
+En este caso, consideramos la esperanza matemática de la probabilidad, para calcular el número de genes a mutar. Este cálculo se especificó ya en el bucle principal.
+
+\begin{lstlisting}[language=Python, style=Boxed]
+def mutate_population(self, individuals_to_mutate):
+    # Copiamos la poblacion original
+    new_pop = self.clone();
+
+    # Posiciones sobre las que podemos elegir aleatoriamente
+    let positions: Vec<usize> = (0..self.population_size())
+
+    for _ in 0..individuals_to_mutate:
+        # Elegimos un individuo aleatorio de la poblacion
+        random_index = positions.choose_random()
+
+        # Mutamos
+        new_pop.individuals[random_index] = new_pop.individuals[random_index].mutated()
+
+    return new_pop;
+
+# Metodo de Solution
+def mutated():
+    # Copiamos la solucion para realizar una modificacion
+    mutated_sol = self.clone();
+
+    # Escogemos una posicion a mutar (el gen del cromosoma)
+    mut_position_candidates = (0..mutated_sol.data_points.len())
+    mut_position = mut_position_candidates.choose_random()
+
+    # Podemos elegir como nuevo valor aquellos que esten en el itervalo adecuado y que no sean
+    # el cluster original que ya teniamos, pues estariamos perdiendo una mutacion efectiva
+    new_cluster_candidates = (0..mutated_sol.number_of_clusters)
+    new_cluster_candidates.filter(|x| x != valor original cromosoma)
+    mut_value = new_cluster_candidates.choose_random()
+
+    # Mutamos el valor
+    mutated_sol.cluster_indexes[mut_position as usize] = *mut_value
+
+    // Reseteamos el fitness, porque estamos haciendo un cambio a la solucion que devolvemos
+    mutated_sol.invalid_fitness_cache();
+
+    # Comprobamos que la solucion sea valida. En caso de que no lo sea, la reparamos
+    if mutated_sol.is_valid() == false:
+        mutated_sol.repair_solution(rng)
+
+    # Comprobamos que la solucion no sea la misma (puede ocurrir al reparar). En caso de que
+    # sea la misma solucion, volvemos a mutar
+    if mutated_sol.cluster_indexes == self.cluster_indexes
+        return self.mutated(rng)
+
+    return mutated_sol;
+
+\end{lstlisting}
+
+Notar que un mimso individuo puede mutar más de una vez. En cuyo caso, no evitamos que pueda mutar el mismo gen más de una vez.
+
+Una cosa que nos ha dado muchos problemas ha sido comprobar que solo mutásemos genes asociados a cluster con más de un punto asignado. De esa forma, no se podrían generar soluciones no válidas. Pero esto nos restaba mucha variabilidad en nuestra población. Por ejemplo, si toda la población tiene el mismo valor en un gen concreto, y este representa el único punto asignado a un cluster, no podemos modificar esa asignación.
+
+Por tanto, permitimos soluciones no válidas que, antes de ser devueltas, se reparan en caso de ser necesario. De esta forma, en ciertos casos, en vez de modificarse un gen, se pueden modificar más de uno (en todas las pruebas realizadas, no hemos modificado más de dos genes).
+
+\subsubsection{Reemplazamiento de la población}
+
+El método que evalúa toda la población no lo mostramos por no tener interés. Lo que sí que es interesante es mostrar cómo preservamos el mejor individuo de la población pasada en caso de que no sobreviva en la nueva población.
+
+\begin{lstlisting}[language=Python, style=Boxed]
+def preserve_best_past_parent(self, original_population):
+    # Para realizar el cambio sin mutar la sol. original
+    new_pop = self.clone();
+
+    # Tomamos el mejor individuo de la poblacion original
+    let best_individual_at_original_pop= original_population.get_best_individual();
+
+    # Comprobamos si esta dentro de la poblacion
+    found = self.search_individual_with_same_cluster_indixes(best_individual_at_original_pop)
+    if found:
+        # El mejor individuo ha sobrevivido
+        # Devolvemos la poblacion original
+        return self.clone()
+
+    # No ha sobrevivido
+    new_pop.individuals[best_individual_index_original_pop] = best_individual_at_original_pop
+    return new_pop
+\end{lstlisting}
+
+Como ya se ha comentado, en el guión se especifica que debemos colocar al individuo en la posición del peor individuo de la población nuevo. Pero esto nos provocaba problemas con la diversidad en nuestra población, y siguiendo el consejo del profesor, decidimos colocar al individuo en la posición que ocupaba en la población pasada.
 
 \pagebreak
 % TODO -- hay que desarrollar
