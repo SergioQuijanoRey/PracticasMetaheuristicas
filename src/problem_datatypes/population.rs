@@ -553,7 +553,7 @@ impl<'a, 'b> Population<'a, 'b>{
         // porque hemos evaluado toda la poblacion anteriormente.
         let mut priority_queue = PriorityQueue::new();
         for (index, individual) in self.individuals.iter().enumerate(){
-            priority_queue.push(index, OrderedFloat::<f64>::from(individual.fitness()));
+            priority_queue.push(index, OrderedFloat::<f64>::from(-1.0 * individual.fitness()));
         }
 
         // Sacamos a los number_of_individuals primeros individuos de la prioqueu
