@@ -989,7 +989,7 @@ Los algoritmos meméticos que vamos a desarrollar son una hibridación de los al
     \item Mientras no se hayan agotado las evaluaciones del fitness
         \begin{enumerate}
             \item Aplicar una iteración del algoritmo genético base. Podemos elegir entre el algoritmo genético generacional o estacionario
-            \item Cada diez iteracines del algoritmo genético, aplicamos una búsqueda local suave sobre la población
+            \item Cada diez iteraciones del algoritmo genético, aplicamos una búsqueda local suave sobre la población
         \end{enumerate}
 \end{enumerate}
 
@@ -1013,7 +1013,7 @@ El código es prácticamente igual que en los genéticos (dependiendo de si eleg
 
 Dado un cromosoma, recorremos aleatoriamente y sin repetición sus genes, asignando en cada momento el mejor cluster a cada punto (esta asignación es lo que representa cada gen). En este recorrido, paramos de iterar cuando cometemos $\xi$ fallos. El valor de $\xi$ se especifica en \emph{\ref{section:parametros_memeticos}. \nameref{section:parametros_memeticos}}.
 
-Consideramos un fallo cuando no conseguimos, dado un gen del cromosoma, encontrar otro que mejore su valor del fitness. Esto se hace para intentar evitar desbalancear el equilibrio entre exploración y explotación. A continación mostramos el código de la búsqueda local suave:
+Consideramos un fallo cuando no conseguimos, dado un gen del cromosoma, encontrar otro que mejore su valor del fitness. Esto se hace para intentar evitar desbalancear el equilibrio entre exploración y explotación. A continuación mostramos el código de la búsqueda local suave:
 
 
 \begin{lstlisting}[language=Python, style=Boxed]
@@ -1155,7 +1155,7 @@ Además del binario aportado en la estructura de directorios que se especifica e
 \begin{itemize}
     \item Para compilar: \lstinline{cargo build --release} lo que nos generará un binario en \lstinline{./target/release/PracticasMetaheuristicas}
     \item Podemos usar ese binario para ejecutar el programa o podemos usar \lstinline{cargo run --release <parametros entrada>} para correr el programa de forma más cómoda
-    \item Es muy importante la opción \lstinline{--release} porque de otra forma el binario no será apenas optimizado, lo que supondrá tiempos de ejecución mucho mayores. Además todas las comprobaciones con \lstinline{debug_assert!} no serán ignorados, lo que ralentecerá muchísimo las ejecuciones
+    \item Es muy importante la opción \lstinline{--release} porque de otra forma el binario no será apenas optimizado, lo que supondrá tiempos de ejecución mucho mayores. Además todas las comprobaciones con \lstinline{debug_assert!} no serán ignorados, lo que relentecerá muchísimo las ejecuciones
     \item Para correr los tests programados podemos hacer \lstinline{cargo test}
 \end{itemize}
 
@@ -1245,7 +1245,7 @@ Considerar también que las ejecuciones provocan que se guarden ficheros tipo \l
 
 \subsection{Tablas con los resultados globales}
 
-Por la inmensa cantidad de datos, mostramos en esta memoria solamente las tablas de resultados globales y, cuando sea necesario, referenciaremos tablas concretas. Notar que las tablas que dejamos fuera nos dan información adicional sobre como varían los algoritmos respecto al cambio de semilla. Información sobre estabilidad, desviaciones típicas, $\ldots$.
+Por la inmensa cantidad de datos, mostramos en esta memoria solamente las tablas de resultados globales. Notar que las tablas que dejamos fuera nos dan información adicional sobre como varían los algoritmos respecto al cambio de semilla. Información sobre estabilidad, desviaciones típicas, $\ldots$.
 
 Y además, como ya se ha comentado, en la carpeta \lstinline{FUENTES/results} tenemos la traza de ejecución y, además, los ficheros \lstinline{.csv} que hemos generado para tener información más depurada de los resultados.
 
@@ -1322,7 +1322,7 @@ Del mismo modo, también es de esperar que el algoritmo elitista, que hace que l
 
 De los meméticos, el que más desviación tiene es el de porcentaje aleatorio. De nuevo, esto también era esperable, pues es el que mayor aleatoriedad introduce a la hora de seleccionar los individuos a intensificar.
 
-Respecto a las \textbf{restricciones violadas}, el algoritmo \emph{greedy} lógicamente es el que mejores resultados genera. Gracias a que el único criterio que emplea es el de minimizar este valor. Y sin embargo, ya hemos comentado que no genera soluciones de calidad. Es destacable que los algoritmos meméticos han sido capaces de obtener soluciones buenas, con más restricciones violadas que el resto de algoritmos. Por ejemplo, en \emph{Bupa 10\%}.
+Respecto a las restricciones violadas, el algoritmo \emph{greedy} lógicamente es el que mejores resultados genera. Gracias a que el único criterio que emplea es el de minimizar este valor. Y sin embargo, ya hemos comentado que no genera soluciones de calidad. Es destacable que los algoritmos meméticos han sido capaces de obtener soluciones buenas, con más restricciones violadas que el resto de algoritmos. Por ejemplo, en \emph{Bupa 10\%}.
 
 Por tanto, concluimos que la mejor estrategia es minimizar tanto las restricciones violadas como la distancia intra-cluster, según el equilibrio dado por el valor de $\lambda$.
 
