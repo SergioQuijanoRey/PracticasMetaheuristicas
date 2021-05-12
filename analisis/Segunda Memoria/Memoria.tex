@@ -3,12 +3,16 @@
 % Paquetes
 %===============================================================================
 
+% Paquete para incluir codigo
+\usepackage{listings}
+\usepackage{listings-rust}
+
 % Paquete para incluir imagenes
 \usepackage{graphicx}
-\graphicspath{ {./images/} }
+\graphicspath{ {./Imagenes/} }
 
-% Paquete para incluir trozos de codigo
-\usepackage{listings, listings-rust}
+% Para fijar las imagenes en la posicion deseada
+\usepackage{float}
 
 % Para que el codigo acepte caracteres en utf8
 \lstset{literate=
@@ -36,11 +40,25 @@
 % Sin esto, los enlaces de la bibliografia dan un error de compilacion
 \usepackage{url}
 
+% Para mostrar graficas de dos imagenes, cada una con su caption, y con un caption comun
+\usepackage{subcaption}
+
+% Simbolo de los numeros reales
+\usepackage{amssymb}
+
+% Para que los codigos tengan una fuente distinta
+\usepackage{courier}
+\lstset{basicstyle=\footnotesize\ttfamily}
+
+
+% Para incluir tablas en csv
+\usepackage{csvsimple}
+
 % Metadatos del documento
 %===============================================================================
 \title{
-    {Práctica 1b}\\
-    {Técnicas de Búsqueda Local y Algoritmos Greedy}\\
+    {Práctica 2b}\\
+    {Técnicas de Búsqueda Basadas en Poblaciones}\\
     {Problema de Agrupamiento con Restricciones}\\
 }
 \author{
@@ -63,11 +81,18 @@
 \maketitle
 \pagebreak
 
-% Indice de contenidos
+% % Indice de contenidos
 \tableofcontents
+
+% Lista de figuras
+\listoffigures
+
+% Referencias bibliográficas
+\bibliography{References}
+\bibliographystyle{ieeetr}
+
 \pagebreak
 
-% Primer ejercicio
 \section{Descripción del problema}
 
 Vamos a trabajar el problema del agrupamiento con restricciones (\textbf{\emph{PAR}}). Consiste en una generalización del problema de agrupamiento clásico, al que añadimos restricciones sobre los datos.
@@ -93,8 +118,6 @@ Como los datos no están etiquetados a priori, podríamos considerar este proble
 
 \pagebreak
 
-% TODO -- es un máximo de 4 páginas y esto ocupa 5 páginas
-% TODO -- describir en pseudo la funcion objetivo y los operadores comunes? ==> Apartado d
 \section{Descripción de la aplicación de los algoritmos empleados}
 
 \subsection{Representación del conjunto de datos}
@@ -310,8 +333,6 @@ def generate_random_solution(data_points, constraints, number_of_clusters):
 
 \pagebreak
 
-% TODO -- no se indica maximo pero por el apartado anterior pareciese razonable que fuesen solo dos paginas
-% TODO -- creo que solo hay que poner pseudocodigo
 \section{Descripción y Pseudocódigo de los algoritmos de comparación}
 
 Como algoritmo de comparación estamos considerando una modificación del algoritmo clásico \emph{K-means} al que añadimos la capacidad de considerar las restricciones: \emph{copkmeans} o \emph{Constrained K-means}. Por tanto, estamos ante un algoritmo \emph{greedy}.
@@ -549,12 +570,5 @@ Esta gráfica refuerza de nuevo todo lo que venimos desarrollando en relación a
 \subsubsection{Posibles mejoras}
 
 Para comenzar, sería interesante realizar un estudio sobre el valor de $\lambda$, buscando métodos o valores para que produzca soluciones con un mejor valor del $fitness$. En segundo lugar, hemos visto la sensibilidad de la búsqueda local a la semilla aleatoria. Esto puede movitar el interés por otros métodos como el de realizar búsquedas múltiples partiendo de distintas soluciones iniciales.
-
-\pagebreak
-
-\section{Bibliografía}
-
-\bibliography{References}
-\bibliographystyle{ieeetr}
 
 \end{document}
