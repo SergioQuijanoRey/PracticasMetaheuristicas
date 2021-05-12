@@ -6,6 +6,9 @@
 % Establecemos los márgenes
 \usepackage[a4paper, margin=1in]{geometry}
 
+% Separacion entre parrafos
+\setlength{\parskip}{1em}
+
 % Paquete para incluir codigo
 \usepackage{listings}
 \usepackage{listings-rust}
@@ -35,6 +38,9 @@
   {€}{{\euro}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
   {»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1 {¡}{{!`}}1
 }
+
+% Para que no se salgan las lineas de codigo
+\lstset{breaklines=true}
 
 % Para que los metadatos que escribe latex esten en español
 \usepackage[spanish]{babel}
@@ -87,9 +93,6 @@
 {sergioquijano@correo.ugr.es}
 }
 \date{\today}
-
-% Separacion entre parrafos
-\setlength{\parskip}{1em}
 
 % Contenidos del documento
 %===============================================================================
@@ -226,6 +229,13 @@ Definimos $infeasibility$ como el número de restricciones, tanto del tipo \emph
 
 Con ello, ya podemos definir el valor de $\lambda$ como $\lambda := \frac{D}{|R|}$ donde $|R|$ es el número total de restricciones y $D$ la distancia máxima entre dos puntos de $X$.
 
+Cuando trabajemos con algoritmos poblacionales, usaremos la siguiente \textbf{nomenclatura}:
+
+\begin{itemize}
+    \item Población: conjunto de soluciones
+    \item Cromosoma: una solución individual
+    \item Gen: cada uno de los elementos del vector de asignación punto $\rightarrow$ cluster que compone la solución
+\end{itemize}
 
 \subsubsection{Representación de la solución en código}
 
@@ -266,7 +276,7 @@ Además, en todos los algoritmos, salvo \lstinline{copkmeans}, debemos llevar la
 
 \subsubsection{FitnessEvaluationResult}
 
-Para mejorar el control sobre las evaluaciones del fitness, disponemos del struct  \lstinline{FitnessEvaluationResult<T>}. Guarda un tipo genérico \lstinline{T} y las evaluaciones que consume la operación que genera dicho valor. Por ejemplo, si en un población (de la que hablaremos más adelante), queremos encontrar el individuo con mejor valor de fitness, devolvemos \lstinline{FitnessEvaluationResult<Solution>} con dicho mejor individuo y las iteraciones \textbf{efectivas} que consume esta búsqueda.
+Para mejorar el control sobre las evaluaciones del fitness, disponemos del struct  \lstinline{FitnessEvaluationResult<T>}. Guarda un tipo genérico \lstinline{T} y las evaluaciones que consume la operación que genera dicho valor. Por ejemplo, si en un población (de la que hablaremos más adelante), queremos encontrar el individuo con mejor valor de fitness, devolvemos \lstinline{FitnessEvaluationResult<Solution>} con dicho mejor individuo y las consumiciones de fitness \textbf{efectivas} que consume esta búsqueda.
 
 \subsection{Representación de la población}
 
@@ -276,7 +286,7 @@ Una población, intuitivamente, es un conjunto de individuos, que en nuestro cas
 
 El \lstinline{struct} viene dado por:
 
-\begin{lstlisting}[language=Rust, style=Boxed, basicstyle=\small]
+\begin{lstlisting}[language=Rust, style=Boxed]
 /// Representa una poblacion para los algoritmos geneticos
 #[derive(Debug, Clone)]
 pub struct Population<'a, 'b>{
@@ -378,131 +388,131 @@ def generate_random_solution(data_points, constraints, number_of_clusters):
         # de entrada y random_cluster_indixes
         return solution_from(cluster_indexes)
     }
-    \end{lstlisting}
+\end{lstlisting}
 
 
-    \pagebreak
+\pagebreak
 
-    \subsection{Descripción y Pseudocódigo del algoritmos de comparación - \emph{Copkmeans}}
+\subsection{Descripción y Pseudocódigo del algoritmos de comparación - \emph{Copkmeans}}
 
-    Como algoritmo de comparación estamos considerando una modificación del algoritmo clásico \emph{K-means} al que añadimos la capacidad de considerar las restricciones: \emph{copkmeans} o \emph{Constrained K-means}. Por tanto, estamos ante un algoritmo \emph{greedy}.
+Como algoritmo de comparación estamos considerando una modificación del algoritmo clásico \emph{K-means} al que añadimos la capacidad de considerar las restricciones: \emph{copkmeans} o \emph{Constrained K-means}. Por tanto, estamos ante un algoritmo \emph{greedy}.
 
-    La idea general es:
+La idea general es:
 
-    \begin{enumerate}
-        \item Partir de una solución inicial aleatoria, que vendrá dada por una asignación de centroides de clusters aleatorios
-        \item Iterar sobre todos los datos en orden aleatorio, asignando a cada punto el mejor cluster en ese momento (siguiendo claramente un esquema greedy). Consideramos como mejor cluster el que menos restricciones violadas produzca, y en caso de empate, el cluster cuyo centroide sea más cercano al punto
-        \item Una vez acabada la asignación de todos los puntos, calcular los centroides de los clusters con la asignación actual de los puntos
-        \item Repetir el proceso desde 2. si los centroides han cambiado respecto de la anterior iteración
-    \end{enumerate}
+\begin{enumerate}
+    \item Partir de una solución inicial aleatoria, que vendrá dada por una asignación de centroides de clusters aleatorios
+    \item Iterar sobre todos los datos en orden aleatorio, asignando a cada punto el mejor cluster en ese momento (siguiendo claramente un esquema greedy). Consideramos como mejor cluster el que menos restricciones violadas produzca, y en caso de empate, el cluster cuyo centroide sea más cercano al punto
+    \item Una vez acabada la asignación de todos los puntos, calcular los centroides de los clusters con la asignación actual de los puntos
+    \item Repetir el proceso desde 2. si los centroides han cambiado respecto de la anterior iteración
+\end{enumerate}
 
-    A la hora de ejecutar el algoritmo, en algunos \emph{datasets} el algoritmo se encuentra con problemas, pues los centroides pueden oscilar infinitamente entre dos soluciones muy cercanas (debido entre otros factores a la configuración de los datos de entrada). Esta configuración de los datos también puede provocar que haya clusters que se queden sin puntos asignados, generando así una solución no válida. Por tanto, el algoritmo admite un parámetro de entrada para indicar si queremos que sea \emph{robusto} o no. En caso de que indiquemos que queremos que sea robusto se tendrán las siguientes diferencias:
+A la hora de ejecutar el algoritmo, en algunos \emph{datasets} el algoritmo se encuentra con problemas, pues los centroides pueden oscilar infinitamente entre dos soluciones muy cercanas (debido entre otros factores a la configuración de los datos de entrada). Esta configuración de los datos también puede provocar que haya clusters que se queden sin puntos asignados, generando así una solución no válida. Por tanto, el algoritmo admite un parámetro de entrada para indicar si queremos que sea \emph{robusto} o no. En caso de que indiquemos que queremos que sea robusto se tendrán las siguientes diferencias:
 
-    \begin{itemize}
-        \item Los centroides aleatorios no se tomarán como puntos aleatorios, sino como puntos del \emph{dataset} aleatorios, por lo que en una primera iteración no podrán quedar clusters vacíos, aunque si podrán quedar clusters vacíos en iteraciones posteriores. Con esto se buscas evitar el problema de los clusters vacíos
-        \item Se tendrá un máximo de iteraciones. Este máximo lo hemos establecido como 50 iteraciones sobre el bucle principal. Teniendo en cuenta que cuando no cicla infinitamente, en menos de 10 iteraciones el algoritmo encuentra solución, consideramos que es un máximo mucho más que aceptable para asegurar que la solución devuelta sea la mejor (o la segunda mejor) que el \emph{greedy} puede calcular con esa semilla aleatoria. Con esto se busca evitar el problema del ciclado infinito
-        \item Aún con estos cambios, en ciertas ocasiones no podemos evitar que dejemos un cluster vacío en iteraciones posteriores a la primera. Por tanto, también colocaremos un máximo de reinicios del algoritmo en la parte del código que llama al método de búsqueda.
-    \end{itemize}
+\begin{itemize}
+    \item Los centroides aleatorios no se tomarán como puntos aleatorios, sino como puntos del \emph{dataset} aleatorios, por lo que en una primera iteración no podrán quedar clusters vacíos, aunque si podrán quedar clusters vacíos en iteraciones posteriores. Con esto se buscas evitar el problema de los clusters vacíos
+    \item Se tendrá un máximo de iteraciones. Este máximo lo hemos establecido como 50 iteraciones sobre el bucle principal. Teniendo en cuenta que cuando no cicla infinitamente, en menos de 10 iteraciones el algoritmo encuentra solución, consideramos que es un máximo mucho más que aceptable para asegurar que la solución devuelta sea la mejor (o la segunda mejor) que el \emph{greedy} puede calcular con esa semilla aleatoria. Con esto se busca evitar el problema del ciclado infinito
+    \item Aún con estos cambios, en ciertas ocasiones no podemos evitar que dejemos un cluster vacío en iteraciones posteriores a la primera. Por tanto, también colocaremos un máximo de reinicios del algoritmo en la parte del código que llama al método de búsqueda.
+\end{itemize}
 
-    El pseudocódigo (en notación muy parecida a \lstinline{Python}) de nuestra implementación del algoritmo quedaría tal que:
+El pseudocódigo (en notación muy parecida a \lstinline{Python}) de nuestra implementación del algoritmo quedaría tal que:
 
-    \begin{lstlisting}[language=Python, style=Boxed]
-    # Generamos los centroides aleatorios. Dependiendo de si es robust o no
-    # consideramos puntos aleatorios en [0,1] x [0,1] o puntos del dataset
-    # de entrada aleatorios
-    current_centroids = generate_random_centroids()
+\begin{lstlisting}[language=Python, style=Boxed]
+# Generamos los centroides aleatorios. Dependiendo de si es robust o no
+# consideramos puntos aleatorios en [0,1] x [0,1] o puntos del dataset
+# de entrada aleatorios
+current_centroids = generate_random_centroids()
 
-    # Solucion inicial aleatoria que se va a modificar en la primera iteracion
-    # Notar que no es valida porque deja todos los clusters menos uno vacíos
-    current_cluster_indixes = [0, 0, ..., 0]
+# Solucion inicial aleatoria que se va a modificar en la primera iteracion
+# Notar que no es valida porque deja todos los clusters menos uno vacíos
+current_cluster_indixes = [0, 0, ..., 0]
 
-    # Para comprobar que los centroides cambien
-    centroids_have_changed = true
+# Para comprobar que los centroides cambien
+centroids_have_changed = true
 
 
-    # Si robust == true, acotamos el numero maximo de iteraciones
-    max_iterations = 50
-    mut curr_iteration = 0
+# Si robust == true, acotamos el numero maximo de iteraciones
+max_iterations = 50
+mut curr_iteration = 0
 
-    while centroids_have_changed == true and curr_iteration < max_iterations{
+while centroids_have_changed == true and curr_iteration < max_iterations{
 
-        # Realizamos una nueva asignacion de clusters. Recorremos los puntos
-        # aleatoriamente y asignamos el cluster que menos restricciones viole
-        # en esa iteracion. En caso de empate, se toma el cluster con centroide
-        # mas cercano al punto
-        new_cluster_indixes = assign_points_to_clusters()
+    # Realizamos una nueva asignacion de clusters. Recorremos los puntos
+    # aleatoriamente y asignamos el cluster que menos restricciones viole
+    # en esa iteracion. En caso de empate, se toma el cluster con centroide
+    # mas cercano al punto
+    new_cluster_indixes = assign_points_to_clusters()
 
-        # Comprobamos que la nueva solucion calculada es correcta
-        if valid_cluster_configuration(current_cluster_indixes) == false:
-            # Esto hace que el el caller de la funcion copkmeans, se muestre un
-            # mensaje por pantalla y se vuelva a realizar la busqueda, con lo que
-            # partimos de unos centroides aleatorios nuevos. Como ya se ha comentado,
-            # hay un maximo de reinicios en el caller para este metodo
-            return None
+    # Comprobamos que la nueva solucion calculada es correcta
+    if valid_cluster_configuration(current_cluster_indixes) == false:
+        # Esto hace que el el caller de la funcion copkmeans, se muestre un
+        # mensaje por pantalla y se vuelva a realizar la busqueda, con lo que
+        # partimos de unos centroides aleatorios nuevos. Como ya se ha comentado,
+        # hay un maximo de reinicios en el caller para este metodo
+        return None
 
-        # Calculamos los nuevos centroides y comprobamos si han cambiado
-        new_centroids = calculate_new_centroids(new_cluster_indixes)
-        centroids_have_changed = centroids_are_different(
+    # Calculamos los nuevos centroides y comprobamos si han cambiado
+    new_centroids = calculate_new_centroids(new_cluster_indixes)
+    centroids_have_changed = centroids_are_different(
+        current_centroids,
+        new_centroids
+    )
+
+    # Cambiamos a la nueva asignacion de clusters y los nuevos centroides
+    current_cluster_indixes = new_cluster_indixes
+    current_centroids = new_centroids
+
+
+    # En caso de que robust = true, acotamos el numero de iteraciones de forma
+    # efectiva aumentando el contador. En otro caso, al no tocar el contador
+    # no estamos teniendo en cuenta este parametro
+    if robust == true:
+        curr_iteration = curr_iteration + 1;
+
+# Devolvemos la solucion en la estructura de datos correspondiente
+return solution_from(current_cluster_indixes)
+\end{lstlisting}
+
+Desarrollamos el código de \lstinline{assign_points_to_clusters} por su importancia:
+
+\begin{lstlisting}[language=Python, style=Boxed]
+def assign_points_to_clusters():
+    # Realizamos una nueva asignacion de clusters
+    # -1 para saber que puntos todavia no han sido asignados a un cluster
+    new_cluster_indixes= [-1, -1, ..., -1]
+
+    # Recorremos aleatoriamente los puntos para irlos asignando a cada cluster
+    point_indexes = (0..data_points.len())
+    point_indexes.shuffle();
+
+    for index in point_indexes:
+        # Calculo el cluster al que asignamos el punto actual
+        new_cluster_indixes[index] = select_best_cluster(
+            current_cluster_indixes,
             current_centroids,
-            new_centroids
         )
 
-        # Cambiamos a la nueva asignacion de clusters y los nuevos centroides
-        current_cluster_indixes = new_cluster_indixes
-        current_centroids = new_centroids
+    # Devolvemos los indices que representan la solucion
+    return new_cluster_indixes
+\end{lstlisting}
 
+\pagebreak
 
-        # En caso de que robust = true, acotamos el numero de iteraciones de forma
-        # efectiva aumentando el contador. En otro caso, al no tocar el contador
-        # no estamos teniendo en cuenta este parametro
-        if robust == true:
-            curr_iteration = curr_iteration + 1;
+\subsection{Descripción y pseudocódigo de los algoritmos genéticos generacionales}
 
-    # Devolvemos la solucion en la estructura de datos correspondiente
-    return solution_from(current_cluster_indixes)
-    \end{lstlisting}
+Este algoritmo tendrá la siguiente estructura, que más adelante pasaremos a detallar con los pseudocódigos:
 
-    Desarrollamos el código de \lstinline{assign_points_to_clusters} por su importancia:
-
-    \begin{lstlisting}[language=Python, style=Boxed]
-    def assign_points_to_clusters():
-        # Realizamos una nueva asignacion de clusters
-        # -1 para saber que puntos todavia no han sido asignados a un cluster
-        new_cluster_indixes= [-1, -1, ..., -1]
-
-        # Recorremos aleatoriamente los puntos para irlos asignando a cada cluster
-        point_indexes = (0..data_points.len())
-        point_indexes.shuffle();
-
-        for index in point_indexes:
-            # Calculo el cluster al que asignamos el punto actual
-            new_cluster_indixes[index] = select_best_cluster(
-                current_cluster_indixes,
-                current_centroids,
-            )
-
-        # Devolvemos los indices que representan la solucion
-        return new_cluster_indixes
-    \end{lstlisting}
-
-    \pagebreak
-
-    \subsection{Descripción y pseudocódigo de los algoritmos genéticos generacionales}
-
-    Este algoritmo tendrá la siguiente estructura, que más adelante pasaremos a detallar con los pseudocódigos:
-
-    \begin{enumerate}
-        \item Generamos una población aleatoria. Recordar que los valores de los parámetros se desarrollan en \emph{\ref{section:parametros_poblacionales}. \nameref{section:parametros_poblacionales}}
-        \item Mientras no se hayan agotado las evaluaciones del fitness:
-            \begin{enumerate}
-                \item Seleccionar elementos de la población, a partir de torneos binarios, generando una nueva población del mismo tamaño que la población anterior
-                \item Cruzar con cierta probabilidad dicha población. Más adelante discutimos los distintos esquemas de cruce
-                \item Mutar con cierta probabilidad genes de la población cruzada. Usaremos en todos los casos mutación uniforme
-                \item Evaluar todos los elementos de la población (calcular el valor de \emph{fitness})
-                \item Reemplazar la población anterior con esta nueva población. En caso de que el individuo mejor (el de menor valor de \emph{fitness}) no haya sobrevivido, lo introducimos en la nueva población.
-                \item \textbf{Consideración importante}: en el guión se nos indicaba que el mejor individuo reemplazase, en caso de ser necesario, al peor individuo de la población nueva. Sin embargo, por los problemas que tuve con la diversidad de la población, y por consejo del profesor de prácticas, este reemplazo se hace en la posición que ocupaba el mejor individuo en la población anterior
-                \item Contabilizar las evaluaciones del fitness que se consumen en el proceso
-        \end{enumerate}
+\begin{enumerate}
+    \item Generamos una población aleatoria. Recordar que los valores de los parámetros se desarrollan en \emph{\ref{section:parametros_poblacionales}. \nameref{section:parametros_poblacionales}}
+    \item Mientras no se hayan agotado las evaluaciones del fitness:
+        \begin{enumerate}
+            \item Seleccionar elementos de la población, a partir de torneos binarios, generando una nueva población del mismo tamaño que la población anterior
+            \item Cruzar con cierta probabilidad dicha población. Más adelante discutimos los distintos esquemas de cruce
+            \item Mutar con cierta probabilidad genes de la población cruzada. Usaremos en todos los casos mutación uniforme
+            \item Evaluar todos los elementos de la población (calcular el valor de \emph{fitness})
+            \item Reemplazar la población anterior con esta nueva población. En caso de que el individuo mejor (el de menor valor de \emph{fitness}) no haya sobrevivido, lo introducimos en la nueva población.
+            \item \textbf{Consideración importante}: en el guión se nos indicaba que el mejor individuo reemplazase, en caso de ser necesario, al peor individuo de la población nueva. Sin embargo, por los problemas que tuve con la diversidad de la población, y por consejo del profesor de prácticas, este reemplazo se hace en la posición que ocupaba el mejor individuo en la población anterior
+            \item Contabilizar las evaluaciones del fitness que se consumen en el proceso
+    \end{enumerate}
 \end{enumerate}
 
 Notar que a la hora de cruzar con una probabilidad la población, lo que hacemos por temas de eficiencia es, calcular el número esperado de genes a mutar, y mutar aleatoriamente ese número de individuos de la población. Y en este caso, también usaremos el número esperado de genes a mutar, usando de nuevo la esperanza matemática de la probabilidad dada.
@@ -947,6 +957,8 @@ def mutate_population_given_prob(mutation_probability_per_gen):
 
 Notar que por cada individuo, iteramos sobre sus genes lanzando un número aleatorio que indica si mutamos un gen o no. En caso de mutar, no necesariamente mutamos el gen correspondiente a la iteración en la que nos encontramos. Con ello, es posible mutar más de una vez el mismo gen, aunque con las probabilidades tan bajas con las que trabajamos esto ocurrirá muy pocas veces.
 
+Aquí tuvimos otro problema. El segundo bucle sobre los genes no lo realizábamos. Por ello, apenas mutaban las soluciones, lo que disminuía enormemente la diversidad de la población, generando soluciones muy malas.
+
 \subsubsection{Competición para entrar en la población}
 
 \begin{lstlisting}[language=Python, style=Boxed]
@@ -1138,12 +1150,12 @@ Una vez tengamos instalado \lstinline{rustup}, podemos ejecutar órdenes como \l
 
 \subsection{Compilación y ejecución del binario}
 
-Además del binario aportado en la estructura de directios que se especifica en el guión, podemos generar fácilmente el binario con \lstinline{cargo} y ejecutarlo tal que:
+Además del binario aportado en la estructura de directorios que se especifica en el guión, podemos generar fácilmente el binario con \lstinline{cargo} y ejecutarlo tal que:
 
 \begin{itemize}
     \item Para compilar: \lstinline{cargo build --release} lo que nos generará un binario en \lstinline{./target/release/PracticasMetaheuristicas}
     \item Podemos usar ese binario para ejecutar el programa o podemos usar \lstinline{cargo run --release <parametros entrada>} para correr el programa de forma más cómoda
-    \item Es muy importante la opción \lstinline{--release} porque de otra forma el binario no será apenas optimizado, lo que supondrá tiempos de ejecución mucho mayores
+    \item Es muy importante la opción \lstinline{--release} porque de otra forma el binario no será apenas optimizado, lo que supondrá tiempos de ejecución mucho mayores. Además todas las comprobaciones con \lstinline{debug_assert!} no serán ignorados, lo que ralentecerá muchísimo las ejecuciones
     \item Para correr los tests programados podemos hacer \lstinline{cargo test}
 \end{itemize}
 
@@ -1159,6 +1171,13 @@ Si ejecutamos el binario sin parámetros, veremos por pantalla un mensaje indica
         \item copkmeans: búsqueda greedy
         \item copkmeans\_robust: búsqueda greedy con los cambios ya indicados para que sea algo más robusto
         \item local\_search: búsqueda local
+        \item gguniform
+        \item ggsegment
+        \item gsuniform
+        \item gssegment
+        \item memeall
+        \item memerandom
+        \item memeelitist
     \end{itemize}
 \end{itemize}
 
@@ -1182,22 +1201,37 @@ Tenemos tres problemas distintos. Cada problema, tiene dos ficheros de restricci
     \item Bupa: agrupar personas en función de hábitos de consumo de alcohol. Datos de dimensión 9 agrupados en 16 clusters. Hay 345 instancias de datos
 \end{itemize}
 
-% TODO -- esto ahora es falso
-Por tanto, haciendo cuentas, tenemos $3 * 2 * 5 = 30$ ejecuciones de búsquedas. De nuevo, estas 30 ejecuciones se pueden lanzar cómodamente usando \lstinline{./launch_all_programs}
+Podemos lanzar las $5 * 3 * 2 = 30$ ejecuciones por algoritmo cómodamente con \lstinline{launch_all_programs}.
 
 \subsubsection{Parámetros de la búsqueda local y Greedy}
 
 \begin{itemize}
-    \item Máximo de iteraciones de la búsqueda local: 100.000
+\item Máximo de evaluaciones de la función fitness en búsqueda local: 100.000
     \item Máximo de iteraciones del algoritmo greedy cuando forzamos la robustez: 50
     \item Máximo de repeticiones del algoritmo greedy cuando este deja clusters vacíos: 100
 \end{itemize}
 
 \subsubsection{Parámetros de los algoritmos poblacionales} \label{section:parametros_poblacionales}
 
+\begin{itemize}
+    \item Máximo de evaluaciones de la función fitness en búsqueda local: 100.000
+    \item Tamaño de la población: 50 cromosomas
+    \item Probabilidad de cruce AGG: 0.7
+    \item Probabilidad de cruce AGE: 1.0
+    \item Probabilidad mutación por gen: $\frac{0.1}{numero\ de\ genes}$
+\end{itemize}
+
 \subsubsection{Parámetros de los algoritmos memeticos} \label{section:parametros_memeticos}
 
-% TODO -- rellenar esto
+\begin{itemize}
+    \item Máximo de evaluaciones de la función fitness en búsqueda local: 100.000
+    \item Tamaño de la población: 50 cromosomas
+    \item Probabilidad de cruce AGG: 0.7
+    \item Probabilidad de cruce AGE: 1.0
+    \item Probabilidad mutación por gen: $\frac{0.1}{numero\ de\ genes}$
+    \item Número de fallos: $\xi = 0.1 * n$ donde $n$ es el número de genes por cromosoma
+\end{itemize}
+
 
 \pagebreak
 
@@ -1205,22 +1239,30 @@ Por tanto, haciendo cuentas, tenemos $3 * 2 * 5 = 30$ ejecuciones de búsquedas.
 
 El formato especificado viene dado en una tabla de excel que hemos rellenado con los resultados mostrados por pantalla por el programa. Para obtener estos resultados, basta con lanzar \lstinline{./launch_all_programs > salida_datos.txt} y consultar el fichero creado. Ese fichero se entrega con la práctica para que pueda consultarse los datos con los que hemos generado las tablas.
 
-\subsubsection{Resultados Greedy}
+Los datos guardados en un formato especificado se encuentra en la tabla de excel. Esta tabla se encuentra colgando de la carpeta \lstinline{FUENTES/analisis/Segunda Memoria/}. Los resultados de la ejecución en nuestro ordenador (en el ordenador de los profesores, se puede obtener una traza distinta a pesar de usar las mismas semillas) se encuentran en \lstinline{FUENTES/results}. También tenemos ficheros $.csv$ más depurados que he usado para cargar los datos en el \emph{Excel}.
 
-\subsubsection{Resultados Búsqueda local}
+Considerar también que las ejecuciones provocan que se guarden ficheros tipo \lstinline{numpy} en la carpeta \lstinline{FUENTES/fitness_evolution_data}
 
-\subsubsection{Comparación de resultados}
+\subsection{Tablas con los resultados globales}
 
+Por la inmensa cantidad de datos, mostramos en esta memoria solamente las tablas de resultados globales y, cuando sea necesario, referenciaremos tablas concretas. Notar que las tablas que dejamos fuera nos dan información adicional sobre como varían los algoritmos respecto al cambio de semilla. Información sobre estabilidad, desviaciones típicas, $\ldots$.
+
+Y además, como ya se ha comentado, en la carpeta \lstinline{FUENTES/results} tenemos la traza de ejecución y, además, los ficheros \lstinline{.csv} que hemos generado para tener información más depurada de los resultados.
 
 \subsection{Análisis de resultados}
 
-\subsubsection{Gráficas de evolución de fitness}
 
-\subsubsection{Posibles mejoras}
 
 \pagebreak
 
 \section{Correcciones respecto la práctica pasada}
+
+\begin{itemize}
+    \item En la búsqueda local, en vez de considerar iteraciones, consideramos el máximo de evaluaciones del fitness
+    \item En la búsqueda local, en vez de considerar iteraciones, consideramos el máximo de evaluaciones del fitness
+\end{itemize}
+
+Estas correcciones no las plasmamos en el pseudocódigo, pues pensamos que es lo lógico al no ser esta parte evaluada de nuevo en esta práctica. Realizamos las correcciones para que las comparaciones entre distintos algoritmos sean lo más justas posbile.
 
 
 \end{document}
