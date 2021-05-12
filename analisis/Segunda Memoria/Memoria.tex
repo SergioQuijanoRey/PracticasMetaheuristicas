@@ -1265,18 +1265,6 @@ Las tablas con los resultados son las siguientes:
 
 Por las correcciones en la búsqueda local y el algoritmo \emph{greedy}, se puede ver que los resultados respecto a estas dos búsquedas han cambiado respecto la práctica anterior. Estas correcciones se comentan en \emph{\ref{seccion:correcciones}. \nameref{seccion:correcciones}}. Es notorio que, en \emph{Bupa 20\%}, tengamos un tiempo de ejecución tan pequeño. Esto se justifica en la corrección al ver lo que hemos tenido que hacer para poder asignar valor a este \emph{dataset}.
 
-Al tener tanta información condensada en dos tablas, procedemos a comentar los resultados \emph{dataset} a \emph{dataset}, para finalizar tomando conclusiones de estas discusiones.
-
-\subsubsection{Zoo 10\%}
-
-Como era de esperar, \emph{greedy} es el algoritmo que peor \emph{fitness} ha obtenido. La búsqueda local ha sido superada por todos los algoritmos generacionales, salvo el memético elitista.
-
-\subsubsection{Conclusiones}
-
-El algoritmo memético, en alguna de sus variantes, siempre ha sido el que mejores resultados ha obtenido. Dependiendo del \emph{dataset} considerado, el ganador es una u otra variante. Esto es de esperar, pues las distintas variantes establecen distintos equilibrios exploración-explotación, y este equilibrio óptimo puede venir altamente influenciado por el conjunto de datos que queremos resolver.
-
-Es destacado también que en algunos casos, alguna variante memética es peor que los otros algoritmos. Esto puede ser explicado pensando que los algoritmos genéticos, en sus cuatro variantes, también definen su propio equilibrio exploración-explotación, que para ciertos problemas puede ser más acertada que el propuesto por dicho memético con mal comportamiento.
-
 El algoritmo memético elitista está generando resultados malos de forma consistente, en comparación a la búsqueda local y el resto de genéticos y meméticos. A compañeros nuestros les ofrecen resultados mucho mejores, lo que nos hace pensar que hemos cometido un error en la práctica. Este error puede venir dado por:
 
 \begin{itemize}
@@ -1284,7 +1272,44 @@ El algoritmo memético elitista está generando resultados malos de forma consis
     \item En la selección del mejor individuo, usamos una cola con prioridad. Puede ser que nos esté devolviendo los peores elementos, en vez de los mejores.
 \end{itemize}
 
-El problema era el segundo. Cambiamos el código y repetimos las ejecuciones, para \lstinline{memeelitist}. No podemos guardar la traza y depurarla de nuevo con el poco tiempo del que disponemos, así que directamente mostramos los resultados en la siguientes tablas:
+El problema era el segundo. Cambiamos el código y repetimos las ejecuciones, para \lstinline{Memético Elitista}. No podemos guardar la traza y depurarla de nuevo con el poco tiempo del que disponemos, así que directamente mostramos los resultados en la siguientes tablas. Además, aprovechamos para marcar el mejor y peor resultado, que será de utilidad a la hora de realizar los análisis:
+
+\begin{figure}[H]
+    \includegraphics[width=1.0\textwidth]{tablas_globales_corregidas_10}
+    \caption{Tablas Globales - 10\% de restricciones, \textbf{Corregidas}}
+\end{figure}
+
+\begin{figure}[H]
+    \includegraphics[width=1.0\textwidth]{tablas_globales_corregidas_20}
+    \caption{Tablas Globales - 20\% de restricciones, \textbf{Corregidas}}
+\end{figure}
+
+Tras este cambio, vemos que el algoritmo memético elitista tiene el comportamiento deseado, con lo que podemos pasar a analizar los resultados.
+
+\subsubsection{Análisis Global}
+
+Los únicos algoritmos que han sido vencedores más de una vez han sido el memético elitista y la búsqueda local. Respecto al memético elitista, era en parte esperable, pues es el que conlleva mayor explotación, y para ciertos problemas esto puede ser lo deseado. Destaca que, a pesar de estar usando algoritmos mucho más avanzados que la búsqueda local, en ciertos problemas es el mejor algoritmo. Y en general, podemos apreciar que es bastante estable \emph{entre distintos tipos de problemas}, no llegando nunca a ser el peor algoritmo. Con esto no queremos decir que sea estable \emph{con distintos valores de la semilla}, porque como ya hemos visto en la práctica anterior, esto no es cierto.
+
+Podemos ver que en el resto de algoritmos, dependemos muchísimo del \emph{dataset} a la hora de tener un buen o mal comportamiento respecto de los otros algoritmos. Cada algoritmo establece un equilibrio exploración-explotación distinto. Por tanto, a la hora de enfrentarnos a un problema concreto, deberemos estudiar distintos enfoques e intentar usar el conocimiento experto disponible para tomar una decisión en cuanto a la hora de fijar el algoritmo que vamos a emplear. Estamos justificando algo que ya sabíamos, por ejemplo, del \emph{Teorema Free Lunch}: no disponemos de un algoritmo muy bueno que funcione para todo tipo de problemas.
+
+El algoritmo memético que aplica búsqueda local a todos los miembros de la población genera resultados que son o bien regulares o bien malos. Intuitivamente, podemos pensar que estamos desperdiciando evaluaciones del fitness en intensificar soluciones malas. Es más, estamos perdiendo evaluaciones en intensificar soluciones que son muy parecidas de base, a soluciones que son todavía más parecidas al intensificar. Por tanto, disminuimos la diversidad de la población. Estas soluciones mejoradas de una solución mala a una solución menos mala, pero no buena, se podrían haber obtenido a partir de cruces y mutaciones, sin malgastar evaluaciones del fitness.
+
+También podemos ver que en la mitad de los casos, un algoritmo memético ha sido el que mejores resultados ha generado. Exceptuando los resultados regulares del memético que aplica búsqueda a todos los individuos, podemos observar resultados consistentes en los otros dos meméticos. Por tanto, a la hora de enfrentarnos a un problema sin demasiado conocimiento, trataríamos de empezar explorando la búsqueda local, y la búsqueda memética. Aunque para ello primero debemos implementar un genético, por lo que también podríamos tenerlo en cuenta. Visto desde otra perspectiva, si disponemos de un algoritmo genético que funcione medianamente bien, siempre trataríamos de aplicar una mejora memética, pues hemos visto que suelen mejorar los resultados.
+
+Usando el excel que entregamos con la práctica, podemos ver las desviaciones típicas de cada tipo de búsqueda, para comparar la robustez de los algoritmos frente a los factores aleatorios:
+
+% TODO -- rellenar esto
+
+Respecto a los tiempos de ejecución, es de esperar que el más rápido sea \emph{greedy}. Aunque en casos en los que la búsqueda local converja prematuramente a la solución, puede ser que esta última sea más rápida. Esto pasa, por ejemplo, en \emph{zoo 10\%} y \emph{Bupa 10\%}. También, que \emph{greedy} cicle sobre soluciones muy parecidas hasta que forzosamente paramos el algoritmo puede favorecer a este comportamiento.
+
+En general, los algoritmos genéticos estacionarios son algo más lentos que los genéticos generacionales. Al realizar cambios de población de tamaño completo, en generacional estamos consumiendo las evaluaciones del fitness en menos iteraciones. Por lo tanto, podemos pensar que en generacional estamos realizando las operaciones en \emph{batch}, mientras que en estacionario tenemos que repetir todos los pasos del algoritmo de dos en dos individuos. En \emph{Bupa 20\%} estas diferencias de tiempo son notables, difiriendo en más de 7 segundos.
+
+El algoritmo memético sobre toda la población, hace que los tiempos sean aún más grandes. Sin embargo, los otros dos algoritmos meméticos mejoran algo los tiempos de ejecución respecto a los genéticos estacionarios. En algunas ocasiones mejoramos los tiempos de los algoritmos generacionales, pero no vemos suficiente consistencia en los datos para sacar conclusiones de ello.
+
+Por tanto, cuando trabajemos con conjuntos de datos mucho más grandes, el tiempo de ejecución puede ser un factor a tener en cuenta cuando elijamos el algoritmo a emplear. Teniendo en cuenta que el memético sobre un porcentaje aleatorio y el memético elitista, cuando no mejora al genético estacionario, se queda muy cerca del genético generacional, y a vista de las mejoras de los resultados, en muchas ocasiones podemos considerar emplear un memético como mejora a un genético sin tener demasiado miedo al impacto en tiempos de ejecución.
+
+
+
 
 
 

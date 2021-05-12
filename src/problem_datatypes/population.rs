@@ -553,6 +553,7 @@ impl<'a, 'b> Population<'a, 'b>{
         // porque hemos evaluado toda la poblacion anteriormente.
         let mut priority_queue = PriorityQueue::new();
         for (index, individual) in self.individuals.iter().enumerate(){
+            // -1.0 * porque asi devolvemos los mejores individuos, y no los peores
             priority_queue.push(index, OrderedFloat::<f64>::from(-1.0 * individual.fitness()));
         }
 
