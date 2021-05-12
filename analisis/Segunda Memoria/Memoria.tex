@@ -15,7 +15,7 @@
 
 % Paquete para incluir imagenes
 \usepackage{graphicx}
-\graphicspath{ {./Imagenes/} }
+\graphicspath{ {./images/} }
 
 % Para fijar las imagenes en la posicion deseada
 \usepackage{float}
@@ -1249,20 +1249,74 @@ Por la inmensa cantidad de datos, mostramos en esta memoria solamente las tablas
 
 Y además, como ya se ha comentado, en la carpeta \lstinline{FUENTES/results} tenemos la traza de ejecución y, además, los ficheros \lstinline{.csv} que hemos generado para tener información más depurada de los resultados.
 
+Las tablas con los resultados son las siguientes:
+
+\begin{figure}[H]
+    \includegraphics[width=1.0\textwidth]{tablas_globales_10}
+    \caption{Tablas Globales - 10\% de restricciones}
+\end{figure}
+
+\begin{figure}[H]
+    \includegraphics[width=1.0\textwidth]{tablas_globales_20}
+    \caption{Tablas Globales - 20\% de restricciones}
+\end{figure}
+
 \subsection{Análisis de resultados}
+
+Por las correcciones en la búsqueda local y el algoritmo \emph{greedy}, se puede ver que los resultados respecto a estas dos búsquedas han cambiado respecto la práctica anterior. Estas correcciones se comentan en \emph{\ref{seccion:correcciones}. \nameref{seccion:correcciones}}. Es notorio que, en \emph{Bupa 20\%}, tengamos un tiempo de ejecución tan pequeño. Esto se justifica en la corrección al ver lo que hemos tenido que hacer para poder asignar valor a este \emph{dataset}.
+
+Al tener tanta información condensada en dos tablas, procedemos a comentar los resultados \emph{dataset} a \emph{dataset}, para finalizar tomando conclusiones de estas discusiones.
+
+\subsubsection{Zoo 10\%}
+
+Como era de esperar, \emph{greedy} es el algoritmo que peor \emph{fitness} ha obtenido. La búsqueda local ha sido superada por todos los algoritmos generacionales, salvo el memético elitista.
+
+\subsubsection{Conclusiones}
+
+El algoritmo memético, en alguna de sus variantes, siempre ha sido el que mejores resultados ha obtenido. Dependiendo del \emph{dataset} considerado, el ganador es una u otra variante. Esto es de esperar, pues las distintas variantes establecen distintos equilibrios exploración-explotación, y este equilibrio óptimo puede venir altamente influenciado por el conjunto de datos que queremos resolver.
+
+Es destacado también que en algunos casos, alguna variante memética es peor que los otros algoritmos. Esto puede ser explicado pensando que los algoritmos genéticos, en sus cuatro variantes, también definen su propio equilibrio exploración-explotación, que para ciertos problemas puede ser más acertada que el propuesto por dicho memético con mal comportamiento.
+
+El algoritmo memético elitista está generando resultados malos de forma consistente, en comparación a la búsqueda local y el resto de genéticos y meméticos. A compañeros nuestros les ofrecen resultados mucho mejores, lo que nos hace pensar que hemos cometido un error en la práctica. Este error puede venir dado por:
+
+\begin{itemize}
+    \item Durante toda la práctica hemos tenido problemas con la diversidad en la población. Si este problema ha persistido sin tener mucho impacto en el resto de algoritmos, en el elitista se puede ampliar. Esto porque estamos haciendo más grande la diferencia entre individuos de buen \emph{fitness} e individuos de mal \emph{fitness}
+    \item En la selección del mejor individuo, usamos una cola con prioridad. Puede ser que nos esté devolviendo los peores elementos, en vez de los mejores.
+\end{itemize}
+
+El problema era el segundo. Cambiamos el código y repetimos las ejecuciones, para \lstinline{memeelitist}. No podemos guardar la traza y depurarla de nuevo con el poco tiempo del que disponemos, así que directamente mostramos los resultados en la siguientes tablas:
 
 
 
 \pagebreak
 
-\section{Correcciones respecto la práctica pasada}
+\section{Correcciones respecto la práctica pasada} \label{seccion:correcciones}
 
 \begin{itemize}
     \item En la búsqueda local, en vez de considerar iteraciones, consideramos el máximo de evaluaciones del fitness
     \item En la búsqueda local, en vez de considerar iteraciones, consideramos el máximo de evaluaciones del fitness
+    \item Hemos puesto finalmente la solución de \emph{Copkmeans} para \emph{Bupa 20\%} en las tablas
 \end{itemize}
 
 Estas correcciones no las plasmamos en el pseudocódigo, pues pensamos que es lo lógico al no ser esta parte evaluada de nuevo en esta práctica. Realizamos las correcciones para que las comparaciones entre distintos algoritmos sean lo más justas posbile.
 
+El problema que teníamos con \emph{greedy}, no es que en algún momento alcanzásemos una solución no válida. En ese caso, sería sencillo devolver la última solución válida alcanzada. El problema es que no éramos capaces de generar ni una sola solución valida. Para solucionar esto, en el caso de \emph{Bupa 20\%}, y \textbf{únicamente en ese caso}, hemos empleado el siguiente código para obtener al menos unos valores:
+
+
+\begin{lstlisting}[language=Rust, style=Boxed]
+for i in 0..data_points.len(){
+    current_cluster_indixes[i as usize] = (i % number_of_clusters as usize) as u32;
+}
+let curr_sol = Solution::new(
+    current_cluster_indixes.clone(),
+    data_points,
+    constraints,
+    number_of_clusters,
+);
+
+return (Some(curr_sol), fitness_evolution);
+\end{lstlisting}
+
+Construimos una solución cíclica y devolvemos esa como resultado, que claramente será válida.
 
 \end{document}
