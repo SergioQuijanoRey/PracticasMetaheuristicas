@@ -333,7 +333,7 @@ def generate_random_solution(data_points, constraints, number_of_clusters):
 
 \pagebreak
 
-\section{Descripción y Pseudocódigo de los algoritmos de comparación}
+\subsection{Descripción y Pseudocódigo del algoritmos de comparación - \emph{Copkmeans}}
 
 Como algoritmo de comparación estamos considerando una modificación del algoritmo clásico \emph{K-means} al que añadimos la capacidad de considerar las restricciones: \emph{copkmeans} o \emph{Constrained K-means}. Por tanto, estamos ante un algoritmo \emph{greedy}.
 
@@ -437,6 +437,16 @@ def assign_points_to_clusters():
 
 \pagebreak
 
+% TODO -- hay que desarrollar
+\subsection{Descripción y pseudocódigo de los algoritmos genéticos generacionales}
+\pagebreak
+% TODO -- hay que desarrollar
+\subsection{Descripción y pseudocódigo de los algoritmos genéticos estacionarios}
+\pagebreak
+% TODO -- hay que desarrollar
+\subsection{Descripción y pseudocódigo de los algoritmos meméticos}
+\pagebreak
+
 \section{Explicación del procedimiento considerado para desarrollar la práctica}
 
 Hemos desarrollado todo el código desde prácticamente cero usando el lenguaje de programación \lstinline{Rust}. Para el entorno de desarrollo, solo hace falta instalar \lstinline{Cargo}, que permite compilar el proyecto, correr los ejecutables cómodamente, descargar las dependencias o correr los tests que se han desarrollado.
@@ -494,7 +504,7 @@ El proceso de compilación y ejecución del programa, sobre los distintos conjun
 
 \subsection{Descripción de los casos del problema empleados}
 
-ara los cinco \textbf{valores de las semillas}, hemos elegido los siguientes: 123456789, 234567891, 3456789, 456789123 y 567891234, sin ningún criterio en concreto (podríamos haber buscado, por ejemplo, semillas que no diesen problemas a la hora de lanzar el algoritmo greedy).
+Para los cinco \textbf{valores de las semillas}, hemos elegido los siguientes: 123456789, 234567891, 3456789, 456789123 y 567891234, sin ningún criterio en concreto (podríamos haber buscado, por ejemplo, semillas que no diesen problemas a la hora de lanzar el algoritmo greedy).
 
 Tenemos tres problemas distintos. Cada problema, tiene dos ficheros de restricciones, uno con el 10\% de los datos con restricciones, y otro con el 20\% de los datos con restricciones. Los problemas son:
 
@@ -504,15 +514,20 @@ Tenemos tres problemas distintos. Cada problema, tiene dos ficheros de restricci
     \item Bupa: agrupar personas en función de hábitos de consumo de alcohol. Datos de dimensión 9 agrupados en 16 clusters. Hay 345 instancias de datos
 \end{itemize}
 
+% TODO -- esto ahora es falso
 Por tanto, haciendo cuentas, tenemos $3 * 2 * 5 = 30$ ejecuciones de búsquedas. De nuevo, estas 30 ejecuciones se pueden lanzar cómodamente usando \lstinline{./launch_all_programs}
 
-Otros parámetros que hemos introducido en el programa son:
+\subsubsection{Parámetros de la búsqueda local y Greedy}
 
 \begin{itemize}
     \item Máximo de iteraciones de la búsqueda local: 100.000
     \item Máximo de iteraciones del algoritmo greedy cuando forzamos la robustez: 50
     \item Máximo de repeticiones del algoritmo greedy cuando este deja clusters vacíos: 100
 \end{itemize}
+
+\subsubsection{Parámetros de los algoritmos poblacionales}
+
+% TODO -- rellenar esto
 
 \pagebreak
 
@@ -522,53 +537,16 @@ El formato especificado viene dado en una tabla de excel que hemos rellenado con
 
 \subsubsection{Resultados Greedy}
 
-\includegraphics[width=\textwidth]{greedy_10}
-
-\includegraphics[width=\textwidth]{greedy_20}
-
 \subsubsection{Resultados Búsqueda local}
-
-\includegraphics[width=\textwidth]{local_search_10}
-
-\includegraphics[width=\textwidth]{local_search_20}
 
 \subsubsection{Comparación de resultados}
 
-\includegraphics[width=\textwidth]{compare_10}
-
-\includegraphics[width=\textwidth]{compare_20}
 
 \subsection{Análisis de resultados}
 
-Las comparaciones más directas se pueden hacer con las dos últimas tablas en las que comparamos valores medios. Lo primero que notamos es que el algoritmo greedy, sobre el \emph{dataset} de \emph{Bupa} con el 20\% de los datos, no ha sido capaz de encontrar solución con ninguna de las semillas. Es decir, en todos los casos ha necesitado más de 100 repeticiones del algoritmo desde cero. Podríamos haber decidido devolver la última solución válida obtenida en todos los procesos, pero esto prácticamente es lo mismo que devolver una solución aleatoria que sea válida. Por tanto, consideramos que es más representativo dejar la marca de que el algoritmo no ha conseguido obtener una solución.
-
-En segundo lugar, es de esperar que el algoritmo greedy sea más rápido que el de búsqueda local. Sin embargo hay conjuntos de datos y restricciones en los que esto no pasa (por ejemplo, Zoo con 10\% y 20\% y Glass al 10\%). Esto puede deberse a que la búsqueda local caiga demasiado rápido en un óptimo local a partir de la solución aleatoria de partida. También influye que estemos usando la versión robusta del algoritmo greedy en la que acotamos por 50 iteraciones, pudiendo haber probado una cota menor a vista de las iteraciones requerridas en otros casos del problema en los que greedy converge sin ayudas.
-
-En tercer lugar, también cabe esperar que greedy produzca soluciones con menores violaciones de restricciones, pues es el primer criterio voraz que estamos considerando (y en caso de empate según violaciones incumplidas, ya se considera el cluster con centroide más cercano). Esto se cumple en todos los \emph{datasets} salvo en Zoo al 10\%. Puede ser que al ser un espacio de búsqueda más pequeño, la búsqueda local consiga encontrar un buen óptimo que respete muchas más restricciones manteniendo una buena desviación general de la partición.
-
-Además, es claro que la búsqueda local genera soluciones cuya desviación general de cluster está por debajo de los valores de referencia. Esto gracias a que estamos considerando a la vez en la función de fitness el número de restricciones violadas (ponderado por el valor de $\lambda$) y la desviación general del cluster. Del mismo modo, estamos obteniendo mejores valores del fitness en prácticamente todos los casos. Esto era de esperar pues en búsqueda local estamos optimizando este valor mientras que en el algoritmo greedy estamos simplemente siguiendo una estrategia voraz que pensamos que puede producir buenos resultados. Cuando no ocurre esto, podríamos pensar que el algoritmo greedy ha obtenido una muy buena solución por casualidad, o lo que parece más probable, que nuestra búsqueda local cae en un mal óptimo local en contadas ocasiones.
-
-Pasamos ahora a comentar las tablas generales, no solo las de comparaciones. Podríamos hacer comentarios sobre el comportamiento del algoritmo greedy, como por ejemplo, su dependencia de la semilla inicial a la hora de obtener buenos o malos resultados, pero al ser un algoritmo de comparación base, no parece relevante que hagamos un profundo estudio sobre su comportamiento.
-
-El valor del fitness se ve afectado por la semilla inicial (que determina la solución inicial de la que partimos), pero no hay variaciones demasiado bruscas (como si ocurre, por ejemplo, en el greedy con los Zoo de 10\% y 20\% de restricciones). Sin embargo, si que podemos observar una variabilidad mucho más grande en la cantidad de restricciones violadas. En zoo 10\% podemos pasar de 7 violaciones a 16 (más del doble). En zoo 20\% podemos pasar de 26 a 54 (de nuevo, un poco más del doble). En bupa 20\%, podemos pasar de 168 a 251. Por tanto podemos pensar que es esta métrica es más sensible a la aleatoriedad que el fitness (en el que esta métrica compone el primer sumando de forma ponderada). Por ejemplo, para Zoo 10\%, las restricciones violadas tienen un
-3.54 de desviación típica, mientras que el fitness tiene un 0.05 de desviación típica.
-
 \subsubsection{Gráficas de evolución de fitness}
-
-Estas gráficas han sido generadas a partir de la salida del programa y un script de \lstinline{Python} que emplea la librería \lstinline{matplotlib} para la generación de las gráficas. El código de generación de las gráficas se puede consultar en el fichero \lstinline{graficas.py}.
-
-Podemos mirar las gráficas de evolución del error (o gráficas de convergencia) para Zoo 10\%:
-
-\includegraphics[scale=0.5]{convergencia_zoo_10}
-
-Con esta gráfica queda claro el impacto que tiene la semilla inicial, tanto para la calidad de la solución obtenida, como para el número de iteraciones necesarias para conseguir alcanzar un óptimo local. Podemos mostrar la misma gráfica para Bupa 20\%:
-
-\includegraphics[scale=0.5]{convergencia_bupa_20}
-
-Esta gráfica refuerza de nuevo todo lo que venimos desarrollando en relación a la influencia de la semilla aleatoria. Ambas gráficas también dejan claro que la evolución del fitness es estrictamente decreciente. Esto porque estamos haciendo una búsqueda el primero mejor, por tanto, siempre nos movemos hacia soluciones de mejor fitness que la solución actual.
 
 \subsubsection{Posibles mejoras}
 
-Para comenzar, sería interesante realizar un estudio sobre el valor de $\lambda$, buscando métodos o valores para que produzca soluciones con un mejor valor del $fitness$. En segundo lugar, hemos visto la sensibilidad de la búsqueda local a la semilla aleatoria. Esto puede movitar el interés por otros métodos como el de realizar búsquedas múltiples partiendo de distintas soluciones iniciales.
 
 \end{document}
