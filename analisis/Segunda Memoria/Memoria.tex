@@ -3,6 +3,9 @@
 % Paquetes
 %===============================================================================
 
+% Establecemos los márgenes
+\usepackage[a4paper, margin=1in]{geometry}
+
 % Paquete para incluir codigo
 \usepackage{listings}
 \usepackage{listings-rust}
@@ -285,6 +288,8 @@ pub struct Population<'a, 'b>{
 Los métodos implementados para el \lstinline{struct} serán comentados a medida que vayamos describiendo el pseudocódigo de los distintos algoritmos.
 
 Una consideración importante es que, en un primer momento, consideramos utilizar una estructura de datos del tipo \emph{Cola con prioridad}. De esta forma, podríamos obtener de forma eficiente los elementos mejores y peores (respecto a su valor del \emph{fitness}) de una población. Sin embargo, introducía mucha complejidad en el código, pues era difícil tener en cuenta las evaluaciones del fitness que se consumían al mantener la estructura de datos (por ejemplo, deberíamos haber implementado la interfaz \emph{Ord}, que no permite devolver el tipo de dato \emph{FitnessEvaluationResult}). Esto, junto a que el código corre en unos tiempos muy razonables, motiva nuestra decisión a no considerar una estructura de datos más compleja. Podría haber sido interesante implementar a mano un \lstinline{PriorityQueue} para poder controlar las evaluaciones del fitness y también optimizar algo más el código.
+
+En los pseudocódigos mostramos que, en la función \lstinline{select_best_indixes}, usamos una cola con prioridad. Esto porque previamente evaluamos toda la población, y con ello, tenemos controladas las evaluaciones del fitness.
 
 Notar también que muchos de los métodos devuelven el tipo \lstinline{FitnessEvaluationResult}, para tener control de las evaluaciones del fitness consumidas, como ya hemos comentado previamente.
 
@@ -1212,6 +1217,10 @@ El formato especificado viene dado en una tabla de excel que hemos rellenado con
 \subsubsection{Gráficas de evolución de fitness}
 
 \subsubsection{Posibles mejoras}
+
+\pagebreak
+
+\section{Correcciones respecto la práctica pasada}
 
 
 \end{document}
