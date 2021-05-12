@@ -1290,15 +1290,41 @@ Tras este cambio, vemos que el algoritmo memético elitista tiene el comportamie
 
 Los únicos algoritmos que han sido vencedores más de una vez han sido el memético elitista y la búsqueda local. Respecto al memético elitista, era en parte esperable, pues es el que conlleva mayor explotación, y para ciertos problemas esto puede ser lo deseado. Destaca que, a pesar de estar usando algoritmos mucho más avanzados que la búsqueda local, en ciertos problemas es el mejor algoritmo. Y en general, podemos apreciar que es bastante estable \emph{entre distintos tipos de problemas}, no llegando nunca a ser el peor algoritmo. Con esto no queremos decir que sea estable \emph{con distintos valores de la semilla}, porque como ya hemos visto en la práctica anterior, esto no es cierto.
 
+Debemos sospechar en cierta medida que los conjuntos de datos no sean lo suficientemente complejos como para que la búsqueda local se vea afectada por caer en malos óptimos locales. Un \emph{dataset} con muchísimos óptimos locales, debería mostrar que los algoritmos poblacionales generan consistentemente mejores soluciones. Por ejemplo, el que se visualiza en la siguiente imagen \footnotemark:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{search_space}
+    \caption{Espacio de búsqueda con muchos óptimos locales}
+\end{figure}
+
+\footnotetext{Imagen extraída de: \cite{EspacioBusqueda:online}}
+
 Podemos ver que en el resto de algoritmos, dependemos muchísimo del \emph{dataset} a la hora de tener un buen o mal comportamiento respecto de los otros algoritmos. Cada algoritmo establece un equilibrio exploración-explotación distinto. Por tanto, a la hora de enfrentarnos a un problema concreto, deberemos estudiar distintos enfoques e intentar usar el conocimiento experto disponible para tomar una decisión en cuanto a la hora de fijar el algoritmo que vamos a emplear. Estamos justificando algo que ya sabíamos, por ejemplo, del \emph{Teorema Free Lunch}: no disponemos de un algoritmo muy bueno que funcione para todo tipo de problemas.
 
 El algoritmo memético que aplica búsqueda local a todos los miembros de la población genera resultados que son o bien regulares o bien malos. Intuitivamente, podemos pensar que estamos desperdiciando evaluaciones del fitness en intensificar soluciones malas. Es más, estamos perdiendo evaluaciones en intensificar soluciones que son muy parecidas de base, a soluciones que son todavía más parecidas al intensificar. Por tanto, disminuimos la diversidad de la población. Estas soluciones mejoradas de una solución mala a una solución menos mala, pero no buena, se podrían haber obtenido a partir de cruces y mutaciones, sin malgastar evaluaciones del fitness.
 
 También podemos ver que en la mitad de los casos, un algoritmo memético ha sido el que mejores resultados ha generado. Exceptuando los resultados regulares del memético que aplica búsqueda a todos los individuos, podemos observar resultados consistentes en los otros dos meméticos. Por tanto, a la hora de enfrentarnos a un problema sin demasiado conocimiento, trataríamos de empezar explorando la búsqueda local, y la búsqueda memética. Aunque para ello primero debemos implementar un genético, por lo que también podríamos tenerlo en cuenta. Visto desde otra perspectiva, si disponemos de un algoritmo genético que funcione medianamente bien, siempre trataríamos de aplicar una mejora memética, pues hemos visto que suelen mejorar los resultados.
 
-Usando el excel que entregamos con la práctica, podemos ver las desviaciones típicas de cada tipo de búsqueda, para comparar la robustez de los algoritmos frente a los factores aleatorios:
+Para conjuntos de datos grandes, vemos que existe una tendencia hacia que los estacionarios funcionen mejor. Y al revés, con conjuntos de datos de menor tamaño, y con menos restricciones, los algoritmos genéticos generacionales parecen funcionar mejor. Esto introduce otro posible criterio a la hora de escoger un algoritmo u otro, en base a los conjuntos de datos con los que trabajemos.
 
-% TODO -- rellenar esto
+Usando el \emph{excel} que entregamos con la práctica, podemos ver las desviaciones típicas de cada tipo de búsqueda, para comparar la robustez de los algoritmos frente a los factores aleatorios:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{desviaciones_tipicas}
+    \caption{Desviaciones típicas de los \emph{fitness} de los algoritmos}
+\end{figure}
+
+Como era de esperar, el algoritmo con desviación más alta es el de búsqueda local. Era intuitivo pensar esto, pues es el que pensamos que está más afectado por la semilla inicial. En un principio es sorprendente lo poco que se desvía el memético sobre todos los individuos. Creemos que es debido a que la intensificación provoca que todo el conjunto avance rápidamente hacia una solución muy similar (pérdida de diversidad), y por ello, es más estable respecto a las distintas semillas aleatorias.
+
+Del mismo modo, también es de esperar que el algoritmo elitista, que hace que las mejores soluciones avancen aún más, tenga una desviación tan pequeña. Los cuatro generacionales tiene desviaciones similares. No sabemos si las diferencias en desviación son significativas, sobre todo teniendo en cuenta que solo hemos lanzado 5 veces los algoritmos.
+
+De los meméticos, el que más desviación tiene es el de porcentaje aleatorio. De nuevo, esto también era esperable, pues es el que mayor aleatoriedad introduce a la hora de seleccionar los individuos a intensificar.
+
+Respecto a las \textbf{restricciones violadas}, el algoritmo \emph{greedy} lógicamente es el que mejores resultados genera. Gracias a que el único criterio que emplea es el de minimizar este valor. Y sin embargo, ya hemos comentado que no genera soluciones de calidad. Es destacable que los algoritmos meméticos han sido capaces de obtener soluciones buenas, con más restricciones violadas que el resto de algoritmos. Por ejemplo, en \emph{Bupa 10\%}.
+
+Por tanto, concluimos que la mejor estrategia es minimizar tanto las restricciones violadas como la distancia intra-cluster, según el equilibrio dado por el valor de $\lambda$.
 
 Respecto a los tiempos de ejecución, es de esperar que el más rápido sea \emph{greedy}. Aunque en casos en los que la búsqueda local converja prematuramente a la solución, puede ser que esta última sea más rápida. Esto pasa, por ejemplo, en \emph{zoo 10\%} y \emph{Bupa 10\%}. También, que \emph{greedy} cicle sobre soluciones muy parecidas hasta que forzosamente paramos el algoritmo puede favorecer a este comportamiento.
 
@@ -1308,10 +1334,7 @@ El algoritmo memético sobre toda la población, hace que los tiempos sean aún 
 
 Por tanto, cuando trabajemos con conjuntos de datos mucho más grandes, el tiempo de ejecución puede ser un factor a tener en cuenta cuando elijamos el algoritmo a emplear. Teniendo en cuenta que el memético sobre un porcentaje aleatorio y el memético elitista, cuando no mejora al genético estacionario, se queda muy cerca del genético generacional, y a vista de las mejoras de los resultados, en muchas ocasiones podemos considerar emplear un memético como mejora a un genético sin tener demasiado miedo al impacto en tiempos de ejecución.
 
-
-
-
-
+A la hora de ejecutar los algoritmos, viendo cómo avanzaban las poblaciones, hemos observado un comportamiento que nos ha parecido algo problemático. Tras no demasiadas iteraciones, la población de individuos se estabilizaba alrededor de unas pocas soluciones repetidas muchas veces. Por tanto, sería interesante usar otros parámetros del programa para introducir más diversidad en fases tardías de los algoritmos.
 
 \pagebreak
 
