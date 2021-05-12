@@ -961,11 +961,153 @@ def compete_with_new_individuals(self, candidate_population):
     return new_pop
 \end{lstlisting}
 
-
-
 \pagebreak
-% TODO -- hay que desarrollar
+
 \subsection{Descripción y pseudocódigo de los algoritmos meméticos}
+
+Los algoritmos meméticos que vamos a desarrollar son una hibridación de los algoritmos genéticos que ya hemos visto, junto a una búsqueda local. El esquema general de los algoritmos meméticos es el siguiente:
+
+\begin{enumerate}
+    \item Generamos una población inicial aleatoria. Los valores de los parámetros se pueden consultar en \emph{\ref{section:parametros_memeticos}. \nameref{section:parametros_memeticos}}.
+    \item Mientras no se hayan agotado las evaluaciones del fitness
+        \begin{enumerate}
+            \item Aplicar una iteración del algoritmo genético base. Podemos elegir entre el algoritmo genético generacional o estacionario
+            \item Cada diez iteracines del algoritmo genético, aplicamos una búsqueda local suave sobre la población
+        \end{enumerate}
+\end{enumerate}
+
+Como algoritmo genético base hemos escogido el generacional. Tenemos el algoritmo memético implementado con las dos bases genéticas, y el generacional es el que mejores resultados a proporcionado. Como operador de cruce en el algoritmo genético base, hemos empleado en ambos casos el cruce uniforme. De nuevo, por haber generado mejores resultados al compararlo con el cruce de segmento fijo.
+
+A la hora de aplicar la búsqueda local suave, tenemos tres opciones referentes a qué parte de la población queremos aplicar dicha intensificación:
+
+\begin{itemize}
+    \item Aplicar la búsqueda local a toda la población
+    \item Aplicar la búsqueda local a un porcentaje (\emph{\ref{section:parametros_memeticos}. \nameref{section:parametros_memeticos}}) aleatorio de la población
+    \item Aplicar la búsqueda local al porcentaje dado de la población con mejor valor de \emph{fitness}
+\end{itemize}
+
+Estas variantes suponen distintas elecciones entre exploración y explotación.
+
+\subsubsection{Bucle principal del algoritmo memético}
+
+El código es prácticamente igual que en los genéticos (dependiendo de si elegimos una base generacional o una estacionaria). La diferencia es que dentro del \lstinline{for}, cada diez iteraciones aplicamos el tipo de búsqueda local suave especificada
+
+\subsubsection{Búsqueda local suave}
+
+Dado un cromosoma, recorremos aleatoriamente y sin repetición sus genes, asignando en cada momento el mejor cluster a cada punto (esta asignación es lo que representa cada gen). En este recorrido, paramos de iterar cuando cometemos $\xi$ fallos. El valor de $\xi$ se especifica en \emph{\ref{section:parametros_memeticos}. \nameref{section:parametros_memeticos}}.
+
+Consideramos un fallo cuando no conseguimos, dado un gen del cromosoma, encontrar otro que mejore su valor del fitness. Esto se hace para intentar evitar desbalancear el equilibrio entre exploración y explotación. A continación mostramos el código de la búsqueda local suave:
+
+
+\begin{lstlisting}[language=Python, style=Boxed]
+
+def soft_local_search(self, max_fails):
+    # Clonamos la solucion para devolver la solucion alterada
+    new_solution = self.clone();
+
+    # Recorreremos las posiciones de los puntos en orden aleatorio
+    let mut indixesi = (0..self.data_points.len()).shuffle();
+
+    # Valores iniciales para el algoritmo
+    let mut fails = 0;
+    let mut i = 0;
+
+    while fails < max_fails && i < self.data_points.len():
+        # Posicion a cambiar en esta iteracion
+        let index = indixes[i];
+
+        # Seleccionamos el mejor cluster para este punto en la posicion index
+        new_cluster = new_solution.select_best_cluster(index);
+
+        # Realizamos el cambio, guardando el valor original de la asignacion
+        past_cluster = new_solution.cluster_indexes[index];
+        new_solution.cluster_indexes[index] = new_cluster;
+
+        # Comprobamos si hemos fallado
+        if new_cluster == past_cluster:
+            fails += 1;
+
+        i += 1;
+
+    return new_solution
+\end{lstlisting}
+
+\subsubsection{Distintos esquemas de búsqueda local suave}
+
+Mostramos las distintas estrategias empleadas para realizar la búsqueda local suave sobre los individuos de la población:
+
+\begin{lstlisting}[language=Python, style=Boxed]
+
+def soft_local_search_all(self, max_fails):
+    new_pop = self.clone();
+
+    # Aplicamos la busqueda local suave a todos los individuos de la poblacion
+    for index, _ in self.individuals.enumerate():
+        new_individual = new_pop.individuals[index].soft_local_search(max_fails);
+        new_pop.individuals[index] = new_individual
+
+    return new_pop
+
+def soft_local_search_random(self, max_fails, search_percentage):
+    new_pop = self.clone();
+
+    # Numero de individuos sobre los que vamos a realizar la busqueda local suave
+    number_of_individuals_to_intensify = self.individuals.len() * search_percentage
+
+    # Indices de todos los individuos ordenados aleatoriamente
+    individuals_indixes = (0..self.individuals.len()).shuffle()
+
+    # Aplicamos la busqueda local solo a un numero dado de los individuos. Usando los indices
+    # en orden aleatorio, escogemos aleatoriamente a dichos individuos
+    for i in 0..number_of_individuals_to_intensify:
+        # Escogemos aleatoriamente al individuo
+        index = individuals_indixes[i]
+
+        # Aplicamos la busqueda local a ese individuo
+        let new_individual = new_pop.individuals[index].soft_local_search(max_fails);
+        new_pop.individuals[index] = new_individual
+
+    return new_pop
+
+def soft_local_search_elitist(self, max_fails, search_percentage):
+    new_pop = self.clone();
+
+    # Numero de individuos sobre los que vamos a realizar la busqueda local suave
+    number_of_individuals_to_intensify = self.individuals.len() search_percentage
+
+    # Seleccionamos los indices del mejor porcentaje de la poblacion
+    best_indixes = self.select_best_indixes(number_of_individuals_to_intensify);
+
+    # Aplicamos la busqueda local a este porcentaje mejor de individuos
+    for index in best_indixes:
+
+        # Aplicamos la busqueda local a ese individuo
+        new_individual= new_pop.individuals[index].soft_local_search(max_fails)
+        new_pop.individuals[index] = new_individual
+
+    return new_pop
+
+def select_best_indixes(self, number_of_individuals):
+    best_indixes = []
+
+    # Necesitamos que toda la poblacion este evaluada para poder ordenar a sus individuos
+    self.evaluate_all_individuals();
+
+    # Usamos una cola con prioridad para tomar facilmente a los mejores individuos
+    # Cola de la forma: indice - fitness del indv asoc. al indice
+    priority_queue = PriorityQueue::new()
+    for (index, individual) in self.individuals.enumerate():
+        priority_queue.push(index, individual.fitness());
+
+    # Tomamos los mejores elementos
+    for (it, index) in priority_queue.into_sorted_iter().enumerate():
+        best_indixes.push(index)
+
+        if it >= number_of_individuals:
+            break
+    return best_indixes
+\end{lstlisting}
+
 \pagebreak
 
 \section{Explicación del procedimiento considerado para desarrollar la práctica}
@@ -1047,6 +1189,8 @@ Por tanto, haciendo cuentas, tenemos $3 * 2 * 5 = 30$ ejecuciones de búsquedas.
 \end{itemize}
 
 \subsubsection{Parámetros de los algoritmos poblacionales} \label{section:parametros_poblacionales}
+
+\subsubsection{Parámetros de los algoritmos memeticos} \label{section:parametros_memeticos}
 
 % TODO -- rellenar esto
 
