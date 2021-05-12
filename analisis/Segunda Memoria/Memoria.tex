@@ -762,7 +762,7 @@ def cross_segment(first, second):
     return crossed_solution;
 \end{lstlisting}
 
-\subsubsection{Operador de mutación}
+\subsubsection{Operador de mutación usando número esperado de mutaciones}
 
 Tenemos dos funciones para mutar una población. Una se usa en el algoritmo genético generacional, y la otra en el estacionario. Por tanto, aquí mostramos la función de mutación para el generacional, y el operador de mutación uniforme, común para todos los algoritmos poblacionales.
 
@@ -852,8 +852,117 @@ def preserve_best_past_parent(self, original_population):
 Como ya se ha comentado, en el guión se especifica que debemos colocar al individuo en la posición del peor individuo de la población nuevo. Pero esto nos provocaba problemas con la diversidad en nuestra población, y siguiendo el consejo del profesor, decidimos colocar al individuo en la posición que ocupaba en la población pasada.
 
 \pagebreak
-% TODO -- hay que desarrollar
+
 \subsection{Descripción y pseudocódigo de los algoritmos genéticos estacionarios}
+
+Los algoritmos genéticos estacionarios siguen el siguiente esquema:
+
+\begin{enumerate}
+    \item Generamos una población aleatoria. Recordar que los valores de los parámetros se desarrollan en \emph{\ref{section:parametros_poblacionales}. \nameref{section:parametros_poblacionales}}
+    \item Mientras no se hayan agotado las evaluaciones del fitness:
+        \begin{enumerate}
+            \item Seleccionar dos elementos de la población. Esto, con dos torneos binarios que involucran a cuatro individuos (aunque en el proceso los individuos que compiten podrían repetirse).
+            \item Cruzar los dos individuos seleccionados, dos veces, generando dos hijos. De nuevo, tenemos los mismos dos esquemas de cruce
+            \item Mutar con cierta probabilidad genes de la población cruzada.
+            \item Los dos individuos nuevos compiten para entrar en la población. Entran en la población cuando el fitness del individuo es mejor que el fitness del peor individuo de la pbolación
+            \item Contabilizar las evaluaciones del fitness que se consumen en el proceso
+    \end{enumerate}
+\end{enumerate}
+
+En este caso, solo indicamos el pseudocódigo del bucle principal, la mutación usando la probabilidad y no el número esperado, y la competición para entrar en la población, pues el resto es común con el algoritmo genético generacional.
+
+\subsubsection{Bucle principal}
+
+\begin{lstlisting}[language=Python, style=Boxed]
+# Parametros del algoritmo
+#=============================
+max_fitness_evaluations = 100000
+population_size = 50
+
+# El tamaño de un gen sera el tamaño de la poblacion de datos a asignar a clusters
+gen_size = data_points.len()
+mutation_probability_per_gen = 0.1 / gen_size
+
+# Poblacion inicial aleatoria
+#=============================
+current_population = Population::new_random_population()
+
+# Realizamos las iteraciones pertinentes
+#=============================
+consumed_fitness_evaluations = 0
+while consumed_fitness_evaluations < max_fitness_evaluations:
+
+    # Tomamos dos individuos con dos torneos binarios
+    selection_population = current_population.select_population_binary_tournament(2);
+
+    # Cruzamos los dos individuos de la poblacion
+    # Los cruzamos forzosamente <- Prob == 1.0
+    crossover_probability = 1.00;
+    if cross_uniform == true:
+        crossed_population = selection_population.cross_population_uniform(crossover_probability)
+    else:
+        crossed_population_result = selection_population.cross_population_segment(crossover_probability)
+
+    # Mutamos con cierta probabilidad los genes de los individuos
+    mutated_population = crossed_population.mutate_population_given_prob(mutation_probability_per_gen)
+
+    # Los dos individuos compiten para entrar a la poblacion
+    let final_population = current_population.compete_with_new_individuals(mutated_population);
+
+    # Por seguridad, evaluamos a la poblacion
+    # En el codigo se comprueba que esto no consume evaluaciones del fitness
+    final_population.evaluate_all_individuals();
+
+    # Cambio de poblacion
+    current_population = final_population.clone();
+
+    # Añadimos las evaluaciones de fitness consumidas en esta pasada
+    consumed_fitness_evaluations += evaluaciones consumidas en esta iteracion
+
+return current_population.get_best_individual()
+\end{lstlisting}
+
+\subsubsection{Mutación usando la probabilidad}
+
+\begin{lstlisting}[language=Python, style=Boxed]
+def mutate_population_given_prob(mutation_probability_per_gen):
+    # Copiamos la poblacion original
+    new_pop = self.clone();
+
+    # Iteramos sobre los individuos
+    for (index, _individual) in self.individuals.enumerate():
+        # Iteramos sobre los genes de los individuos
+        for _ in 0..individual.num_genes:
+            do_mutation = random(0.0, 1.0) <= mutation_probability_per_gen;
+            if do_mutation == true:
+                new_pop.individuals[index] = new_pop.individuals[index].mutated();
+
+    return new_pop;
+\end{lstlisting}
+
+Notar que por cada individuo, iteramos sobre sus genes lanzando un número aleatorio que indica si mutamos un gen o no. En caso de mutar, no necesariamente mutamos el gen correspondiente a la iteración en la que nos encontramos. Con ello, es posible mutar más de una vez el mismo gen, aunque con las probabilidades tan bajas con las que trabajamos esto ocurrirá muy pocas veces.
+
+\subsubsection{Competición para entrar en la población}
+
+\begin{lstlisting}[language=Python, style=Boxed]
+def compete_with_new_individuals(self, candidate_population):
+    # Copiamos la poblacion original para hacer el cambio
+    new_pop = self.clone();
+
+    for candidate in candidate_population.individuals:
+        # Tomamos el peor individuo de la poblacion original
+        # Aquel con mayor valor de fitness
+        worst_individual = new_pop.get_index_worst_individual();
+
+        # Decidimos si el candidato entra o no en la poblacion
+        if candidate.fitness() < worst_individual.fitness() {
+            new_pop.individuals[worst_individual_index] = candidate.clone();
+
+    return new_pop
+\end{lstlisting}
+
+
+
 \pagebreak
 % TODO -- hay que desarrollar
 \subsection{Descripción y pseudocódigo de los algoritmos meméticos}
