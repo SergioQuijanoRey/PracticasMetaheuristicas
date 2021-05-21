@@ -34,7 +34,8 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
 }
 
 /// Ejecuta la metaheuristica de busqueda local y devuelve la solucion encontrada
-fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, number_of_clusters: i32, max_fitness_evaluations: i32, rng: &mut StdRng) -> (Solution<'a, 'b>, FitnessEvolution){
+/// Funcion publica porque se usa en la busqueda multiarranque basica
+pub fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, number_of_clusters: i32, max_fitness_evaluations: i32, rng: &mut StdRng) -> (Solution<'a, 'b>, FitnessEvolution){
     // Cuenta de como avanza la evolucion del fitness a traves de las iteraciones
     let mut fitness_evolution = FitnessEvolution::new();
 

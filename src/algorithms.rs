@@ -6,3 +6,4 @@ pub mod copkmeans;
 pub mod generational_genetic;
 pub mod steady_genetic;
 pub mod memetic;
+pub mod multistart_local_search;

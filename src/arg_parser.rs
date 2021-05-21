@@ -16,6 +16,7 @@ pub enum SearchType{
     MemeticAll,
     MemeticRandom,
     MemeticElitist,
+    MultiStartLocalSearch,
 }
 
 impl SearchType{
@@ -61,6 +62,10 @@ impl SearchType{
 
         if code == "memeelitist"{
             return Ok(SearchType::MemeticElitist);
+        }
+
+        if code == "multistartlocalsearch" {
+            return Ok(SearchType::MultiStartLocalSearch);
         }
 
 
