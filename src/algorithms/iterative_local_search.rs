@@ -54,6 +54,7 @@ fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, number
     // Current solution sera la mejor solucion hasta el momento
     let mut current_solution = Solution::generate_random_solution(data_points, constraints, number_of_clusters, rng);
     fitness_evolution.add_iteration(current_solution.fitness()); // Por ser solo una evaluacion no tenemos en
+                                                                 // cuenta esto en el maximo de evaluaciones
 
     // Realizamos las repeticiones dadas
     for _ in 0..number_of_repetitions{
