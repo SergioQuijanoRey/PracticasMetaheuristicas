@@ -8,15 +8,22 @@ use simple_error::bail; // Devuelve errores simples con un string descriptivo
 pub enum SearchType{
     Copkmeans,
     CopkmeansRobust,
+
     LocalSearch,
+
     GenerationalGeneticUniform,
     GenerationalGeneticSegment,
     SteadyGeneticUniform,
     SteadyGeneticSegment,
+
     MemeticAll,
     MemeticRandom,
     MemeticElitist,
+
     MultiStartLocalSearch,
+
+    IterativeLocalSearchBasic,
+    // IterativeLocalSearchSimulatedAnnealing,
 }
 
 impl SearchType{
@@ -68,6 +75,9 @@ impl SearchType{
             return Ok(SearchType::MultiStartLocalSearch);
         }
 
+        if code == "iterative_local_search"{
+            return Ok(SearchType::IterativeLocalSearchBasic);
+        }
 
         // Codigo no valido
         bail!("Valor del string para seleccionar la busqueda no valido");

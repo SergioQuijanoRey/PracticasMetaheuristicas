@@ -515,6 +515,37 @@ impl<'a, 'b> Solution<'a, 'b> {
         return mutated_sol;
     }
 
+    /// Devuelve una solucion mutada fuertemente. Se usa para iterative_local_search. La mutacion
+    /// que usamos en algoritmos geneticos, porque queremos alejarnos mas de la solucion dada
+    pub fn hard_mutated(&self, rng: &mut StdRng) -> Self{
+        // Copia para devolver la solucion mutada sin tener que mutar la solucion original
+        let mut mutated = self.clone();
+
+        // Seleccionamos el inicio y tamaño del segmento
+        let gen_size = self.cluster_indexes.len();
+        let segment_start = rng.gen_range(0..gen_size);
+        let segment_size = rng.gen_range(0..gen_size);
+
+        // Mutamos los valores el el segmento. El resto de valores son automaticamente copiados del
+        // padre porque mutated es clone de self
+        for i in 0..segment_size{
+            // Indice que debemos mutar segun los valores del segmento
+            let index = (segment_start + i) % segment_size;
+
+            // Mutamos dicho valor. No comprobamos que la mutacion sea ahora valida, para dar mas
+            // variedad. Mas adelante repararemos la solucion
+            let new_cluster = rng.gen_range(0..mutated.number_of_clusters);
+            mutated.cluster_indexes[index] = new_cluster as u32;
+        }
+
+        // Reparamos la solucion si la solucion mutada acaba por no ser valida
+        if mutated.is_valid() == false{
+            mutated.repair_solution(rng);
+        }
+
+        return mutated;
+    }
+
     /// Repara una solucion. Toma los clusters sin puntos asignados, y asigna aleatoriamente un
     /// punto de un cluster que tenga mas de un punto asignado (pues no podemos dejar otros
     /// clusters vacios en el proceso de reparacion)
