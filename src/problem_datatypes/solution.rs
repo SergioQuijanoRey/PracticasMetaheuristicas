@@ -347,7 +347,7 @@ impl<'a, 'b> Solution<'a, 'b> {
         return clusters_with_more_than_one_point;
     }
 
-    /// Devuelve el conjunto de clusters qeu no tienen puntos asignados
+    /// Devuelve el conjunto de clusters que no tienen puntos asignados
     // TODO -- TEST -- es muy facil de testear y algo critico
     pub fn get_cluster_without_points(&self) -> Vec<i32>{
         let mut clusters_without_points = vec![];
@@ -677,6 +677,40 @@ impl<'a, 'b> Solution<'a, 'b> {
     }
 }
 
+/// Metodos asociados al algoritmo de enfriamiento simulado
+impl<'a, 'b> Solution<'a, 'b>{
+    /// Genera un vecino aleatorio unico, sin recurrir a usar generador de vecinos
+    /// Se parece mucho a mutated. Sin embargo, en mutated generamos la mutacion y permitimos
+    /// soluciones no validas, que son reparadas. Esto hace que en una mutacion pueda cambiar mas
+    /// de un valor. En este caso, comprobamos que solo se modifique una posicion
+    pub fn one_random_neighbour(&self, rng: &mut StdRng) -> Self{
+        // Usamos la funcion de mutacion para realizar el cambio
+        let mutated = self.mutated(rng);
+
+        // Si hay mas de una diferencia, es porque el operador de reparacion ha reparado provocando
+        // mas cambios. En este caso, esto no es lo que queremos
+        if mutated.number_of_discrepancies(self) != 1{
+            return self.mutated(rng);
+        }
+
+        return mutated;
+    }
+
+    /// Calcula el numero de puntos que tienen distinta asignacion de cluster entre dos soluciones
+    // TODO -- TEST -- muy sencillo de escribir un test
+    fn number_of_discrepancies(&self, other: &Solution) -> i32{
+        let mut discrepancies = 0;
+        for index in 0..self.cluster_indexes.len(){
+            if self.cluster_indexes[index] != other.cluster_indexes[index]{
+                discrepancies += 1;
+            }
+        }
+
+        return discrepancies;
+    }
+
+}
+
 #[cfg(test)]
 mod tests{
     use crate::problem_datatypes::Solution;
@@ -962,5 +996,4 @@ mod tests{
 
         });
     }
-
 }

@@ -18,14 +18,16 @@ use algorithms::steady_genetic;
 use algorithms::memetic;
 use algorithms::multistart_local_search as multilocal;
 use algorithms::iterative_local_search;
+use algorithms::simulated_annealing;
 
 fn show_help(){
     println!("Modo de uso del programa:");
     println!("\t./PracticasMetaheuristicas <data_file> <constraints_file> <seed> <number_of_clusters> <search_type>");
-    println!("\t<search_type>: copkmeans | copkmeans_robust | local_search...");
-    println!("\t               gguniform | ggsegment        | gsuniform | gssegment");
-    println!("\t               memeall   | memerandom       | memeelitist");
-    println!("\t               multistartlocalsearch | iterative_local_search |");
+    println!("\t<search_type>:");
+    println!("\t-> copkmeans | copkmeans_robust | local_search...");
+    println!("\t-> gguniform | ggsegment | gsuniform | gssegment");
+    println!("\t-> memeall   | memerandom | memeelitist");
+    println!("\t-> multistartlocalsearch | iterative_local_search | simulated_annealing");
 }
 
 fn main() {
@@ -123,7 +125,10 @@ fn main() {
         arg_parser::SearchType::IterativeLocalSearchBasic => {
             let basic = true;
             iterative_local_search::run_and_show_results(&data_points, &constraints, program_arguments, basic, &mut rng);
+        }
 
+        arg_parser::SearchType::SimulatedAnnealing => {
+            simulated_annealing::run_and_show_results(&data_points, &constraints, program_arguments, &mut rng);
         }
     }
 }

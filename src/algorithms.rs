@@ -8,3 +8,4 @@ pub mod steady_genetic;
 pub mod memetic;
 pub mod multistart_local_search;
 pub mod iterative_local_search;
+pub mod simulated_annealing;

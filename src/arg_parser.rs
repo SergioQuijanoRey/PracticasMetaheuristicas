@@ -24,11 +24,14 @@ pub enum SearchType{
 
     IterativeLocalSearchBasic,
     // IterativeLocalSearchSimulatedAnnealing,
+
+    SimulatedAnnealing,
 }
 
 impl SearchType{
     /// Toma un string con el tipo de busqueda y lo convierte al struct
     /// En el codigo se pueden ver los valores validos para el codigo
+    // TODO -- refactor, usar un HashMap para no tener este bloque de ifs
     pub fn from_str(code: &str) -> Result<Self, Box<dyn Error>>{
         if code == "copkmeans"{
             return Ok(SearchType::Copkmeans);
@@ -77,6 +80,10 @@ impl SearchType{
 
         if code == "iterative_local_search"{
             return Ok(SearchType::IterativeLocalSearchBasic);
+        }
+
+        if code == "simulated_annealing"{
+            return Ok(SearchType::SimulatedAnnealing);
         }
 
         // Codigo no valido

@@ -61,7 +61,7 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
     println!("El valor de fitness es: {}", best_solution.fitness());
     println!("El valor de lambda es: {}", best_solution.get_lambda());
     println!("Tiempo transcurrido (segundos): {}", duration_numeric);
-    println!("Salvado del fitness: {:?}", best_fit_ev.save_as_numpy_file(&utils::generate_file_name(SearchType::LocalSearch)));
+    println!("Salvado del fitness: {:?}", best_fit_ev.save_as_numpy_file(&utils::generate_file_name(SearchType::MultiStartLocalSearch)));
     println!("");
 }
 
