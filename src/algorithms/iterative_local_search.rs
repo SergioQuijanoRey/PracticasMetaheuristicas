@@ -6,6 +6,7 @@ use crate::arg_parser::ProgramParameters;
 use crate::utils;
 use crate::arg_parser::SearchType;
 use crate::algorithms::local_search;
+use crate::algorithms::simulated_annealing;
 
 use rand::rngs::StdRng;
 use std::time::Instant;
@@ -53,18 +54,40 @@ fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, number
     // Current solution sera la mejor solucion hasta el momento
     let mut current_solution = Solution::generate_random_solution(data_points, constraints, number_of_clusters, rng);
     fitness_evolution.add_iteration(current_solution.fitness()); // Por ser solo una evaluacion no tenemos en
-                                                                 // cuenta esto en el maximo de evaluaciones
 
     // Realizamos las repeticiones dadas
     for _ in 0..number_of_repetitions{
 
         // Mutamos fuertemente la mejor solucion encontrada hasta el momento
         // Notar que esta mejor solucion no se modifica en el .hard_mutated
-        let new_solution = current_solution.hard_mutated(rng);
+        let mut new_solution = current_solution.hard_mutated(rng);
 
-        // Aplicamos busqueda local a esta solucion mutada fuertemente
-        // TODO -- no estamos considerando el fitness evaluation
-        let (new_solution, _) = local_search::run_from_init_sol(max_fitness_evaluations, &new_solution, rng);
+        // Aplicamos busqueda local o enfriamiento simulado a esta solucion mutada fuertemente
+        if basic == true{
+            let (local_solution, _) = local_search::run_from_init_sol(max_fitness_evaluations, &new_solution, rng);
+            new_solution = local_solution;
+        }else{
+            // Establecemos los parametros para aplicar enfriamiento simulado
+            let mu = 0.3;
+            let final_tmp = 0.001;
+            let max_neighbours: i32 = (10.0 * data_points.len() as f64) as i32;
+            let max_successes: i32 = (0.1 * max_neighbours as f64) as i32;
+            let M: f64 = max_fitness_evaluations as f64 / max_neighbours as f64;
+            let initial_tmp: f64 = (mu * current_solution.fitness()) / (-mu.ln());
+
+            // Aplicamos enfriamiento simulado
+            let (annealing_solution, _) = simulated_annealing::run(
+                max_fitness_evaluations,
+                &current_solution,
+                initial_tmp,
+                final_tmp,
+                M,
+                max_neighbours,
+                max_successes,
+                rng
+            );
+            new_solution = annealing_solution;
+        }
 
         // Comprobamos si esta solucion es mejor que la que ya teniamos
         if new_solution.fitness() < current_solution.fitness(){

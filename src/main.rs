@@ -27,7 +27,7 @@ fn show_help(){
     println!("\t-> copkmeans | copkmeans_robust | local_search...");
     println!("\t-> gguniform | ggsegment | gsuniform | gssegment");
     println!("\t-> memeall   | memerandom | memeelitist");
-    println!("\t-> multistartlocalsearch | iterative_local_search | simulated_annealing");
+    println!("\t-> multistartlocalsearch | iterative_local_search | iterative_local_search_annealing | simulated_annealing");
 }
 
 fn main() {
@@ -124,6 +124,11 @@ fn main() {
 
         arg_parser::SearchType::IterativeLocalSearchBasic => {
             let basic = true;
+            iterative_local_search::run_and_show_results(&data_points, &constraints, program_arguments, basic, &mut rng);
+        }
+
+        arg_parser::SearchType::IterativeLocalSearchSimulatedAnnealing => {
+            let basic = false;
             iterative_local_search::run_and_show_results(&data_points, &constraints, program_arguments, basic, &mut rng);
         }
 

@@ -60,7 +60,8 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
 
 /// Ejecuta la metaheuristica de busqueda local y devuelve la solucion encontrada
 /// Parte de una solucion inicial aleatoria
-fn run<'a, 'b>(
+/// Funcion publica porque se usa como base para iterative local searhc
+pub fn run<'a, 'b>(
     max_fitness_evaluations: i32,
     init_sol: &Solution<'a, 'b>,
     initial_tmp: f64,

@@ -23,7 +23,7 @@ pub enum SearchType{
     MultiStartLocalSearch,
 
     IterativeLocalSearchBasic,
-    // IterativeLocalSearchSimulatedAnnealing,
+    IterativeLocalSearchSimulatedAnnealing,
 
     SimulatedAnnealing,
 }
@@ -80,6 +80,10 @@ impl SearchType{
 
         if code == "iterative_local_search"{
             return Ok(SearchType::IterativeLocalSearchBasic);
+        }
+
+        if code == "iterative_local_search_annealing"{
+            return Ok(SearchType::IterativeLocalSearchSimulatedAnnealing);
         }
 
         if code == "simulated_annealing"{
