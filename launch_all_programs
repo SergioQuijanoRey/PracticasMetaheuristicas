@@ -24,19 +24,27 @@ seeds=(
 )
 
 # Colocamos las busquedas que queremos realizar en el orden deseado
+# En la tercera practica solo tenemos que ejecutar las nuevas busquedas y copkmeans y localsearch
+# Como tenemos los resultados de estas dos ultimas busquedas, solo ejecutamos las busquedas propias
+# de la ultima practica
 search_types=(
-    gguniform
-    ggsegment
-    gsuniform
-    gssegment
-    memeall
-    memerandom
-    memeelitist
-    local_search
+    multistartlocalsearch
+    iterative_local_search
+    iterative_local_search_annealing
+    simulated_annealing
 
-    # Copkmeans robust antes que copkmeans porque copkmeans se puede quedar colgado
-    copkmeans_robust
-    copkmeans
+    # gguniform
+    # ggsegment
+    # gsuniform
+    # gssegment
+    # memeall
+    # memerandom
+    # memeelitist
+    # local_search
+
+    # # Copkmeans robust antes que copkmeans porque copkmeans se puede quedar colgado
+    # copkmeans_robust
+    # copkmeans
 )
 
 # Por cada tipo de busqueda, lanzamos la busqueda sobre las distintas semillas en los distintos datasets
