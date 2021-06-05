@@ -517,14 +517,13 @@ impl<'a, 'b> Solution<'a, 'b> {
 
     /// Devuelve una solucion mutada fuertemente. Se usa para iterative_local_search. La mutacion
     /// que usamos en algoritmos geneticos, porque queremos alejarnos mas de la solucion dada
-    pub fn hard_mutated(&self, rng: &mut StdRng) -> Self{
+    pub fn hard_mutated(&self, segment_size: usize, rng: &mut StdRng) -> Self{
         // Copia para devolver la solucion mutada sin tener que mutar la solucion original
         let mut mutated = self.clone();
 
         // Seleccionamos el inicio y tamaño del segmento
         let gen_size = self.cluster_indexes.len();
         let segment_start = rng.gen_range(0..gen_size);
-        let segment_size = rng.gen_range(0..gen_size);
 
         // Mutamos los valores el el segmento. El resto de valores son automaticamente copiados del
         // padre porque mutated es clone de self

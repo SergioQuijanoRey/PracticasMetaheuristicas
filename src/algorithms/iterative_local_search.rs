@@ -20,6 +20,9 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
     let max_fitness_evaluations = 10000;
     let number_of_repetitions = 10;
 
+    // Tamaño del segmento de mutacion fuerte que consideramos
+    let mutation_segment_size: usize = (0.1 * data_points.len() as f32) as usize;
+
     // Comprobacion de seguridad
     debug_assert!(
         max_fitness_evaluations * number_of_repetitions == 100000,
@@ -27,7 +30,7 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
     );
 
     let before = Instant::now();
-    let (solucion_local, fitness_evolution) = run(&data_points, &constraints, program_arguments.get_number_of_clusters(), max_fitness_evaluations, number_of_repetitions, basic, rng);
+    let (solucion_local, fitness_evolution) = run(&data_points, &constraints, program_arguments.get_number_of_clusters(), max_fitness_evaluations, number_of_repetitions, basic, mutation_segment_size, rng);
     let after = Instant::now();
     let duration = after.duration_since(before);
     let duration_numeric = duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9;
@@ -45,7 +48,7 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
 }
 
 /// Lanzamos la busqueda iterativa
-fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, number_of_clusters: i32, max_fitness_evaluations: i32, number_of_repetitions: i32, basic: bool, rng: &mut StdRng) -> (Solution<'a, 'b>, FitnessEvolution){
+fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, number_of_clusters: i32, max_fitness_evaluations: i32, number_of_repetitions: i32, basic: bool, mutation_segment_size: usize, rng: &mut StdRng) -> (Solution<'a, 'b>, FitnessEvolution){
     // Llevamos la cuenta de la evolucion del fintess
     let mut fitness_evolution = FitnessEvolution::new();
 
@@ -60,7 +63,7 @@ fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, number
 
         // Mutamos fuertemente la mejor solucion encontrada hasta el momento
         // Notar que esta mejor solucion no se modifica en el .hard_mutated
-        let mut new_solution = current_solution.hard_mutated(rng);
+        let mut new_solution = current_solution.hard_mutated(mutation_segment_size, rng);
 
         // Aplicamos busqueda local o enfriamiento simulado a esta solucion mutada fuertemente
         if basic == true{
