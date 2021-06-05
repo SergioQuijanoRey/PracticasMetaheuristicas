@@ -84,7 +84,6 @@ impl<'a, 'b> Population<'a, 'b>{
     /// Debe haber al menos un individuo en la poblacion
     pub fn get_index_worst_individual(&self) -> FitnessEvaluationResult<usize>{
         // Comprobacion inicial de seguridad
-        // TODO -- esto deberia ser debug_assert?
         debug_assert!(self.population_size() > 0, "La poblacion no puede ser nula en get_index_worst_individual");
 
         let mut fit_eval_consumed = 0;
@@ -417,7 +416,6 @@ impl<'a, 'b> Population<'a, 'b>{
     /// el numero de elementos con distinto valor de fitness
     /// WARNING -- Lo usamos para debuggear el codigo. No usar en codigo final porque puede evaluar
     /// una poblacion sin considerar las evaluaciones del fitness
-    // TODO -- poner un panic para ver que no se use en codigo final
     pub fn measure_variety(&self) -> u32{
         // Para comprobar que no podemos llamar a esta funcion
         // Quitar esto cuando hagamos debug del codigo. Tenemos un test para comprobar que esta

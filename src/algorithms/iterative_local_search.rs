@@ -45,7 +45,6 @@ pub fn run_and_show_results(data_points: &DataPoints, constraints: &Constraints,
 }
 
 /// Lanzamos la busqueda iterativa
-// TODO -- no estamos llevando bien la cuenta del fitness evolution
 fn run<'a, 'b>(data_points: &'a DataPoints, constraints: &'b Constraints, number_of_clusters: i32, max_fitness_evaluations: i32, number_of_repetitions: i32, basic: bool, rng: &mut StdRng) -> (Solution<'a, 'b>, FitnessEvolution){
     // Llevamos la cuenta de la evolucion del fintess
     let mut fitness_evolution = FitnessEvolution::new();
