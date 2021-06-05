@@ -1,0 +1,2045 @@
+
+==> Lanzando las busquedas tipo
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 123456789
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.6070708482459535
+El numero de restricciones violadas es: 10
+El valor de fitness es: 0.6828471849880123
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 0.8937188580000001
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 123456789
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.7192447817859927
+El numero de restricciones violadas es: 13
+El valor de fitness es: 0.7717398361211164
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 0.711710809
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 123456789
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.19447064720940796
+El numero de restricciones violadas es: 52
+El valor de fitness es: 0.24564077578075916
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 3.236174901
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 123456789
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.2508795844709143
+El numero de restricciones violadas es: 29
+El valor de fitness es: 0.2659772613311223
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 4.407926226
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 123456789
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.13666726704747575
+El numero de restricciones violadas es: 465
+El valor de fitness es: 0.2612817993363449
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 7.446726228
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 123456789
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.14832338788830232
+El numero de restricciones violadas es: 770
+El valor de fitness es: 0.2556929857761504
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 10.494183343
+Salvado del fitness: Some(())
+
+
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 234567891
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.6179774123026469
+El numero de restricciones violadas es: 11
+El valor de fitness es: 0.7013313827189116
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 0.9668995290000001
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 234567891
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.6654705137180704
+El numero de restricciones violadas es: 26
+El valor de fitness es: 0.7704606223883177
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 0.8752364800000001
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 234567891
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.2270651444849884
+El numero de restricciones violadas es: 31
+El valor de fitness es: 0.25757041344098625
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 3.584127612
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 234567891
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.20932382523950302
+El numero de restricciones violadas es: 106
+El valor de fitness es: 0.2645084372112978
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 4.556946996
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 234567891
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.14222476883019283
+El numero de restricciones violadas es: 454
+El valor de fitness es: 0.2638914304627661
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 7.808785276
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 234567891
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.14374989567452992
+El numero de restricciones violadas es: 770
+El valor de fitness es: 0.251119493562378
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 10.965931039
+Salvado del fitness: Some(())
+
+
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 3456789
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.6295776245545305
+El numero de restricciones violadas es: 8
+El valor de fitness es: 0.6901986939481776
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 0.908928574
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 3456789
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.6246677856466067
+El numero de restricciones violadas es: 46
+El valor de fitness es: 0.8104195163708904
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 0.860451768
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 3456789
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.21224420958479304
+El numero de restricciones violadas es: 43
+El valor de fitness es: 0.25455796974956424
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 3.627892793
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 3456789
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.24759513308427866
+El numero de restricciones violadas es: 34
+El valor de fitness es: 0.26529585767900526
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 4.661647537
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 3456789
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.14074486681408915
+El numero de restricciones violadas es: 449
+El valor de fitness es: 0.2610715872392552
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 7.828540766
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 3456789
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.14380156546154155
+El numero de restricciones violadas es: 781
+El valor de fitness es: 0.25270501474778745
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 11.109466958
+Salvado del fitness: Some(())
+
+
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 456789123
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.6571737016683599
+El numero de restricciones violadas es: 13
+El valor de fitness es: 0.7556829394330363
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 0.9644921080000001
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 456789123
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.7336224605901983
+El numero de restricciones violadas es: 10
+El valor de fitness es: 0.7740032716172165
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 0.9396110110000001
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 456789123
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.18454482471469474
+El numero de restricciones violadas es: 58
+El valor de fitness es: 0.24161919889043262
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 3.763199178
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 456789123
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.24949480423129014
+El numero de restricciones violadas es: 26
+El valor de fitness es: 0.263030652450787
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 4.89281703
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 456789123
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.14534200509130138
+El numero de restricciones violadas es: 429
+El valor de fitness es: 0.2603089606868387
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 7.784710947
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 456789123
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.1441182495977935
+El numero de restricciones violadas es: 860
+El valor de fitness es: 0.2640375407452602
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 11.024793888
+Salvado del fitness: Some(())
+
+
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 567891234
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.6137695536030879
+El numero de restricciones violadas es: 10
+El valor de fitness es: 0.6895458903451468
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 1.06827541
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 567891234
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.7318532133187815
+El numero de restricciones violadas es: 13
+El valor de fitness es: 0.7843482676539052
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 0.835681882
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 567891234
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.19224316479263792
+El numero de restricciones violadas es: 57
+El valor de fitness es: 0.24833349803431135
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 3.589407509
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 567891234
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.19873920883844223
+El numero de restricciones violadas es: 117
+El valor de fitness es: 0.259650525826178
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 4.6700524
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 567891234
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.1442832118773189
+El numero de restricciones violadas es: 435
+El valor de fitness es: 0.26085809692174483
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 7.898895154
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 567891234
+	Search type: MultiStartLocalSearch
+================================================================================
+
+==> Busqueda local multiarranque basica
+La distancia global instracluster de la solucion es: 0.14841737984212766
+El numero de restricciones violadas es: 769
+El valor de fitness es: 0.2556475366937577
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 11.12622444
+Salvado del fitness: Some(())
+
+
+==> Lanzando las busquedas tipo
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 123456789
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.6075237643239102
+El numero de restricciones violadas es: 13
+El valor de fitness es: 0.7060330020885867
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 0.17195848200000002
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 123456789
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.7180362670157564
+El numero de restricciones violadas es: 30
+El valor de fitness es: 0.839178700096811
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 0.18165857400000002
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 123456789
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.2111249821754527
+El numero de restricciones violadas es: 87
+El valor de fitness es: 0.29673654343905953
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 0.832238323
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 123456789
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.26372178777074823
+El numero de restricciones violadas es: 46
+El valor de fitness es: 0.28766982692831955
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 1.134536177
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 123456789
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.14351367833505863
+El numero de restricciones violadas es: 509
+El valor de fitness es: 0.27991969324911103
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 4.338852496
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 123456789
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.1447214936969942
+El numero de restricciones violadas es: 942
+El valor de fitness es: 0.27607494981433556
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 6.452946682
+Salvado del fitness: Some(())
+
+
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 234567891
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.6945561044632221
+El numero de restricciones violadas es: 7
+El valor de fitness es: 0.7475995401826633
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 0.18508596500000002
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 234567891
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.7151582579295209
+El numero de restricciones violadas es: 12
+El valor de fitness es: 0.7636152311619427
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 0.27614468600000003
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 234567891
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.18738255903863976
+El numero de restricciones violadas es: 77
+El valor de fitness es: 0.2631537109616021
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 0.842431339
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 234567891
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.24767776947232184
+El numero de restricciones violadas es: 36
+El valor de fitness es: 0.2664197131608559
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 1.133563659
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 234567891
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.12605051609430343
+El numero de restricciones violadas es: 301
+El valor de fitness es: 0.20671497678021655
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 4.841038716
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 234567891
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.15297847488673813
+El numero de restricciones violadas es: 1121
+El valor de fitness es: 0.30929187648709877
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 6.254148346
+Salvado del fitness: Some(())
+
+
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 3456789
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.7956306724421796
+El numero de restricciones violadas es: 12
+El valor de fitness es: 0.8865622765326502
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 0.145059098
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 3456789
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.7041903288773389
+El numero de restricciones violadas es: 32
+El valor de fitness es: 0.8334089241637971
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 0.18982579100000002
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 3456789
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.2117694473223226
+El numero de restricciones violadas es: 39
+El valor de fitness es: 0.250147043750836
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 0.8182206030000001
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 3456789
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.2501572593422644
+El numero de restricciones violadas es: 41
+El valor de fitness es: 0.2715022507653171
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 1.205168551
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 3456789
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.16687248040217809
+El numero de restricciones violadas es: 609
+El valor de fitness es: 0.3300773194643744
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 4.27822804
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 3456789
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.1629460286394811
+El numero de restricciones violadas es: 1366
+El valor de fitness es: 0.35342248411324795
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 6.145601571
+Salvado del fitness: Some(())
+
+
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 456789123
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.6097147852933437
+El numero de restricciones violadas es: 15
+El valor de fitness es: 0.7233792904064319
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 0.20938941600000002
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 456789123
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.7143271281303435
+El numero de restricciones violadas es: 30
+El valor de fitness es: 0.835469561211398
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 0.195781117
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 456789123
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.1954911615334091
+El numero de restricciones violadas es: 53
+El valor de fitness es: 0.24764533103882475
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 0.832020822
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 456789123
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.2403676798303019
+El numero de restricciones violadas es: 101
+El valor de fitness es: 0.29294924406757805
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 1.14645505
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 456789123
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.13922203916814851
+El numero de restricciones violadas es: 285
+El valor de fitness es: 0.2155986879903586
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 4.725403283
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 456789123
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.15106120327470576
+El numero de restricciones violadas es: 903
+El valor de fitness es: 0.27697645897954576
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 6.236382153
+Salvado del fitness: Some(())
+
+
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 567891234
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.6111665259346565
+El numero de restricciones violadas es: 15
+El valor de fitness es: 0.7248310310477447
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 0.20020643300000002
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 567891234
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.7140410644111174
+El numero de restricciones violadas es: 24
+El valor de fitness es: 0.810955010875961
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 0.27072359700000004
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 567891234
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.24466868891806173
+El numero de restricciones violadas es: 63
+El valor de fitness es: 0.30666326776412184
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 0.836640245
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 567891234
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.2504407980237616
+El numero de restricciones violadas es: 39
+El valor de fitness es: 0.27074457035300686
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 1.10933285
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 567891234
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.15447286480499248
+El numero de restricciones violadas es: 590
+El valor de fitness es: 0.31258592727904144
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 4.337693532
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 567891234
+	Search type: IterativeLocalSearchBasic
+================================================================================
+
+==> Busqueda local iterativa, basic: true
+La distancia global instracluster de la solucion es: 0.1495464203308195
+El numero de restricciones violadas es: 1022
+El valor de fitness es: 0.29205515934559967
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 6.189595887
+Salvado del fitness: Some(())
+
+
+==> Lanzando las busquedas tipo
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 123456789
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.5791055851998409
+El numero de restricciones violadas es: 8
+El valor de fitness es: 0.639726654593488
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 1.132832271
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 123456789
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.5957658599075838
+El numero de restricciones violadas es: 30
+El valor de fitness es: 0.7169082929886383
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 0.90550991
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 123456789
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.24214036335972708
+El numero de restricciones violadas es: 17
+El valor de fitness es: 0.25886905923882264
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 2.645325818
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 123456789
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.2488013976362565
+El numero de restricciones violadas es: 31
+El valor de fitness es: 0.26494029359027194
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 3.335448495
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 123456789
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.10783593757144212
+El numero de restricciones violadas es: 126
+El valor de fitness es: 0.14160245599810342
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 7.323266869
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 123456789
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.11924665642245097
+El numero de restricciones violadas es: 185
+El valor de fitness es: 0.1450432481227781
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 9.703318012
+Salvado del fitness: Some(())
+
+
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 234567891
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.5984063762300632
+El numero de restricciones violadas es: 6
+El valor de fitness es: 0.6438721782752985
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 0.986019042
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 234567891
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.5871133292226107
+El numero de restricciones violadas es: 35
+El valor de fitness es: 0.7284461678171744
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 1.04929416
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 234567891
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.24380231311854453
+El numero de restricciones violadas es: 18
+El valor de fitness es: 0.26151504993170455
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 2.70749716
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 234567891
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.24897064423772156
+El numero de restricciones violadas es: 38
+El valor de fitness es: 0.2687538070200631
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 3.722209738
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 234567891
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.10555146674806766
+El numero de restricciones violadas es: 172
+El valor de fitness es: 0.15164544428287516
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 7.220001185
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 234567891
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.1157382412910765
+El numero de restricciones violadas es: 189
+El valor de fitness es: 0.14209259713627556
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 10.444694089
+Salvado del fitness: Some(())
+
+
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 3456789
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.5306026261648034
+El numero de restricciones violadas es: 13
+El valor de fitness es: 0.6291118639294798
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 0.813060961
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 3456789
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.7180365260077791
+El numero de restricciones violadas es: 9
+El valor de fitness es: 0.7543792559320955
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 0.804098418
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 3456789
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.19014616906098758
+El numero de restricciones violadas es: 56
+El valor de fitness es: 0.24525246136859657
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 3.036078012
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 3456789
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.2451636550606942
+El numero de restricciones violadas es: 43
+El valor de fitness es: 0.26754986557755434
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 3.947594522
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 3456789
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.11649162074529952
+El numero de restricciones violadas es: 84
+El valor de fitness es: 0.1390026330297404
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 6.728388372
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 3456789
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.11811497443427255
+El numero de restricciones violadas es: 148
+El valor de fitness es: 0.13875224779453427
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 10.121962138
+Salvado del fitness: Some(())
+
+
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 456789123
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.5920931231773149
+El numero de restricciones violadas es: 8
+El valor de fitness es: 0.652714192570962
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 0.963657316
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 456789123
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.6006383114202308
+El numero de restricciones violadas es: 27
+El valor de fitness es: 0.70966650119318
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 0.869539421
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 456789123
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.18627325002939904
+El numero de restricciones violadas es: 53
+El valor de fitness es: 0.23842741953481467
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 2.5982875659999998
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 456789123
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.2089832646415264
+El numero de restricciones violadas es: 93
+El valor de fitness es: 0.2573999525035727
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 3.73704422
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 456789123
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.11709568577648062
+El numero de restricciones violadas es: 112
+El valor de fitness es: 0.14711036882240178
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 7.256264338
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 456789123
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.12001103806266744
+El numero de restricciones violadas es: 185
+El valor de fitness es: 0.14580762976299458
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 10.292925061
+Salvado del fitness: Some(())
+
+
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 567891234
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.5970494453148684
+El numero de restricciones violadas es: 6
+El valor de fitness es: 0.6425152473601037
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 0.922786777
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 567891234
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.7121716032632145
+El numero de restricciones violadas es: 13
+El valor de fitness es: 0.7646666575983382
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 0.9475217180000001
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 567891234
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.18797658013316867
+El numero de restricciones violadas es: 55
+El valor de fitness es: 0.2420988315067132
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 3.041047867
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 567891234
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.24765271608739622
+El numero de restricciones violadas es: 36
+El valor de fitness es: 0.2663946597759303
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 3.642246393
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 567891234
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.10922038496545149
+El numero de restricciones violadas es: 122
+El valor de fitness es: 0.14191495042618704
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 7.253983148
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 567891234
+	Search type: IterativeLocalSearchSimulatedAnnealing
+================================================================================
+
+==> Busqueda local iterativa, basic: false
+La distancia global instracluster de la solucion es: 0.12127538059289081
+El numero de restricciones violadas es: 174
+El valor de fitness es: 0.1455381208948201
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 10.347616327
+Salvado del fitness: Some(())
+
+
+==> Lanzando las busquedas tipo
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 123456789
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.8114742335796269
+El numero de restricciones violadas es: 28
+El valor de fitness es: 1.0236479764573916
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 0.140525376
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 123456789
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.7369791131175489
+El numero de restricciones violadas es: 23
+El valor de fitness es: 0.8298549784796908
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 0.159854072
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 123456789
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.18849916595778818
+El numero de restricciones violadas es: 57
+El valor de fitness es: 0.2445894991994616
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 0.41571488300000004
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 123456789
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.2094716159708681
+El numero de restricciones violadas es: 123
+El valor de fitness es: 0.2735065902400262
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 0.7442156590000001
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 123456789
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.11930735563979605
+El numero de restricciones violadas es: 87
+El valor de fitness es: 0.14262233264868124
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 5.060034038
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 123456789
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.1142968902859325
+El numero de restricciones violadas es: 348
+El valor de fitness es: 0.1628223708897911
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 6.127278208
+Salvado del fitness: Some(())
+
+
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 234567891
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.9150909310142329
+El numero de restricciones violadas es: 25
+El valor de fitness es: 1.10453177286938
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 0.141782442
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 234567891
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.8661872629621128
+El numero de restricciones violadas es: 20
+El valor de fitness es: 0.9469488850161492
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 0.162147497
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 234567891
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.19684086839646844
+El numero de restricciones violadas es: 50
+El valor de fitness es: 0.24604291509969076
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 0.484013958
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 234567891
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.2501115344406722
+El numero de restricciones violadas es: 37
+El valor de fitness es: 0.26937408767611
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 0.882546405
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 234567891
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.11568682729416752
+El numero de restricciones violadas es: 99
+El valor de fitness es: 0.14221766320082996
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 4.588199408
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 234567891
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.1251013975689016
+El numero de restricciones violadas es: 218
+El valor de fitness es: 0.1554995434644222
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 5.983338179
+Salvado del fitness: Some(())
+
+
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 3456789
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.8265327955681382
+El numero de restricciones violadas es: 15
+El valor de fitness es: 0.9401973006812264
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 0.184848125
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 3456789
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.8741393008170907
+El numero de restricciones violadas es: 28
+El valor de fitness es: 0.9872055716927416
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 0.313636542
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 3456789
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.1970124264951573
+El numero de restricciones violadas es: 59
+El valor de fitness es: 0.25507084160495963
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 0.5005909510000001
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 3456789
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.25304840151629454
+El numero de restricciones violadas es: 72
+El valor de fitness es: 0.2905322888933627
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 0.644885626
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 3456789
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.11832251570486176
+El numero de restricciones violadas es: 94
+El valor de fitness es: 0.14351341040411703
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 7.020325143
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 3456789
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.1176617732516057
+El numero de restricciones violadas es: 209
+El valor de fitness es: 0.14680494982116446
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 6.576160535
+Salvado del fitness: Some(())
+
+
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 456789123
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.8386025147615525
+El numero de restricciones violadas es: 9
+El valor de fitness es: 0.9068012178294054
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 0.306410954
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 456789123
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.6193914192158686
+El numero de restricciones violadas es: 39
+El valor de fitness es: 0.7768765822212396
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 0.22750408800000002
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 456789123
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.24032928059002032
+El numero de restricciones violadas es: 20
+El valor de fitness es: 0.26001009927130925
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 0.566528932
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 456789123
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.24868334847395598
+El numero de restricciones violadas es: 41
+El valor de fitness es: 0.2700283398970087
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 0.9469074120000001
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 456789123
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.14219786161336878
+El numero de restricciones violadas es: 105
+El valor de fitness es: 0.17033662696891988
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 7.04224016
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 456789123
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.11885738948354371
+El numero de restricciones violadas es: 228
+El valor de fitness es: 0.15064994574124418
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 6.236120984
+Salvado del fitness: Some(())
+
+
+Lanzando zoo en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_10.const
+	Number of clusters: 7
+	Seed: 567891234
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.6369372035420169
+El numero de restricciones violadas es: 12
+El valor de fitness es: 0.7278688076324875
+El valor de lambda es: 0.007577633674205882
+Tiempo transcurrido (segundos): 0.28190423800000003
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/zoo_set.dat
+	Constraints file: ./data/zoo_set_const_20.const
+	Number of clusters: 7
+	Seed: 567891234
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.7169821233707054
+El numero de restricciones violadas es: 13
+El valor de fitness es: 0.7694771777058291
+El valor de lambda es: 0.004038081102701819
+Tiempo transcurrido (segundos): 0.163697801
+Salvado del fitness: Some(())
+
+
+Lanzando glass en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_10.const
+	Number of clusters: 7
+	Seed: 567891234
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.19103805471219618
+El numero de restricciones violadas es: 58
+El valor de fitness es: 0.24811242888793406
+El valor de lambda es: 0.000984040934064446
+Tiempo transcurrido (segundos): 0.639732268
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/glass_set.dat
+	Constraints file: ./data/glass_set_const_20.const
+	Number of clusters: 7
+	Seed: 567891234
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.24953145329667642
+El numero de restricciones violadas es: 52
+El valor de fitness es: 0.2766031497356701
+El valor de lambda es: 0.0005206095469037242
+Tiempo transcurrido (segundos): 0.537194614
+Salvado del fitness: Some(())
+
+
+Lanzando bupa en sus dos variantes de restricciones
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_10.const
+	Number of clusters: 16
+	Seed: 567891234
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.10899608454745495
+El numero de restricciones violadas es: 142
+El valor de fitness es: 0.14705041483781928
+El valor de lambda es: 0.00026798824148143894
+Tiempo transcurrido (segundos): 7.110118639
+Salvado del fitness: Some(())
+
+Datos del problema cargados con exito, procediendo a realizar las busquedas
+	Data file: ./data/bupa_set.dat
+	Constraints file: ./data/bupa_set_const_20.const
+	Number of clusters: 16
+	Seed: 567891234
+	Search type: SimulatedAnnealing
+================================================================================
+
+==> Enfriamiento simulado
+La distancia global instracluster de la solucion es: 0.12058862924340645
+El numero de restricciones violadas es: 246
+El valor de fitness es: 0.15489112415303063
+El valor de lambda es: 0.0001394410362179845
+Tiempo transcurrido (segundos): 5.201025285
+Salvado del fitness: Some(())
+
+
