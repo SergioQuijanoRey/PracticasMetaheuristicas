@@ -848,90 +848,83 @@ Y además, como ya se ha comentado, en la carpeta \lstinline{FUENTES/results} te
 
 Las tablas con los resultados son las siguientes:
 
-% \begin{figure}[H]
-%     \includegraphics[width=1.0\textwidth]{tablas_globales_10}
-%     \caption{Tablas Globales - 10\% de restricciones}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{tablas_globales_10}
+    \caption{Tablas Globales - 10\% de restricciones}
+\end{figure}
 
-% \begin{figure}[H]
-%     \includegraphics[width=1.0\textwidth]{tablas_globales_20}
-%     \caption{Tablas Globales - 20\% de restricciones}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{tablas_globales_20}
+    \caption{Tablas Globales - 20\% de restricciones}
+\end{figure}
 
 \subsection{Análisis de resultados}
 
-Por las correcciones en la búsqueda local y el algoritmo \emph{greedy}, se puede ver que los resultados respecto a estas dos búsquedas han cambiado respecto la práctica anterior. Estas correcciones se comentan en \emph{\ref{seccion:correcciones}. \nameref{seccion:correcciones}}. Es notorio que, en \emph{Bupa 20\%}, tengamos un tiempo de ejecución tan pequeño. Esto se justifica en la corrección al ver lo que hemos tenido que hacer para poder asignar valor a este \emph{dataset}.
+\subsubsection{Análisis general de los resultados}
 
-El algoritmo memético elitista está generando resultados malos de forma consistente, en comparación a la búsqueda local y el resto de genéticos y meméticos. A compañeros nuestros les ofrecen resultados mucho mejores, lo que nos hace pensar que hemos cometido un error en la práctica. Este error puede venir dado por:
+Para este análisis va a resultar muy útil tener en cuenta los algoritmos que mejor y peor resultado han dado en cada uno de los casos del problema:
 
-\begin{itemize}
-    \item Durante toda la práctica hemos tenido problemas con la diversidad en la población. Si este problema ha persistido sin tener mucho impacto en el resto de algoritmos, en el elitista se puede ampliar. Esto porque estamos haciendo más grande la diferencia entre individuos de buen \emph{fitness} e individuos de mal \emph{fitness}
-    \item En la selección del mejor individuo, usamos una cola con prioridad. Puede ser que nos esté devolviendo los peores elementos, en vez de los mejores.
-\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{tablas_mejor_peor_10}
+    \caption{Mejor y peor algoritmo, 10\% de las restricciones}
+\end{figure}
 
-El problema era el segundo. Cambiamos el código y repetimos las ejecuciones, para \lstinline{Memético Elitista}. No podemos guardar la traza y depurarla de nuevo con el poco tiempo del que disponemos, así que directamente mostramos los resultados en la siguientes tablas. Además, aprovechamos para marcar el mejor y peor resultado, que será de utilidad a la hora de realizar los análisis:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{tablas_mejor_peor_20}
+    \caption{Mejor y peor algoritmo, 20\% de las restricciones}
+\end{figure}
 
-% \begin{figure}[H]
-%     \includegraphics[width=1.0\textwidth]{tablas_globales_corregidas_10}
-%     \caption{Tablas Globales - 10\% de restricciones, \textbf{Corregidas}}
-% \end{figure}
+Como no hemos modificado ni corregido nada respecto de la práctica anterior, los resultados de la búsqueda local y búsqueda \emph{copkmeans} son los mismos que en la práctica anterior.
 
-% \begin{figure}[H]
-%     \includegraphics[width=1.0\textwidth]{tablas_globales_corregidas_20}
-%     \caption{Tablas Globales - 20\% de restricciones, \textbf{Corregidas}}
-% \end{figure}
+Fijándonos en los resultados en los \emph{datasets} con el 10\% de las restricciones, cabe destacar que el peor algoritmo siempre ha sido \emph{copkmeans}. Por tanto, los nuevos algoritmos introducidos en esta práctica han tenido un comportamiento como mínimo decente sobre estos conjuntos con el 10\% de las restricciones. Recordar que en la práctica anterior, algunos de los algoritmos tenían un comportamiento nefasto según la configuración del problema, obteniendo resultados peores que \emph{copkmeans}. Y en los tres problemas con el 10\% de los resultados, el mejor algoritmo ha sido \emph{ILS-Enfriamiento Simulado}.
 
-Tras este cambio, vemos que el algoritmo memético elitista tiene el comportamiento deseado, con lo que podemos pasar a analizar los resultados.
+Esto puede ser porque, a pesar de que la intensificación usando enfriamiento simulado sea menos inteligente que la intensificación con búsqueda local, en muchas ocasiones sea útil salir de óptimos locales. Sobre todo en repeticiones tardías de la búsqueda iterativa, donde la intensificación por búsqueda local puede desperdiciar muchas evaluaciones del fitness al quedar atascada en óptimos locales demasiado rápido. Además, la búsqueda con enfriamiento acepta resultados peores con mayor probabilidad al principio, luego en iteraciones más tardías de la intensificación acabaremos con un comportamiento más o menos similar a la búsqueda local.
 
-\subsubsection{Análisis Global}
+En los conjuntos con el 20\% de las restricciones tenemos algo más de variedad. Se sigue manteniendo el hecho de que en ninguno de los casos los nuevos algoritmos sean peores que \emph{copkmeans}. Solo en \emph{Glass} la búsqueda local es peor que \emph{Copkmeans}. Y en ese caso, los cuatro algoritmos restantes siguen siendo mejores que \emph{copkmeans}.
 
-Los únicos algoritmos que han sido vencedores más de una vez han sido el memético elitista y la búsqueda local. Respecto al memético elitista, era en parte esperable, pues es el que conlleva mayor explotación, y para ciertos problemas esto puede ser lo deseado. Destaca que, a pesar de estar usando algoritmos mucho más avanzados que la búsqueda local, en ciertos problemas es el mejor algoritmo. Y en general, podemos apreciar que es bastante estable \emph{entre distintos tipos de problemas}, no llegando nunca a ser el peor algoritmo. Con esto no queremos decir que sea estable \emph{con distintos valores de la semilla}, porque como ya hemos visto en la práctica anterior, esto no es cierto.
+En el caso de \emph{Zoo} el mejor algoritmo es la búsqueda local. Esto puede venir motivado porque, al no tener que repartir las evaluaciones entre 10 repeticiones distintas, tenemos 10 veces más iteraciones para intensificar. Con lo que, si no caemos en malos óptimos locales, es lógico pensar que vamos a encontrar mejores soluciones. Esta es la explicación mas sensata a lo que ha pasado en este caso concreto.
 
-Debemos sospechar en cierta medida que los conjuntos de datos no sean lo suficientemente complejos como para que la búsqueda local se vea afectada por caer en malos óptimos locales. Un \emph{dataset} con muchísimos óptimos locales, debería mostrar que los algoritmos poblacionales generan consistentemente mejores soluciones. Por ejemplo, el que se visualiza en la siguiente imagen \footnotemark:
+La búsqueda local multiarranque ha sido la ganadora en el caso de \emph{Glass}, seguida en segundo lugar de \emph{ILS-Enfriamiento Simulado}. No es sorprendente, pues enfriamiento simulado es una búsqueda menos inteligente que la búsqueda local el primero mejor.
 
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.4\textwidth]{search_space}
-%     \caption{Espacio de búsqueda con muchos óptimos locales}
-% \end{figure}
+En el caso de \emph{Bupa}, vuelve a ganar \emph{ILS-Enfriamiento Simulado}, seguido por enfriamiento simulado. Con esta configuración de tamaño funcionan muy bien las técnicas basadas en el enfriamiento simulado, el permitir soluciones peores ha sido clave para este problema. Esto se puede ver también el \emph{Bupa 10\%} donde hemos acabado en la misma situación que en este caso.
 
-\footnotetext{Imagen extraída de: \cite{EspacioBusqueda:online}}
+Todos los algoritmos han tenido comportamientos decentes. El único que no ha destacado en ningún momento ha sido la búsqueda local iterativa usando como intensificador la búsqueda local, obteniendo consistentemente resultados mediocres. El enfriamiento simulado tampoco ha sido el mejor nunca, pero en las dos variantes del problema \emph{Bupa} ha tenido resultados muy buenos, parecidos a los que obtuvo \emph{ILS-Enfriamiento Simulado}, cayendo en la segunda posición. Este comportamiento puede ser debido a lo que enparte ya hemos comentado. En repeticiones tardías de la búsqueda iterativa, a pesar de la fuerte mutación, la intensificación por búsqueda local puede caer en un mal óptimo demasiado rápido, desperdiciando muchas evaluaciones del fitness sin consumir en esa repetición.
 
-Podemos ver que en el resto de algoritmos, dependemos muchísimo del \emph{dataset} a la hora de tener un buen o mal comportamiento respecto de los otros algoritmos. Cada algoritmo establece un equilibrio exploración-explotación distinto. Por tanto, a la hora de enfrentarnos a un problema concreto, deberemos estudiar distintos enfoques e intentar usar el conocimiento experto disponible para tomar una decisión en cuanto a la hora de fijar el algoritmo que vamos a emplear. Estamos justificando algo que ya sabíamos, por ejemplo, del \emph{Teorema Free Lunch}: no disponemos de un algoritmo muy bueno que funcione para todo tipo de problemas.
+Una mejora a este mal comportamiento de \emph{ILS-Local Search} podría ser repetir hasta consumir las evaluaciones del fitness, no hasta un número prefijado de iteraciones. Con ello, si el problema de este algoritmo es efectivamente el que hemos comentado, tendría un menor impacto en el rendimiento del algoritmo.
 
-El algoritmo memético que aplica búsqueda local a todos los miembros de la población genera resultados que son o bien regulares o bien malos. Intuitivamente, podemos pensar que estamos desperdiciando evaluaciones del fitness en intensificar soluciones malas. Es más, estamos perdiendo evaluaciones en intensificar soluciones que son muy parecidas de base, a soluciones que son todavía más parecidas al intensificar. Por tanto, disminuimos la diversidad de la población. Estas soluciones mejoradas de una solución mala a una solución menos mala, pero no buena, se podrían haber obtenido a partir de cruces y mutaciones, sin malgastar evaluaciones del fitness.
+Cabe destacar los buenos resultados que hemos obtenido con unos algoritmos que han sido muy rápidos de programar. Una vez que hemos programado la búsqueda local, el enfriamiento simulado y los operadores auxiliares, programar estos métodos ha sido muy sencillo, requieriendo muy poco esfuerzo de ingeniería. Por tanto, una vez hecha la báse de código que ya hemos comentado, parece sensato siempre probar con estas variantes que son muy sencillas de introducir y mejoran los resultados. Y entre estos, el más destacable es la búsqueda local multiarranque, que prácticamente no ha supuesto esfuerzo de implementación.
 
-También podemos ver que en la mitad de los casos, un algoritmo memético ha sido el que mejores resultados ha generado. Exceptuando los resultados regulares del memético que aplica búsqueda a todos los individuos, podemos observar resultados consistentes en los otros dos meméticos. Por tanto, a la hora de enfrentarnos a un problema sin demasiado conocimiento, trataríamos de empezar explorando la búsqueda local, y la búsqueda memética. Aunque para ello primero debemos implementar un genético, por lo que también podríamos tenerlo en cuenta. Visto desde otra perspectiva, si disponemos de un algoritmo genético que funcione medianamente bien, siempre trataríamos de aplicar una mejora memética, pues hemos visto que suelen mejorar los resultados.
+En resumen de este primer análisis, el algoritmo que se ha impuesto sobre el resto ha sido \emph{ILS-Enfriamiento simulado}. El resto de los algoritmos han tenido un comportamiento decente, siendo la búsqueda local iterativa con búsqueda local como intensificador el único con resultados mediocres.
 
-Para conjuntos de datos grandes, vemos que existe una tendencia hacia que los estacionarios funcionen mejor. Y al revés, con conjuntos de datos de menor tamaño, y con menos restricciones, los algoritmos genéticos generacionales parecen funcionar mejor. Esto introduce otro posible criterio a la hora de escoger un algoritmo u otro, en base a los conjuntos de datos con los que trabajemos.
+Respecto a los tiempos de ejecución no hay demasiado que comentar. En media, el algoritmo que más ha tardado en ejecutarse ha tomado poco más de 10 segundos en \emph{Bupa}. En los problemas con el 10\% de las restricciones, el más lento ha sido \emph{ILS-Enfriamiento Simulado}. En los problemas con el 20\% de las restricciones, los más lentos han sido búsqueda local multiarranque e \emph{ILS-Enfriamiento Simulado}. Sin embargo, no han diferido en distintos órdenes de magnitud, por lo tanto, no parece relevante realizar un análisis de estas diferencias de tiempo. Factores difíciles de capturar, como los cambios de contexto que realizamos en nuestro código, optimizaciones del compilador o fallos de caché pueden ser los causantes de estas diferencias, viendo lo parecidos que son los tiempos de ejecución.
 
-Usando el \emph{excel} que entregamos con la práctica, podemos ver las desviaciones típicas de cada tipo de búsqueda, para comparar la robustez de los algoritmos frente a los factores aleatorios:
+\subsubsection{Algunas comparaciones}
 
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.4\textwidth]{desviaciones_tipicas}
-%     \caption{Desviaciones típicas de los \emph{fitness} de los algoritmos}
-% \end{figure}
+La comparación más directa es la de búsqueda local con búsqueda local multiarranque. La búsqueda local tiene la bondad de que emplea todas las evaluaciones en un único proceso de búsqueda, por lo que, si no cae en óptimos locales de mala calidad, tiene 10 veces más evaluaciones del fitness para intensificar más la solución. Por el otro lado, la búsqueda local multiarranque tiene 10 veces menos evaluaciones del fitness, pero las 10 repeticiones debieran dar mucha más estabilidad y robustez.
 
-Como era de esperar, el algoritmo con desviación más alta es el de búsqueda local. Era intuitivo pensar esto, pues es el que pensamos que está más afectado por la semilla inicial. En un principio es sorprendente lo poco que se desvía el memético sobre todos los individuos. Creemos que es debido a que la intensificación provoca que todo el conjunto avance rápidamente hacia una solución muy similar (pérdida de diversidad), y por ello, es más estable respecto a las distintas semillas aleatorias.
+En los conjuntos con 10\% de restricciones, solo en \emph{Bupa} la búsqueda local es mejor. Esto tiene sentido, pues es un problema más grande en el que pueden ser necesarias más iteraciones de las que otorgamos a cada una de las búsquedas en la búsqueda multiarranque. En los conjuntos con el 20\% de las restricciones tan solo en \emph{Zoo} la búsqueda local le gana a la búsqueda local multiarranque. De hecho, en \emph{Glass} el peor algoritmo es la búsqueda local y el mejor es la búsqueda local multiarranque.
 
-Del mismo modo, también es de esperar que el algoritmo elitista, que hace que las mejores soluciones avancen aún más, tenga una desviación tan pequeña. Los cuatro generacionales tiene desviaciones similares. No sabemos si las diferencias en desviación son significativas, sobre todo teniendo en cuenta que solo hemos lanzado 5 veces los algoritmos.
+Mostramos las desviaciones típicas para justificar lo que hemos comentado sobre la robustez:
 
-De los meméticos, el que más desviación tiene es el de porcentaje aleatorio. De nuevo, esto también era esperable, pues es el que mayor aleatoriedad introduce a la hora de seleccionar los individuos a intensificar.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{desviaciones}
+    \caption{Desviaciones en el \emph{fitness} de la búsqueda local y \emph{BLM}}
+\end{figure}
 
-Respecto a las restricciones violadas, el algoritmo \emph{greedy} lógicamente es el que mejores resultados genera. Gracias a que el único criterio que emplea es el de minimizar este valor. Y sin embargo, ya hemos comentado que no genera soluciones de calidad. Es destacable que los algoritmos meméticos han sido capaces de obtener soluciones buenas, con más restricciones violadas que el resto de algoritmos. Por ejemplo, en \emph{Bupa 10\%}.
+Por tanto, argumentamos estadísticamente que la búsqueda local es más sensible a la semilla aleatoria respecto al \emph{fitness} de la solución obtenida que la búsqueda local multiarranque, pues su desviación típica es menor.
 
-Por tanto, concluimos que la mejor estrategia es minimizar tanto las restricciones violadas como la distancia intra-cluster, según el equilibrio dado por el valor de $\lambda$.
+Ya hemos comparado la búsqueda local iterativa en sus dos variantes, concluyendo que el mejor comportamiento lo otorga el uso de enfriamiento simulado como intensificador. Esto, de nuevo, creemos que es porque la búsqueda local cae demasiado rápido en óptimos locales, desperdiciando evaluaciones del fitness sin consumir.
 
-Respecto a los tiempos de ejecución, es de esperar que el más rápido sea \emph{greedy}. Aunque en casos en los que la búsqueda local converja prematuramente a la solución, puede ser que esta última sea más rápida. Esto pasa, por ejemplo, en \emph{zoo 10\%} y \emph{Bupa 10\%}. También, que \emph{greedy} cicle sobre soluciones muy parecidas hasta que forzosamente paramos el algoritmo puede favorecer a este comportamiento.
+\subsubsection{Posibles mejoras}
 
-En general, los algoritmos genéticos estacionarios son algo más lentos que los genéticos generacionales. Al realizar cambios de población de tamaño completo, en generacional estamos consumiendo las evaluaciones del fitness en menos iteraciones. Por lo tanto, podemos pensar que en generacional estamos realizando las operaciones en \emph{batch}, mientras que en estacionario tenemos que repetir todos los pasos del algoritmo de dos en dos individuos. En \emph{Bupa 20\%} estas diferencias de tiempo son notables, difiriendo en más de 7 segundos.
+Como ya hemos comentado, sería interesante que, en las búsquedas iterativas, en vez de fijar el parámetro de repeticiones, repitiésemos hasta agotar las evaluaciones del fitness, previo fijado del máximo de evaluaciones en cada intensificación. Con esto seguramente \emph{ILS-Búsqueda local} habría sido más competitivo.
 
-El algoritmo memético sobre toda la población, hace que los tiempos sean aún más grandes. Sin embargo, los otros dos algoritmos meméticos mejoran algo los tiempos de ejecución respecto a los genéticos estacionarios. En algunas ocasiones mejoramos los tiempos de los algoritmos generacionales, pero no vemos suficiente consistencia en los datos para sacar conclusiones de ello.
-
-Por tanto, cuando trabajemos con conjuntos de datos mucho más grandes, el tiempo de ejecución puede ser un factor a tener en cuenta cuando elijamos el algoritmo a emplear. Teniendo en cuenta que el memético sobre un porcentaje aleatorio y el memético elitista, cuando no mejora al genético estacionario, se queda muy cerca del genético generacional, y a vista de las mejoras de los resultados, en muchas ocasiones podemos considerar emplear un memético como mejora a un genético sin tener demasiado miedo al impacto en tiempos de ejecución.
-
-A la hora de ejecutar los algoritmos, viendo cómo avanzaban las poblaciones, hemos observado un comportamiento que nos ha parecido algo problemático. Tras no demasiadas iteraciones, la población de individuos se estabilizaba alrededor de unas pocas soluciones repetidas muchas veces. Por tanto, sería interesante usar otros parámetros del programa para introducir más diversidad en fases tardías de los algoritmos.
+Por otro lado, en enfriamiento simulado, hemos dejado fijo el valor $k = 1$. Podría haber sido interesante realizar algún proceso de búsqueda como \emph{grid search} para fijar un mejor valor de dicho parámetro $k$.
 
 \pagebreak
 
