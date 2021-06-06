@@ -743,7 +743,6 @@ Además del binario aportado en la estructura de directorios que se especifica e
 
 Si ejecutamos el binario sin parámetros, veremos por pantalla un mensaje indicando los parámetros que debemos pasar al programa. Estos parámetros son:
 
-% TODO -- esto esta desactualizado
 \begin{itemize}
     \item Fichero de datos: el fichero donde guardamos las coordenadas de los puntos
     \item Fichero de restricciones
@@ -761,6 +760,10 @@ Si ejecutamos el binario sin parámetros, veremos por pantalla un mensaje indica
         \item memeall
         \item memerandom
         \item memeelitist
+        \item multistartlocalsearch
+        \item iterative\_local\_search
+        \item iterative\_local\_search\_annealing
+        \item simulated\_annealing
     \end{itemize}
 \end{itemize}
 
@@ -796,38 +799,42 @@ Podemos lanzar las $5 * 3 * 2 = 30$ ejecuciones por algoritmo cómodamente con \
 
 % TODO -- hay que escribir esto
 \subsubsection{Parámetros de la búsqueda local multiarranque básica} \label{parametros_blm}
+
+\begin{itemize}
+    \item Número de repeticiones de la búsqueda local: 10 repeticiones
+    \item Máximo de evaluaciones del fitness por cada búsqueda local: 10000 evaluaciones
+\end{itemize}
+
 \subsubsection{Parámetros de la búsqueda local iterativa} \label{parametros_ils}
+
+\begin{itemize}
+    \item Número de repeticiones de la búsqueda local / enfriamiento simulado: 10 repeticiones
+    \item Máximo de evaluaciones del fitness por cada búsqueda local / enfriamiento simulado: 10000 evaluaciones
+    \item Longitud del segmento en la mutación: $0.1 * n$ donde es el número de puntos (o la longitud del vector de asignación)
+\end{itemize}
+
 \subsubsection{Parámetros del enfriamiento simulado} \label{parametros_enfriamiento}
 
-% TODO -- hay que borrar esto
-\subsubsection{Parámetros de los algoritmos poblacionales} \label{section:parametros_poblacionales}
-
 \begin{itemize}
-    \item Máximo de evaluaciones de la función fitness en búsqueda local: 100.000
-    \item Tamaño de la población: 50 cromosomas
-    \item Probabilidad de cruce AGG: 0.7
-    \item Probabilidad de cruce AGE: 1.0
-    \item Probabilidad mutación por gen: $\frac{0.1}{numero\ de\ genes}$
+    \item Máximo de evaluaciones del fitness: 100000 evaluaciones
+    \item Temperatura inicial: $T_0 = \frac{\mu * C(S_0)}{-ln(\phi)}$ donde $C(S_0)$ es el fitness de la solución inicial, y $\mu = \phi = 0.3$
+    \item Temperatura final: $T_f = 10^{-3}$
+    \item Máximo de vecinos generados en el bucle interno: $10 * n$ donde $n$ es el tamaño del caso del problema
+    \item Esquema de enfriamiento:
+        \begin{itemize}
+            \item $T_{k+1} = \frac{T_k}{1 + \beta T_k}$
+            \item $\beta = \frac{T_0 - T_f}{M * T_0 * T_f}$
+            \item $M = \frac{max\_iteraciones}{max\_vecinos}$
+        \end{itemize}
 \end{itemize}
-
-\subsubsection{Parámetros de los algoritmos memeticos} \label{section:parametros_memeticos}
-
-\begin{itemize}
-    \item Máximo de evaluaciones de la función fitness en búsqueda local: 100.000
-    \item Tamaño de la población: 50 cromosomas
-    \item Probabilidad de cruce AGG: 0.7
-    \item Probabilidad de cruce AGE: 1.0
-    \item Probabilidad mutación por gen: $\frac{0.1}{numero\ de\ genes}$
-    \item Número de fallos: $\xi = 0.1 * n$ donde $n$ es el número de genes por cromosoma
-\end{itemize}
-
 
 \pagebreak
 
 \subsection{Resultados obtenidos según el formato especificado}
 
-% TODO -- hemos modificado ligeramente el formato de la tabla
 El formato especificado viene dado en una tabla de excel que hemos rellenado con los resultados mostrados por pantalla por el programa. Para obtener estos resultados, basta con lanzar \lstinline{./launch_all_programs > salida_datos.txt} y consultar el fichero creado. Ese fichero se entrega con la práctica para que pueda consultarse los datos con los que hemos generado las tablas.
+
+En esta práctica hemos cambiado ligeramente el formato de la tabla \emph{Excel}, pero manteniendo el contenido y su estructura. Todo esto para hacer más sencillo el recopilar los datos en estas tablas tras al ejecución del script \lstinline{./launch_all_programs}. Esta recopilación se ha realizado en varias etapas usando \emph{macros} de \lstinline{VIM}. Estas fases pueden ser consultadas en los archivos \lstinline{salida.txt}, convertida a \lstinline{salida.csv} y refinada en \lstinline{salida_depurada.csv}.
 
 Los datos guardados en un formato especificado se encuentra en la tabla de excel. Esta tabla se encuentra colgando de la carpeta \lstinline{FUENTES/analisis/Segunda Memoria/}. Los resultados de la ejecución en nuestro ordenador (en el ordenador de los profesores, se puede obtener una traza distinta a pesar de usar las mismas semillas) se encuentran en \lstinline{FUENTES/results}. También tenemos ficheros $.csv$ más depurados que he usado para cargar los datos en el \emph{Excel}.
 
