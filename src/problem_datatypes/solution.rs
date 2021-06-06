@@ -521,7 +521,7 @@ impl<'a, 'b> Solution<'a, 'b> {
         // Copia para devolver la solucion mutada sin tener que mutar la solucion original
         let mut mutated = self.clone();
 
-        // Seleccionamos el inicio y tamaño del segmento
+        // Seleccionamos el inicio del segmento
         let gen_size = self.cluster_indexes.len();
         let segment_start = rng.gen_range(0..gen_size);
 
