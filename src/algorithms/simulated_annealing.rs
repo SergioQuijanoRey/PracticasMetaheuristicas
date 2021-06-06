@@ -105,7 +105,6 @@ pub fn run<'a, 'b>(
             // Añadimos las evaluaciones del fitness
             current_evaluations += first_ev_cons as i32 + second_ev_cons as i32;
 
-            // TODO -- esta expresion, sin k, esta bien???
             if delta_fitness < 0.0 && rng.gen::<f64>() > (-delta_fitness * current_tmp){
                 // La solucion es peor y ademas, la probabilidad dependiente de la temperatura de
                 // aceptar soluciones peores ha fallado
