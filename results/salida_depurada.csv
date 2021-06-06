@@ -305,7 +305,7 @@ MemeticElitist,bupa_set_const_10,234567891,837,0.22541190741842881,0.44971806553
 MemeticElitist,bupa_set_const_10,123456789,967,0.23744384717460437,0.49658847668715583,6.645935772
 MemeticElitist,bupa_set_const_10,567891234,815,0.22304565700899848,0.4414560738163712,6.758498792
 
-/*Memetico Elitista - 10%*/
+/*Memetico Elitista - 20%*/
 Nombre Algoritmo, Dataset (con restricciones), Semilla, Infeasible, IntraCluster, Fitness, Ellapsed(s)
 MemeticElitist,zoo_set_const_20,234567891,10,0.7578698880089731,0.7982506990359913,1.603296801
 MemeticElitist,zoo_set_const_20,123456789,7,0.7348462855557839,0.7631128532746967,1.583635906
@@ -324,3 +324,9 @@ MemeticElitist,bupa_set_const_20,3456789,1590,0.2171978838000284,0.4389091313866
 MemeticElitist,bupa_set_const_20,234567891,1851,0.22212579385551987,0.4802311518950092,9.415447184
 MemeticElitist,bupa_set_const_20,123456789,1644,0.18654426059824392,0.4157853241406104,9.804888277
 MemeticElitist,bupa_set_const_20,567891234,1470,0.21253873465469453,0.4175170578951317,9.636468707
+
+/*Multiarranque - 10%*/
+Nombre Algoritmo, Dataset (con restricciones), Semilla, Infeasible, IntraCluster, Fitness, Ellapsed(s)
+
+/*Multiarranque - 20&*/
+Nombre Algoritmo, Dataset (con restricciones), Semilla, Infeasible, IntraCluster, Fitness, Ellapsed(s)
