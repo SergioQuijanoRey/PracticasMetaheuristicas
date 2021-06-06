@@ -607,6 +607,106 @@ Los parámetros fundamentales, como el número de repeticiones, máximo de evalu
 
 \subsection{Descripción y pseudocódigo del algoritmo Enfriamiento Simulado}
 
+El enfriamiento simulado se parece a la búsqueda local. Partimos de una solución aleatoria. El proceso de búsqueda consiste en ir generando soluciones en el vecindario de la solución actual. Sin embargo, mientras que en búsqueda local solo aceptamos soluciones que mejoren a la actual, en enfriamiento simulado existe la posibilidad de escoger vecinos peores, con la esperanza de que esto permita escapar de malos óptimos locales.
+
+Cuando un vecino es mejor, siempre hacemos el cambio. Cuando un vecino es peor, podemos aceptarlo siguiendo una probabilidad que depende de la temperatura actual. Esta condición probabilística viene dada por $U(0, 1) \leq e^{\frac{-\Delta f}{k * T}}$, donde $U$ es la distribución continua uniforme, $k$ es una constante física que ignoramos haciendo $k = 1$, y $T$ es la temperatura actual.
+
+Para seguir el esquema diversificación al principio, intensificación al final, partimos de una temperatura inicial relativamente alta, que poco a poco va tendiendo a cero (en nuestro caso, seguimos el esquema de enfriamiento de Cauchy). En el pseudocódigo se mostrará el esquema de enfriamiento, y en \emph{\ref{parametros_enfriamiento}. \nameref{parametros_enfriamiento}} se mostrarán los valores iniciales.
+
+Además, guardamos la mejor solución que se ha encontrado hasta el momento. A diferencia de la búsqueda local, no generamos todos los posibles vecinos en formato $(pos\_cambiar, nuevo\_valor)$, sino que generamos un vecino aleatorio. Por tanto, algunos vecinos pueden repetirse.
+
+En el pseudocódigo queda claro que tenemos otra condición de parada: cuando el bucle interno produce cero éxitos, tras generar un número dado de vecinos.
+
+Así, el pseudocódigo queda:
+
+\begin{lstlisting}[language=Python, style=Boxed][H]
+# Parametros iniciales del algoritmo
+max_fitness_evaluations = 100000
+mu = 0.3
+final_tmp = 0.001
+max_neighbours = 10.0 * data_points.len()
+max_successes = 0.1 * max_neighbours
+M = max_fitness_evaluations / max_neighbours
+
+# Necesitamos la solucion inicial para establecer la temperatura inicial
+init_solution = Solution::generate_random_solution()
+
+# Con ello, computamos la temperatura inicial
+# Usamos que en este problema, mu = phi, asi que solo usamos una variable
+initial_tmp = (mu * init_solution.fitness()) / (-mu.ln())
+
+# Valores iniciales para empezar a iterar
+current_evaluations = 0
+current_tmp = initial_tmp
+current_solution = init_sol.clone()
+best_solution = current_solution.clone()
+best_fitness = best_solution.fitness()
+
+# Necesitamos el valor de beta para el enfriamiento
+beta (initial_tmp - final_tmp) / (M * initial_tmp * final_tmp)
+
+# Bucle externo
+while current_evaluations < max_fitness_evaluations && current_tmp >= final_tmp:
+
+    # Bucle interno
+    # Solo generamos max_neighbours a lo sumo. Tambien paramos cuando se ha alcanzado un
+    # numero maximo de exitos
+    current_successes = 0
+    for _ in 0..max_neighbours:
+        current_neighbour = current_solution.one_random_neighbour(rng);
+
+        # Calculamos el delta del fitness
+        current_solution_fitness = current_solution.fitness()
+        current_neighbour_fitness = current_neighbour.fitness()
+        delta_fitness = current_solution_fitness - current_neighbour_fitness
+
+        # Aceptamos el vecino si es mejor o con la probabilidad
+        # que depende de la temperatura
+        if delta_fitness < 0.0 && rng.gen::<f64>() > (-delta_fitness * current_tmp):
+            # La solucion es peor y ha fallado la probabilidad
+            continue
+
+
+        # Hemos aceptado la solucion
+        current_solution = current_neighbour.clone()
+        current_successes += 1
+
+        # Comprobamos si hemos mejorado a la mejor solucion
+        if current_solution_fitness < best_fitness:
+            best_fitness = current_solution_fitness
+            best_solution = current_solution.clone()
+
+
+        # Si hemos alcanzado el numero maximo de exitos, salimos del bucle interno
+        if current_successes >= max_successes:
+            break
+
+        # Si hemos consumido las evaluaciones maximas en el bucle interno, debemos salir
+        if current_evaluations >= max_fitness_evaluations:
+            break
+
+    # Computamos el siguiente valor de la temperatura
+    current_tmp = current_tmp / (1.0 + beta * current_tmp);
+
+    # Si se obtuvieron 0 exitos en el bucle interno, paramos de iterar
+    if current_successes == 0:
+        break
+
+return best_solution
+
+
+def one_random_neighbour(self):
+    # Usamos la funcion de mutacion para realizar el cambio
+    let mutated = self.mutated(rng)
+
+    # Si hay mas de una diferencia, es porque el operador de reparacion ha reparado provocando
+    # mas cambios. En este caso, esto no es lo que queremos
+    if mutated.number_of_discrepancies(self) != 1:
+        return self.mutated(rng);
+
+    return mutated;
+\end{lstlisting}
+
 \pagebreak
 
 \section{Explicación del procedimiento considerado para desarrollar la práctica}
@@ -697,6 +797,7 @@ Podemos lanzar las $5 * 3 * 2 = 30$ ejecuciones por algoritmo cómodamente con \
 % TODO -- hay que escribir esto
 \subsubsection{Parámetros de la búsqueda local multiarranque básica} \label{parametros_blm}
 \subsubsection{Parámetros de la búsqueda local iterativa} \label{parametros_ils}
+\subsubsection{Parámetros del enfriamiento simulado} \label{parametros_enfriamiento}
 
 % TODO -- hay que borrar esto
 \subsubsection{Parámetros de los algoritmos poblacionales} \label{section:parametros_poblacionales}
