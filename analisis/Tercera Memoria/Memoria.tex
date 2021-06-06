@@ -1,0 +1,835 @@
+\documentclass[11pt]{article}
+
+% Paquetes
+%===============================================================================
+
+% Establecemos los márgenes
+\usepackage[a4paper, margin=1in]{geometry}
+
+% Separacion entre parrafos
+\setlength{\parskip}{1em}
+
+% Paquete para incluir codigo
+\usepackage{listings}
+\usepackage{listings-rust}
+
+% Paquete para incluir imagenes
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+
+% Para fijar las imagenes en la posicion deseada
+\usepackage{float}
+
+% Para que el codigo acepte caracteres en utf8
+\lstset{literate=
+  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+  {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+  {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+  {ã}{{\~a}}1 {ẽ}{{\~e}}1 {ĩ}{{\~i}}1 {õ}{{\~o}}1 {ũ}{{\~u}}1
+  {Ã}{{\~A}}1 {Ẽ}{{\~E}}1 {Ĩ}{{\~I}}1 {Õ}{{\~O}}1 {Ũ}{{\~U}}1
+  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+  {ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
+  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+  {€}{{\euro}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
+  {»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1 {¡}{{!`}}1
+}
+
+% Para que no se salgan las lineas de codigo
+\lstset{breaklines=true}
+
+% Para que los metadatos que escribe latex esten en español
+\usepackage[spanish]{babel}
+
+% Para la bibliografia
+% Sin esto, los enlaces de la bibliografia dan un error de compilacion
+\usepackage{url}
+
+% Para mostrar graficas de dos imagenes, cada una con su caption, y con un caption comun
+\usepackage{subcaption}
+
+% Simbolo de los numeros reales
+\usepackage{amssymb}
+
+% Para que los codigos tengan una fuente distinta
+\usepackage{courier}
+
+\lstdefinestyle{CustomStyle}{
+  language=Python,
+  numbers=left,
+  stepnumber=1,
+  numbersep=10pt,
+  tabsize=4,
+  showspaces=false,
+  showstringspaces=false
+  basicstyle=\tiny\ttfamily,
+}
+
+% Para incluir tablas en csv
+\usepackage{csvsimple}
+
+% Para referenciar secciones usando el nombre de las secciones
+\usepackage{nameref}
+
+% Para enumerados dentro de enumerados
+\usepackage{enumitem}
+
+% Mostrar la página de las referencias en el indice del documento
+\usepackage[nottoc,numbib]{tocbibind}
+
+% Metadatos del documento
+%===============================================================================
+\title{
+{Práctica 3b}\\
+{Búsqueda por Trayectorias}\\
+{Problema de Agrupamiento con Restricciones}\\
+}
+\author{
+{Sergio Quijano Rey - 72103503k}\\
+{4º Doble Grado Ingeniería Informática y Matemáticas}\\
+{Grupo de prácticas 2 - Viernes 17.30h a 19.30h}\\
+{sergioquijano@correo.ugr.es}
+}
+\date{\today}
+
+% Contenidos del documento
+%===============================================================================
+
+\begin{document}
+
+% Portada del documento
+\maketitle
+\pagebreak
+
+% % Indice de contenidos
+\tableofcontents
+
+% Lista de figuras
+\listoffigures
+
+\pagebreak
+
+\section{Descripción del problema}
+
+Vamos a trabajar el problema del agrupamiento con restricciones (\textbf{\emph{PAR}}). Consiste en una generalización del problema de agrupamiento clásico, al que añadimos restricciones sobre los datos.
+
+El problema de agrupamiento clásico consiste en, dados unos datos de entrada sin etiquetar $X$ de tamaño $n$, agruparlos en $k$ grupos (o en inglés, \emph{clusters}) diferentes, formando una partición $C$ de $X$, de forma que se optimice alguna métrica. Normalmente, se busca minimizar la distancia \emph{intra\_cluster} (que más tarde se definirá).
+
+La diferencia con el problema de agrupamiento clásico, por tanto, es la inclusión de restricciones. En nuestro caso concreto, trabajemos con restricciones entre pares de puntos, que además serán de dos tipos:
+
+\begin{itemize}
+\item Restricción tipo \emph{Must Link}: los dos puntos afectados por esta restricción deberán pertenecer al mismo cluster
+\item Restricción tipo \emph{Cannot Link}: los dos puntos afectados por esta restricción no deben pertenecer al mismo cluster
+\end{itemize}
+
+Consideraremos de forma débil estas restricciones, es decir, podemos incumplir algunas restricciones. Pero supondrá que la solución será de peor calidad. Para especificar mejor esta noción, definimos la función de \emph{fitness} que buscamos minimizar:
+
+\begin{displaymath}
+fitness(sol) := distancia_{intra-cluster}(sol) + \lambda * infeasibility(sol)
+\end{displaymath}
+
+donde $infeasibility$ es el número de restricciones que se incumplen. Esta función de $fitness$ nos permite pasar de intentar optimizar dos funciones objetivo a solo tener que optimizar un objetivo. El valor de $\lambda$ se especifica más adelante.
+
+Como los datos no están etiquetados a priori, podríamos considerar este problema como un problema de aprendizaje no supervisado. Sin embargo, se puede considerar que las restricciones nos dan un tipo de etiquetado, por lo que es más correcto pensar que estamos ante una tarea de aprendizaje \emph{semi-supervisado}. La principal utilidad de resolver estos problemas es que normalmente estamos reduciendo la dimensionalidad de los datos a analizar, y de este modo, es más sencillo extraer conocimiento sobre dichos datos.
+
+\pagebreak
+
+\section{Descripción de la aplicación de los algoritmos empleados}
+
+\subsection{Representación del conjunto de datos}
+
+Los datos vienen dados en una matriz de tamaño $n \times d$ donde $n$ es el número de puntos y $d$ es la dimensión de cada uno de los puntos.
+
+\subsubsection{Representación del conjunto de datos en código}
+
+El conjunto de datos viene representado en \lstinline{problem_datatypes::DataPoints} que contiene un vector de otro tipo de dato: \lstinline{problem_datatypes::Point}. El tipo de dato \lstinline{Point} tiene un campo que es de tipo \lstinline{ndarray::Array1<f64>} que representa un vector (usamos una librería para trabajar con matrices y vectores). Por tanto, hemos pasado de trabajar con una matriz de datos a trabajar con un vector de puntos. Esto nos permite trabajar de forma más expresiva y sencilla con el problema. Por ejemplo, podemos calcular con métodos del \lstinline{struct} distancia entre dos puntos, centroide de un conjunto de puntos, \ldots
+
+\subsection{Representación de las restricciones}
+
+Las restricciones vienen dadas en un fichero de datos que representa una matriz que codifica las restricciones de la siguiente forma:
+
+\begin{itemize}
+\item El elemento en la fila $i$-ésima y columna $j$-ésima representa las restricciones que hay entre el punto $i$ y el punto $j$
+\item Como la restricción que tenga el punto $i$ con el punto $j$ implica que el punto $j$ tiene la misma restricción con el punto $i$, es claro que dicha matriz debe ser simétrica
+\item Un valor $0$ significa que no hay restricciones. Un valor $1$ significa que hay una restricción tipo \emph{Must Link}. Un valor $-1$ implica una restricción \emph{Cannot Link}
+\item Además, la matriz tiene la diagonal de $1$s
+\end{itemize}
+
+\subsubsection{Representación de las restricciones en código}
+
+El \lstinline{struct} \lstinline{problem_datatypes::Constraints} junto al enumerado \lstinline{problem_datatypes::ConstraintType} representan en el código las restricciones. El código es el siguiente:
+
+\begin{lstlisting}[language=Rust, style=Boxed]
+pub enum ConstraintType {
+MustLink,
+CannotLink,
+}
+
+pub struct Constraints{
+data: HashMap<(i32, i32), ConstraintType>,
+}
+\end{lstlisting}
+
+Es claro que guardamos pares de enteros, que marcan los índices de los puntos, y la restricción entre el par de puntos representados, en un \lstinline{HashMap}. Esta elección viene motivada por:
+
+\begin{itemize}
+\item Podemos acceder a las restricciones entre dos puntos en tiempo constante
+\item Podemos iterar sobre todas las restricciones, gracias a los métodos proporcionados por el lenguaje de programación, en un tiempo más que razonable. Así iteramos solo sobre una lista de $r$ restricciones, en vez de sobre una matriz cuadrada de dimensión $n^2$
+\item En cierto modo, estamos combinando los beneficios de tener acceso directo a elementos concretos y los beneficios de poder iterar sobre una lista (aunque iterar sobre un \lstinline{Hash} puede ser algo más lento que iterar sobre una lista o un \lstinline{array})
+\item Es fácil de implementar métodos para operar con restricciones con este tipo de dato
+\end{itemize}
+
+La implementación de los métodos que permiten manipular el \lstinline{struct} aseguran que:
+\begin{itemize}
+\item No guardamos la restricción $(i, j)$ y junto a la $(j, i)$. Solo guardamos una de las dos restricciones, ahorrando memoria
+\item De hecho, el criterio es guardar como índices el par $(i, j)$ donde $i \leq j$
+\item Tampoco guardamos las restricciones $(i, i), MustLink$ pues son restricciones triviales
+\end{itemize}
+
+
+\subsection{Representación de la solución}
+
+Una representación de la solución será un vector de tamaño $n$ con valores en $\{0, \ldots, k - 1\}$ donde $n$ es el número de puntos y $k$ es el número de clusters en los que dividimos los datos. Este vector representa la partición de los datos en los $k$ clusters. En la posición $i$-ésima del vector, guardamos el cluster al que pertenece el punto $i$-ésimo de nuestro conjunto de datos.
+
+Las soluciones deben cumplir las siguientes restricciones:
+
+\begin{itemize}
+\item No pueden quedar clusters vacíos. Es decir, clusters a los que no haya ningún punto asignado. Esto puede verse viendo que $\forall i \in \{0, \ldots, k-1\}$ $\exists pos \in \{0, \ldots, n-1\}$ tal que $solution[pos] = i$, es decir, el vector de soluciones tiene al menos una vez cada valor posible de los clusters
+\item Cada punto solo puede pertenecer a un único cluster. Por la forma vectorial en la que representamos la partición, esta restricción se verifica forzosamente, y por tanto no nos tenemos que preocupar de realizar comprobaciones
+\item La unión de los puntos de los clusters debe ser todo el conjunto de datos, es decir, $X = \bigcup c_i$. De nuevo, nuestra representación vectorial fuerza a que esta restricción se verifique
+\end{itemize}
+
+Por ejemplo, si tenemos 5 puntos y 3 clusters, una posible solución sería $\{3, 1, 2, 3, 0\}$. Y por otro lado, la solución $\{3, 1, 2, 3, 2\}$ no es válida pues el cluster $0$ está vacío.
+
+Para cada solución podemos calcular algunas métricas necesarias para conocer el valor de $fitness$ de la solución que estamos representando. Para comenzar, por cada cluster podemos calcular el \textbf{centroide} del cluster:
+
+\begin{displaymath}
+\vec{\mu_i} := \frac{1}{|c_i|} \sum_{x_i \in c_i} \vec{x_i}
+\end{displaymath}
+
+Definimos para cada cluster su \textbf{distancia media intra-cluster} como:
+
+\begin{displaymath}
+\bar{c_i} := \frac{1}{|c_i|} \sum_{x_i \in c_i} || \vec{x_i} - \vec{\mu_i} ||_2
+\end{displaymath}
+
+Y con ello podemos definir la \textbf{desviación general de la partición} como:
+
+\begin{displaymath}
+\bar{c} := \frac{1}{k} \sum_{i \in 1, \ldots k} \bar{c_i}
+\end{displaymath}
+
+Definimos $infeasibility$ como el número de restricciones, tanto del tipo \emph{Must Link} como del tipo \emph{Cannot Link}, que se violan.
+
+Con ello, ya podemos definir el valor de $\lambda$ como $\lambda := \frac{D}{|R|}$ donde $|R|$ es el número total de restricciones y $D$ la distancia máxima entre dos puntos de $X$.
+
+Cuando trabajemos con algoritmos poblacionales, usaremos la siguiente \textbf{nomenclatura}:
+
+\begin{itemize}
+    \item Población: conjunto de soluciones
+    \item Cromosoma: una solución individual
+    \item Gen: cada uno de los elementos del vector de asignación punto $\rightarrow$ cluster que compone la solución
+\end{itemize}
+
+\subsubsection{Representación de la solución en código}
+
+La solución se representa en la clase \lstinline{problem_datatypes::Solution}. El código de los campos del \lstinline{struct} desarrollado es:
+
+\begin{lstlisting}[language=Rust, style=Boxed]
+pub struct Solution<'a, 'b> {
+cluster_indexes: Vec<u32>,
+data_points: &'a DataPoints,
+constraints: &'b Constraints,
+number_of_clusters: i32,
+
+/// Representa el peso de infeasibility en el calculo de fitness
+/// Solo se calcula una vez al invocar a Solution::new
+lambda: f64,
+
+// Para cachear el valor de fitness pues es un calculo costoso de realizar
+// Como los datos del struct no cambian, podemos hacer el cacheo sin miedo
+// Usamos RefCell para tener un patron de mutabilidad interior
+fitness: RefCell<Option<f64>>,
+}
+\end{lstlisting}
+
+Los campos del \lstinline{struct} representan:
+
+\begin{itemize}
+\item \lstinline{cluster_indixes}: el vector solución que representa la asignación de puntos a clusters
+\item \lstinline{data_points}: referencia al conjunto de datos (sirve para calcular métricas como el $fitness$ de la solución que se representa)
+\item \lstinline{constraints}: referencia al conjunto de restricciones sobre los datos (sirve para calcular métricas como el $fitness$ de la solución que se representa)
+\item \lstinline{number_of_clusters}: número de clusters en los que se agrupan los datos (sirve para comprobar que una solución sea válida)
+\item \lstinline{lambda}: valor de $\lambda$, necesario para calcular el $fitness$
+\item \lstinline{fitness}: valor de $fitness$. Está incluida en un \lstinline{RefCell<Option<f64>>} para poder cachear su valor, puesto que los atributos de una instancia nunca cambian y el cálculo del valor $\lambda$ es muy costoso (implica calcular restricciones violadas y distancias entre puntos)
+\end{itemize}
+
+La comprobación de que no tenemos clusters sin puntos asignados se hace en el método \lstinline{Solution::is_valid}. La distancia media intracluster se calcula en \lstinline{Solution::intra_cluster_distance}. Mientras que la desviación general se calcula en \lstinline{Solution::global_cluster_mean_distance}. El valor de $infeasibility$ se calcula en \lstinline{Solution::infeasibility}. El cálculo de $\lambda$ se realiza en el \emph{constructor} del \lstinline{struct}.
+
+Además, en todos los algoritmos, salvo \lstinline{copkmeans}, debemos llevar la cuenta de las evaluaciones de \emph{fitness} que consumimos. Para ello tenemos la función \lstinline{fitness_and_consumed}. También tenemos funciones para invalidar la cache, para comprobar si tenemos el \emph{fitness} cacheado o no, $\ldots$
+
+\subsubsection{FitnessEvaluationResult}
+
+Para mejorar el control sobre las evaluaciones del fitness, disponemos del struct  \lstinline{FitnessEvaluationResult<T>}. Guarda un tipo genérico \lstinline{T} y las evaluaciones que consume la operación que genera dicho valor. Por ejemplo, si en un población (de la que hablaremos más adelante), queremos encontrar el individuo con mejor valor de fitness, devolvemos \lstinline{FitnessEvaluationResult<Solution>} con dicho mejor individuo y las consumiciones de fitness \textbf{efectivas} que consume esta búsqueda.
+
+\subsection{Representación de la población}
+
+Una población, intuitivamente, es un conjunto de individuos, que en nuestro caso, serán soluciones válidas del problema que estamos intentando resolver. En código la representaremos como un vector de \lstinline{Solution}. Sobre este \lstinline{struct} podemos realizar operaciones comunes a los algoritmos genéticos, tanto generacionales como estacionarios, y a los algoritmos meméticos. Operaciones como generar una población inicial aleatoria, mutar con cierta probabilidad a la población, realizar  torneos binarios para generar una población de selección de tamaño dado, $\ldots$
+
+\subsubsection{Representación en código y consideraciones}
+
+El \lstinline{struct} viene dado por:
+
+\begin{lstlisting}[language=Rust, style=Boxed]
+/// Representa una poblacion para los algoritmos geneticos
+#[derive(Debug, Clone)]
+pub struct Population<'a, 'b>{
+    /// Individuos de la poblacion
+    individuals: Vec<Solution<'a, 'b> >,
+}
+\end{lstlisting}
+
+Los métodos implementados para el \lstinline{struct} serán comentados a medida que vayamos describiendo el pseudocódigo de los distintos algoritmos.
+
+Una consideración importante es que, en un primer momento, consideramos utilizar una estructura de datos del tipo \emph{Cola con prioridad}. De esta forma, podríamos obtener de forma eficiente los elementos mejores y peores (respecto a su valor del \emph{fitness}) de una población. Sin embargo, introducía mucha complejidad en el código, pues era difícil tener en cuenta las evaluaciones del fitness que se consumían al mantener la estructura de datos (por ejemplo, deberíamos haber implementado la interfaz \emph{Ord}, que no permite devolver el tipo de dato \emph{FitnessEvaluationResult}). Esto, junto a que el código corre en unos tiempos muy razonables, motiva nuestra decisión a no considerar una estructura de datos más compleja. Podría haber sido interesante implementar a mano un \lstinline{PriorityQueue} para poder controlar las evaluaciones del fitness y también optimizar algo más el código.
+
+En los pseudocódigos mostramos que, en la función \lstinline{select_best_indixes}, usamos una cola con prioridad. Esto porque previamente evaluamos toda la población, y con ello, tenemos controladas las evaluaciones del fitness.
+
+Notar también que muchos de los métodos devuelven el tipo \lstinline{FitnessEvaluationResult}, para tener control de las evaluaciones del fitness consumidas, como ya hemos comentado previamente.
+
+\pagebreak
+
+\section{Descripción de los algoritmos empleados}
+
+\subsection{Búsqueda Local} \label{pseudocodigo_localsearch}
+
+Usamos un pseudocódigo muy parecido a \lstinline{Python} pues es muy expresivo y facilita traducir partes de nuestro código real a pseudocódigo.
+
+Método de exploración de entorno:
+
+\begin{lstlisting}[language=Python, style=Boxed]
+# Estrategia el primero mejor
+# Devuelve el primer vecino que mejora la solucion actual
+def get_neighbour():
+    # Tomamos el generador de vecinos que se describe mas adelante
+    neighbours_generator = generate_all_neighbours()
+
+    # Mezclo los generadores de vecinos
+    neighbours_generator.shuffle()
+
+    # Exploro los vecinos hasta encontrar uno mejor que esta solucion
+    for current_generator in neighbours_generator:
+        current_solution = self.generate_solution_from(current_generator)
+
+        if
+            current_solution.is_valid() and
+            current_solution.fitness() < self.fitness():
+
+            return current_solution
+
+    # No hemos encontrado un vecino mejor
+    return None;
+}
+\end{lstlisting}
+
+Operador de generación de vecino:
+
+\begin{lstlisting}[language=Python, style=Boxed]
+
+# Struct que representa el generador de vecinos de
+# forma eficiente
+struct NeighbourGenerator:
+    # El elemento que queremos mover de cluster
+    element_index: i32,
+
+    # El nuevo cluster al que asignamos el elemento
+    new_cluster: u32,
+
+# Funcion que genera todos los vecinos posibles de un elemento
+# Los vecinos generados pueden ser no validos
+def generate_all_neighbours(
+    number_of_elements,
+    number_of_clusters):
+    neighbours = []
+
+    for current_element in 0..number_of_elements:
+        for current_cluster in 0..number_of_clusters:
+            neighbours.append(NeighbourGenerator{
+                current_element,
+                current_cluster,
+            });
+
+    return neighbours;
+\end{lstlisting}
+
+Generación de soluciones aleatorias:
+
+\begin{lstlisting}[language=Python, style=Boxed]
+# Genera una solucion inicial aleatoria como punto de partida de las busquedas
+# Puede dejar clusters vacios, por lo que el caller de esta funcion tiene que
+# comprobar la validez de la solucion aleatoria, y en caso de invalidez, volver
+# a llamar a esta funcion (es muy poco probable que con muchos puntos dejemos
+# un cluster vacio)
+def generate_random_solution(data_points, constraints, number_of_clusters):
+        # Vector con indices de clusters aleatorios, de tamaño el numero de puntos
+        # que trabajamos
+        random_cluster_indixes = [
+            random(0, number_of_clusters)
+            for _ in data_points.len()
+        ]
+
+        # En nuestro codigo, generamos el struct Solution a partir de los parametros
+        # de entrada y random_cluster_indixes
+        return solution_from(cluster_indexes)
+    }
+\end{lstlisting}
+
+
+\pagebreak
+
+\subsection{Descripción y Pseudocódigo del algoritmos de comparación - \emph{Copkmeans}}
+
+Como algoritmo de comparación estamos considerando una modificación del algoritmo clásico \emph{K-means} al que añadimos la capacidad de considerar las restricciones: \emph{copkmeans} o \emph{Constrained K-means}. Por tanto, estamos ante un algoritmo \emph{greedy}.
+
+La idea general es:
+
+\begin{enumerate}
+    \item Partir de una solución inicial aleatoria, que vendrá dada por una asignación de centroides de clusters aleatorios
+    \item Iterar sobre todos los datos en orden aleatorio, asignando a cada punto el mejor cluster en ese momento (siguiendo claramente un esquema greedy). Consideramos como mejor cluster el que menos restricciones violadas produzca, y en caso de empate, el cluster cuyo centroide sea más cercano al punto
+    \item Una vez acabada la asignación de todos los puntos, calcular los centroides de los clusters con la asignación actual de los puntos
+    \item Repetir el proceso desde 2. si los centroides han cambiado respecto de la anterior iteración
+\end{enumerate}
+
+A la hora de ejecutar el algoritmo, en algunos \emph{datasets} el algoritmo se encuentra con problemas, pues los centroides pueden oscilar infinitamente entre dos soluciones muy cercanas (debido entre otros factores a la configuración de los datos de entrada). Esta configuración de los datos también puede provocar que haya clusters que se queden sin puntos asignados, generando así una solución no válida. Por tanto, el algoritmo admite un parámetro de entrada para indicar si queremos que sea \emph{robusto} o no. En caso de que indiquemos que queremos que sea robusto se tendrán las siguientes diferencias:
+
+\begin{itemize}
+    \item Los centroides aleatorios no se tomarán como puntos aleatorios, sino como puntos del \emph{dataset} aleatorios, por lo que en una primera iteración no podrán quedar clusters vacíos, aunque si podrán quedar clusters vacíos en iteraciones posteriores. Con esto se buscas evitar el problema de los clusters vacíos
+    \item Se tendrá un máximo de iteraciones. Este máximo lo hemos establecido como 50 iteraciones sobre el bucle principal. Teniendo en cuenta que cuando no cicla infinitamente, en menos de 10 iteraciones el algoritmo encuentra solución, consideramos que es un máximo mucho más que aceptable para asegurar que la solución devuelta sea la mejor (o la segunda mejor) que el \emph{greedy} puede calcular con esa semilla aleatoria. Con esto se busca evitar el problema del ciclado infinito
+    \item Aún con estos cambios, en ciertas ocasiones no podemos evitar que dejemos un cluster vacío en iteraciones posteriores a la primera. Por tanto, también colocaremos un máximo de reinicios del algoritmo en la parte del código que llama al método de búsqueda.
+\end{itemize}
+
+El pseudocódigo (en notación muy parecida a \lstinline{Python}) de nuestra implementación del algoritmo quedaría tal que:
+
+\begin{lstlisting}[language=Python, style=Boxed]
+# Generamos los centroides aleatorios. Dependiendo de si es robust o no
+# consideramos puntos aleatorios en [0,1] x [0,1] o puntos del dataset
+# de entrada aleatorios
+current_centroids = generate_random_centroids()
+
+# Solucion inicial aleatoria que se va a modificar en la primera iteracion
+# Notar que no es valida porque deja todos los clusters menos uno vacíos
+current_cluster_indixes = [0, 0, ..., 0]
+
+# Para comprobar que los centroides cambien
+centroids_have_changed = true
+
+
+# Si robust == true, acotamos el numero maximo de iteraciones
+max_iterations = 50
+mut curr_iteration = 0
+
+while centroids_have_changed == true and curr_iteration < max_iterations{
+
+    # Realizamos una nueva asignacion de clusters. Recorremos los puntos
+    # aleatoriamente y asignamos el cluster que menos restricciones viole
+    # en esa iteracion. En caso de empate, se toma el cluster con centroide
+    # mas cercano al punto
+    new_cluster_indixes = assign_points_to_clusters()
+
+    # Comprobamos que la nueva solucion calculada es correcta
+    if valid_cluster_configuration(current_cluster_indixes) == false:
+        # Esto hace que el el caller de la funcion copkmeans, se muestre un
+        # mensaje por pantalla y se vuelva a realizar la busqueda, con lo que
+        # partimos de unos centroides aleatorios nuevos. Como ya se ha comentado,
+        # hay un maximo de reinicios en el caller para este metodo
+        return None
+
+    # Calculamos los nuevos centroides y comprobamos si han cambiado
+    new_centroids = calculate_new_centroids(new_cluster_indixes)
+    centroids_have_changed = centroids_are_different(
+        current_centroids,
+        new_centroids
+    )
+
+    # Cambiamos a la nueva asignacion de clusters y los nuevos centroides
+    current_cluster_indixes = new_cluster_indixes
+    current_centroids = new_centroids
+
+
+    # En caso de que robust = true, acotamos el numero de iteraciones de forma
+    # efectiva aumentando el contador. En otro caso, al no tocar el contador
+    # no estamos teniendo en cuenta este parametro
+    if robust == true:
+        curr_iteration = curr_iteration + 1;
+
+# Devolvemos la solucion en la estructura de datos correspondiente
+return solution_from(current_cluster_indixes)
+\end{lstlisting}
+
+Desarrollamos el código de \lstinline{assign_points_to_clusters} por su importancia:
+
+\begin{lstlisting}[language=Python, style=Boxed]
+def assign_points_to_clusters():
+    # Realizamos una nueva asignacion de clusters
+    # -1 para saber que puntos todavia no han sido asignados a un cluster
+    new_cluster_indixes= [-1, -1, ..., -1]
+
+    # Recorremos aleatoriamente los puntos para irlos asignando a cada cluster
+    point_indexes = (0..data_points.len())
+    point_indexes.shuffle();
+
+    for index in point_indexes:
+        # Calculo el cluster al que asignamos el punto actual
+        new_cluster_indixes[index] = select_best_cluster(
+            current_cluster_indixes,
+            current_centroids,
+        )
+
+    # Devolvemos los indices que representan la solucion
+    return new_cluster_indixes
+\end{lstlisting}
+
+\pagebreak
+
+\subsection{Descripción y pseudocódigo del algoritmo de búsqueda local multiarranque básica}
+
+Este algoritmo consiste en lanzar, con distintas soluciones iniciales aleatorias, la búsqueda local fuerte implementada en la práctica 1. Tras lanzar el número dado de veces esta búsqueda local, nos quedamos con la solución que mejor \emph{fitness} ha alcanzado. En \emph{\ref{pseudocodigo_localsearch}. \nameref{pseudocodigo_localsearch}}, se detalla el proceso de generación de una solución aleatoria, que se usa en esta metaheurística. El pseudocódigo de este algoritmo, por tanto, es el siguiente:
+
+\begin{lstlisting}[language=Python, style=Boxed]
+
+# Maximo de evaluaciones del fitness
+max_fitness_evaluations = 10000
+
+# Numero de veces que realizamos la busqueda local
+number_of_local_searchs = 10
+
+# Vectores para guardar los resultados de las busquedas locales
+solutions = []
+fitness_evolutions = []
+
+# Lanzamos las busquedas locales
+for i in 0..number_of_local_searchs:
+    solucion_local, fitness_evolution= local_search::run(max_fitness_evaluations)
+    solutions.append(solucion_local)
+    fitness_evolutions.append(fitness_evolution)
+
+# Indice de la solucion con mejor fitness
+best_index = select_best_solution(solutions)
+
+# Recuperamos la mejor solucion y la mejor evolucion del fitness
+best_solution = solutions[best_index]
+best_fit_ev = fitness_evolutions[best_index]
+
+def select_best_solution(solutions):
+    best_index = 0
+    best_fitness = solutions[best_index].fitness()
+
+    for index in 0..solutions.len():
+        if solutions[index].fitness() < best_fitness:
+            best_fitness = solutions[index].fitness()
+            best_index = index
+
+    return best_index
+\end{lstlisting}
+
+Notar también que el valor de los dos parámetros fundamentales (número de repeticiones de la búsqueda local y número de evaluaciones del fitness máximo por búsqueda local) queda especificado en \emph{\ref{parametros_blm}. \nameref{parametros_blm}}. Se verifica que el producto de repeticiones de la búsqueda local por el número de evaluaciones del fitness asignadas a cada búsqueda local es igual al número máximo de evaluaciones del fitness asignados a los algoritmos que hemos empleado en prácticas anteriores, para poder realizar comparaciones.
+
+\pagebreak
+
+\subsection{Descripción y pseudocódigo del algoritmo \emph{Iterative Local Search}}
+
+En este algoritmo, realizaremos una búsqueda local sobre una solución inicial aleatoria. Una vez hecho esto, mutamos fuertemente la solución con la mutación por segmento fijo(especificado en la función \lstinline{hard_mutated}) y aplicamos búsqueda local o enfriamiento simulado como intensificación a esta solución mutada. Si esta nueva solución es mejor que la original, se sustituye. Se repite este proceso de mutación de la mejor solución, intensificación de la mutación y reemplazo en caso de obtener mejores resultados un número dado de veces. El pseudocódigo queda tal que:
+
+\begin{lstlisting}[language=Python, style=Boxed][H]
+# Numero maximo de repeticiones y maximo de evaluaciones del fitness
+# en el algoritmo intensificador
+max_fitness_evaluations = 10000
+number_of_repetitions = 10
+
+# Tamaño del segmento de mutacion fuerte que consideramos
+mutation_segment_size = 0.1 * data_points.len()
+
+# Generamos una solucion inicial aleatoria
+# Current solution sera la mejor solucion hasta el momento
+current_solution = Solution::generate_random_solution(data_points, constraints, number_of_clusters, rng);
+
+# Realizamos las repeticiones dadas
+for _ in 0..number_of_repetitions:
+
+    # Mutamos fuertemente la mejor solucion encontrada hasta el momento
+    new_solution = current_solution.hard_mutated(mutation_segment_size)
+
+    # Aplicamos busqueda local o enfriamiento simulado a esta solucion mutada fuertemente
+    # En el caso de enfriamiento simulado, establecemos los mismos parametros que en este
+    # algoritmo
+    local_solution = intensificar(max_fitness_evaluations, new_solution)
+
+    # Comprobamos si esta solucion es mejor que la que ya teniamos
+    if new_solution.fitness() < current_solution.fitness():
+        current_solution = new_solution;
+
+return (current_solution, fitness_evolution);
+
+# Funcion de mutacion por segmento fijo
+def hard_mutated(self, segment_size):
+    # Copiamos para no modificar la solucion actual
+    mutated = self.clone()
+
+    # Seleccionamos el inicio del segmento
+    let gen_size = self.cluster_indexes.len();
+    let segment_start = rng.gen_range(0..gen_size);
+
+    # Mutamos los valores el el segmento. El resto de valores son automaticamente copiados del
+    # padre porque mutated es clone de self
+    for i in 0..segment_size:
+        # Indice que debemos mutar segun los valores del segmento
+        index = (segment_start + i) % segment_size
+
+        # Mutamos dicho valor
+        let new_cluster = rng.gen_range(0..mutated.number_of_clusters)
+        mutated.cluster_indexes[index] = new_cluster as u32;
+    }
+
+    # Reparamos la solucion si la solucion mutada acaba por no ser valida
+    if mutated.is_valid() == false:
+        mutated.repair_solution(rng)
+
+    return mutated;
+\end{lstlisting}
+
+Los parámetros fundamentales, como el número de repeticiones, máximo de evaluaciones del fitness en el algoritmo intensificador o tamaño del segmento para la mutación, se especifica en \emph{\ref{parametros_ils}. \nameref{parametros_ils}}.
+
+\pagebreak
+
+\subsection{Descripción y pseudocódigo del algoritmo Enfriamiento Simulado}
+
+\pagebreak
+
+\section{Explicación del procedimiento considerado para desarrollar la práctica}
+
+Hemos desarrollado todo el código desde prácticamente cero usando el lenguaje de programación \lstinline{Rust}. Para el entorno de desarrollo, solo hace falta instalar \lstinline{Cargo}, que permite compilar el proyecto, correr los ejecutables cómodamente, descargar las dependencias o correr los tests que se han desarrollado.
+
+Las librerías externas que hemos empleado pueden consultarse en el fichero \lstinline{Cargo.toml} en el que se incluye un pequeño comentario sobre la utilidad de cada librería.
+
+A continuación describimos el proceso de instalación y un pequeño manual de usuario para compilar y ejecutar el proyecto en \lstinline{Linux} (pues es el sistema operativo que nuestro profesor de prácticas, Daniel Molina, nos ha indicado que usa).
+
+\subsection{Instalación del entorno}
+
+Lo más sencillo y directo es instalar \lstinline{rustup} \footnotemark que se encargará de instalar todos los elementos necesarios para compilar y ejecutar la práctica. Para ello podemos ejecutar:
+
+\begin{itemize}
+    \item En cualquier distribución linux: \lstinline{curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh} y seguir las instrucciones
+    \item Por si acaso no tenemos actualizado el entorno: \lstinline{rustup update}
+\end{itemize}
+
+Una vez tengamos instalado \lstinline{rustup}, podemos ejecutar órdenes como \lstinline{cargo check}, \lstinline{rustc}, \ldots
+
+\footnotetext{Información actualizada sobre el proceso de instalación puede consultarse en \cite{Gettings40:online}, \cite{InstallR15:online} o \cite{rustuprs85:online}}
+
+\subsection{Compilación y ejecución del binario}
+
+Además del binario aportado en la estructura de directorios que se especifica en el guión, podemos generar fácilmente el binario con \lstinline{cargo} y ejecutarlo tal que:
+
+\begin{itemize}
+    \item Para compilar: \lstinline{cargo build --release} lo que nos generará un binario en \lstinline{./target/release/PracticasMetaheuristicas}
+    \item Podemos usar ese binario para ejecutar el programa o podemos usar \lstinline{cargo run --release <parametros entrada>} para correr el programa de forma más cómoda
+    \item Es muy importante la opción \lstinline{--release} porque de otra forma el binario no será apenas optimizado, lo que supondrá tiempos de ejecución mucho mayores. Además todas las comprobaciones con \lstinline{debug_assert!} no serán ignorados, lo que relentecerá muchísimo las ejecuciones
+    \item Para correr los tests programados podemos hacer \lstinline{cargo test}
+\end{itemize}
+
+Si ejecutamos el binario sin parámetros, veremos por pantalla un mensaje indicando los parámetros que debemos pasar al programa. Estos parámetros son:
+
+% TODO -- esto esta desactualizado
+\begin{itemize}
+    \item Fichero de datos: el fichero donde guardamos las coordenadas de los puntos
+    \item Fichero de restricciones
+    \item Semilla para la generación de números aleatorios
+    \item Número de clusters en los que queremos clasificar los datos
+    \item Tipo de búsqueda: para especificar el tipo de algoritmo que queremos ejecutar. Los posibles valores son:
+    \begin{itemize}
+        \item copkmeans: búsqueda greedy
+        \item copkmeans\_robust: búsqueda greedy con los cambios ya indicados para que sea algo más robusto
+        \item local\_search: búsqueda local
+        \item gguniform
+        \item ggsegment
+        \item gsuniform
+        \item gssegment
+        \item memeall
+        \item memerandom
+        \item memeelitist
+    \end{itemize}
+\end{itemize}
+
+\subsection{Compilación y ejecución usando el script}
+
+El proceso de compilación y ejecución del programa, sobre los distintos conjuntos de datos y restricciones, usando las distintas semillas que más adelante se especifican, se puede lanzar de forma cómoda invocando el script \lstinline{./launch_all_programs}.
+
+\pagebreak
+
+\section{Experimentos y análisis realizados}
+
+\subsection{Descripción de los casos del problema empleados}
+
+Para los cinco \textbf{valores de las semillas}, hemos elegido los siguientes: 123456789, 234567891, 3456789, 456789123 y 567891234, sin ningún criterio en concreto (podríamos haber buscado, por ejemplo, semillas que no diesen problemas a la hora de lanzar el algoritmo greedy).
+
+Tenemos tres problemas distintos. Cada problema, tiene dos ficheros de restricciones, uno con el 10\% de los datos con restricciones, y otro con el 20\% de los datos con restricciones. Los problemas son:
+
+\begin{itemize}
+    \item Zoo: problema de agrupación de animales. Debemos clasificar datos de 16 dimensiones (o atributos) en 7 clusters distintos. Hay 101 instancias o puntos.
+    \item Glass: problema de agrupación de vidrios. Debemos clasificar datos de 9 dimensiones en 7 clusters. Hay 214 instancias de datos
+    \item Bupa: agrupar personas en función de hábitos de consumo de alcohol. Datos de dimensión 9 agrupados en 16 clusters. Hay 345 instancias de datos
+\end{itemize}
+
+Podemos lanzar las $5 * 3 * 2 = 30$ ejecuciones por algoritmo cómodamente con \lstinline{launch_all_programs}.
+
+\subsubsection{Parámetros de la búsqueda local y Greedy}
+
+\begin{itemize}
+\item Máximo de evaluaciones de la función fitness en búsqueda local: 100.000
+    \item Máximo de iteraciones del algoritmo greedy cuando forzamos la robustez: 50
+    \item Máximo de repeticiones del algoritmo greedy cuando este deja clusters vacíos: 100
+\end{itemize}
+
+% TODO -- hay que escribir esto
+\subsubsection{Parámetros de la búsqueda local multiarranque básica} \label{parametros_blm}
+\subsubsection{Parámetros de la búsqueda local iterativa} \label{parametros_ils}
+
+% TODO -- hay que borrar esto
+\subsubsection{Parámetros de los algoritmos poblacionales} \label{section:parametros_poblacionales}
+
+\begin{itemize}
+    \item Máximo de evaluaciones de la función fitness en búsqueda local: 100.000
+    \item Tamaño de la población: 50 cromosomas
+    \item Probabilidad de cruce AGG: 0.7
+    \item Probabilidad de cruce AGE: 1.0
+    \item Probabilidad mutación por gen: $\frac{0.1}{numero\ de\ genes}$
+\end{itemize}
+
+\subsubsection{Parámetros de los algoritmos memeticos} \label{section:parametros_memeticos}
+
+\begin{itemize}
+    \item Máximo de evaluaciones de la función fitness en búsqueda local: 100.000
+    \item Tamaño de la población: 50 cromosomas
+    \item Probabilidad de cruce AGG: 0.7
+    \item Probabilidad de cruce AGE: 1.0
+    \item Probabilidad mutación por gen: $\frac{0.1}{numero\ de\ genes}$
+    \item Número de fallos: $\xi = 0.1 * n$ donde $n$ es el número de genes por cromosoma
+\end{itemize}
+
+
+\pagebreak
+
+\subsection{Resultados obtenidos según el formato especificado}
+
+% TODO -- hemos modificado ligeramente el formato de la tabla
+El formato especificado viene dado en una tabla de excel que hemos rellenado con los resultados mostrados por pantalla por el programa. Para obtener estos resultados, basta con lanzar \lstinline{./launch_all_programs > salida_datos.txt} y consultar el fichero creado. Ese fichero se entrega con la práctica para que pueda consultarse los datos con los que hemos generado las tablas.
+
+Los datos guardados en un formato especificado se encuentra en la tabla de excel. Esta tabla se encuentra colgando de la carpeta \lstinline{FUENTES/analisis/Segunda Memoria/}. Los resultados de la ejecución en nuestro ordenador (en el ordenador de los profesores, se puede obtener una traza distinta a pesar de usar las mismas semillas) se encuentran en \lstinline{FUENTES/results}. También tenemos ficheros $.csv$ más depurados que he usado para cargar los datos en el \emph{Excel}.
+
+Considerar también que las ejecuciones provocan que se guarden ficheros tipo \lstinline{numpy} en la carpeta \lstinline{FUENTES/fitness_evolution_data}
+
+\subsection{Tablas con los resultados globales}
+
+Por la inmensa cantidad de datos, mostramos en esta memoria solamente las tablas de resultados globales. Notar que las tablas que dejamos fuera nos dan información adicional sobre como varían los algoritmos respecto al cambio de semilla. Información sobre estabilidad, desviaciones típicas, $\ldots$.
+
+Y además, como ya se ha comentado, en la carpeta \lstinline{FUENTES/results} tenemos la traza de ejecución y, además, los ficheros \lstinline{.csv} que hemos generado para tener información más depurada de los resultados.
+
+Las tablas con los resultados son las siguientes:
+
+% \begin{figure}[H]
+%     \includegraphics[width=1.0\textwidth]{tablas_globales_10}
+%     \caption{Tablas Globales - 10\% de restricciones}
+% \end{figure}
+
+% \begin{figure}[H]
+%     \includegraphics[width=1.0\textwidth]{tablas_globales_20}
+%     \caption{Tablas Globales - 20\% de restricciones}
+% \end{figure}
+
+\subsection{Análisis de resultados}
+
+Por las correcciones en la búsqueda local y el algoritmo \emph{greedy}, se puede ver que los resultados respecto a estas dos búsquedas han cambiado respecto la práctica anterior. Estas correcciones se comentan en \emph{\ref{seccion:correcciones}. \nameref{seccion:correcciones}}. Es notorio que, en \emph{Bupa 20\%}, tengamos un tiempo de ejecución tan pequeño. Esto se justifica en la corrección al ver lo que hemos tenido que hacer para poder asignar valor a este \emph{dataset}.
+
+El algoritmo memético elitista está generando resultados malos de forma consistente, en comparación a la búsqueda local y el resto de genéticos y meméticos. A compañeros nuestros les ofrecen resultados mucho mejores, lo que nos hace pensar que hemos cometido un error en la práctica. Este error puede venir dado por:
+
+\begin{itemize}
+    \item Durante toda la práctica hemos tenido problemas con la diversidad en la población. Si este problema ha persistido sin tener mucho impacto en el resto de algoritmos, en el elitista se puede ampliar. Esto porque estamos haciendo más grande la diferencia entre individuos de buen \emph{fitness} e individuos de mal \emph{fitness}
+    \item En la selección del mejor individuo, usamos una cola con prioridad. Puede ser que nos esté devolviendo los peores elementos, en vez de los mejores.
+\end{itemize}
+
+El problema era el segundo. Cambiamos el código y repetimos las ejecuciones, para \lstinline{Memético Elitista}. No podemos guardar la traza y depurarla de nuevo con el poco tiempo del que disponemos, así que directamente mostramos los resultados en la siguientes tablas. Además, aprovechamos para marcar el mejor y peor resultado, que será de utilidad a la hora de realizar los análisis:
+
+% \begin{figure}[H]
+%     \includegraphics[width=1.0\textwidth]{tablas_globales_corregidas_10}
+%     \caption{Tablas Globales - 10\% de restricciones, \textbf{Corregidas}}
+% \end{figure}
+
+% \begin{figure}[H]
+%     \includegraphics[width=1.0\textwidth]{tablas_globales_corregidas_20}
+%     \caption{Tablas Globales - 20\% de restricciones, \textbf{Corregidas}}
+% \end{figure}
+
+Tras este cambio, vemos que el algoritmo memético elitista tiene el comportamiento deseado, con lo que podemos pasar a analizar los resultados.
+
+\subsubsection{Análisis Global}
+
+Los únicos algoritmos que han sido vencedores más de una vez han sido el memético elitista y la búsqueda local. Respecto al memético elitista, era en parte esperable, pues es el que conlleva mayor explotación, y para ciertos problemas esto puede ser lo deseado. Destaca que, a pesar de estar usando algoritmos mucho más avanzados que la búsqueda local, en ciertos problemas es el mejor algoritmo. Y en general, podemos apreciar que es bastante estable \emph{entre distintos tipos de problemas}, no llegando nunca a ser el peor algoritmo. Con esto no queremos decir que sea estable \emph{con distintos valores de la semilla}, porque como ya hemos visto en la práctica anterior, esto no es cierto.
+
+Debemos sospechar en cierta medida que los conjuntos de datos no sean lo suficientemente complejos como para que la búsqueda local se vea afectada por caer en malos óptimos locales. Un \emph{dataset} con muchísimos óptimos locales, debería mostrar que los algoritmos poblacionales generan consistentemente mejores soluciones. Por ejemplo, el que se visualiza en la siguiente imagen \footnotemark:
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.4\textwidth]{search_space}
+%     \caption{Espacio de búsqueda con muchos óptimos locales}
+% \end{figure}
+
+\footnotetext{Imagen extraída de: \cite{EspacioBusqueda:online}}
+
+Podemos ver que en el resto de algoritmos, dependemos muchísimo del \emph{dataset} a la hora de tener un buen o mal comportamiento respecto de los otros algoritmos. Cada algoritmo establece un equilibrio exploración-explotación distinto. Por tanto, a la hora de enfrentarnos a un problema concreto, deberemos estudiar distintos enfoques e intentar usar el conocimiento experto disponible para tomar una decisión en cuanto a la hora de fijar el algoritmo que vamos a emplear. Estamos justificando algo que ya sabíamos, por ejemplo, del \emph{Teorema Free Lunch}: no disponemos de un algoritmo muy bueno que funcione para todo tipo de problemas.
+
+El algoritmo memético que aplica búsqueda local a todos los miembros de la población genera resultados que son o bien regulares o bien malos. Intuitivamente, podemos pensar que estamos desperdiciando evaluaciones del fitness en intensificar soluciones malas. Es más, estamos perdiendo evaluaciones en intensificar soluciones que son muy parecidas de base, a soluciones que son todavía más parecidas al intensificar. Por tanto, disminuimos la diversidad de la población. Estas soluciones mejoradas de una solución mala a una solución menos mala, pero no buena, se podrían haber obtenido a partir de cruces y mutaciones, sin malgastar evaluaciones del fitness.
+
+También podemos ver que en la mitad de los casos, un algoritmo memético ha sido el que mejores resultados ha generado. Exceptuando los resultados regulares del memético que aplica búsqueda a todos los individuos, podemos observar resultados consistentes en los otros dos meméticos. Por tanto, a la hora de enfrentarnos a un problema sin demasiado conocimiento, trataríamos de empezar explorando la búsqueda local, y la búsqueda memética. Aunque para ello primero debemos implementar un genético, por lo que también podríamos tenerlo en cuenta. Visto desde otra perspectiva, si disponemos de un algoritmo genético que funcione medianamente bien, siempre trataríamos de aplicar una mejora memética, pues hemos visto que suelen mejorar los resultados.
+
+Para conjuntos de datos grandes, vemos que existe una tendencia hacia que los estacionarios funcionen mejor. Y al revés, con conjuntos de datos de menor tamaño, y con menos restricciones, los algoritmos genéticos generacionales parecen funcionar mejor. Esto introduce otro posible criterio a la hora de escoger un algoritmo u otro, en base a los conjuntos de datos con los que trabajemos.
+
+Usando el \emph{excel} que entregamos con la práctica, podemos ver las desviaciones típicas de cada tipo de búsqueda, para comparar la robustez de los algoritmos frente a los factores aleatorios:
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.4\textwidth]{desviaciones_tipicas}
+%     \caption{Desviaciones típicas de los \emph{fitness} de los algoritmos}
+% \end{figure}
+
+Como era de esperar, el algoritmo con desviación más alta es el de búsqueda local. Era intuitivo pensar esto, pues es el que pensamos que está más afectado por la semilla inicial. En un principio es sorprendente lo poco que se desvía el memético sobre todos los individuos. Creemos que es debido a que la intensificación provoca que todo el conjunto avance rápidamente hacia una solución muy similar (pérdida de diversidad), y por ello, es más estable respecto a las distintas semillas aleatorias.
+
+Del mismo modo, también es de esperar que el algoritmo elitista, que hace que las mejores soluciones avancen aún más, tenga una desviación tan pequeña. Los cuatro generacionales tiene desviaciones similares. No sabemos si las diferencias en desviación son significativas, sobre todo teniendo en cuenta que solo hemos lanzado 5 veces los algoritmos.
+
+De los meméticos, el que más desviación tiene es el de porcentaje aleatorio. De nuevo, esto también era esperable, pues es el que mayor aleatoriedad introduce a la hora de seleccionar los individuos a intensificar.
+
+Respecto a las restricciones violadas, el algoritmo \emph{greedy} lógicamente es el que mejores resultados genera. Gracias a que el único criterio que emplea es el de minimizar este valor. Y sin embargo, ya hemos comentado que no genera soluciones de calidad. Es destacable que los algoritmos meméticos han sido capaces de obtener soluciones buenas, con más restricciones violadas que el resto de algoritmos. Por ejemplo, en \emph{Bupa 10\%}.
+
+Por tanto, concluimos que la mejor estrategia es minimizar tanto las restricciones violadas como la distancia intra-cluster, según el equilibrio dado por el valor de $\lambda$.
+
+Respecto a los tiempos de ejecución, es de esperar que el más rápido sea \emph{greedy}. Aunque en casos en los que la búsqueda local converja prematuramente a la solución, puede ser que esta última sea más rápida. Esto pasa, por ejemplo, en \emph{zoo 10\%} y \emph{Bupa 10\%}. También, que \emph{greedy} cicle sobre soluciones muy parecidas hasta que forzosamente paramos el algoritmo puede favorecer a este comportamiento.
+
+En general, los algoritmos genéticos estacionarios son algo más lentos que los genéticos generacionales. Al realizar cambios de población de tamaño completo, en generacional estamos consumiendo las evaluaciones del fitness en menos iteraciones. Por lo tanto, podemos pensar que en generacional estamos realizando las operaciones en \emph{batch}, mientras que en estacionario tenemos que repetir todos los pasos del algoritmo de dos en dos individuos. En \emph{Bupa 20\%} estas diferencias de tiempo son notables, difiriendo en más de 7 segundos.
+
+El algoritmo memético sobre toda la población, hace que los tiempos sean aún más grandes. Sin embargo, los otros dos algoritmos meméticos mejoran algo los tiempos de ejecución respecto a los genéticos estacionarios. En algunas ocasiones mejoramos los tiempos de los algoritmos generacionales, pero no vemos suficiente consistencia en los datos para sacar conclusiones de ello.
+
+Por tanto, cuando trabajemos con conjuntos de datos mucho más grandes, el tiempo de ejecución puede ser un factor a tener en cuenta cuando elijamos el algoritmo a emplear. Teniendo en cuenta que el memético sobre un porcentaje aleatorio y el memético elitista, cuando no mejora al genético estacionario, se queda muy cerca del genético generacional, y a vista de las mejoras de los resultados, en muchas ocasiones podemos considerar emplear un memético como mejora a un genético sin tener demasiado miedo al impacto en tiempos de ejecución.
+
+A la hora de ejecutar los algoritmos, viendo cómo avanzaban las poblaciones, hemos observado un comportamiento que nos ha parecido algo problemático. Tras no demasiadas iteraciones, la población de individuos se estabilizaba alrededor de unas pocas soluciones repetidas muchas veces. Por tanto, sería interesante usar otros parámetros del programa para introducir más diversidad en fases tardías de los algoritmos.
+
+\pagebreak
+
+% Referencias bibliográficas
+\bibliography{References}
+\bibliographystyle{ieeetr}
+
+
+\end{document}
