@@ -1,9 +1,17 @@
 # Prácticas Metaheurísticas
 
 * Repositorio para desarrollar las prácticas de la asignatura Metaheurísticas
-* A continuación, el contenido LEEME para los profesores:
+
+# Memorias desarrolladas
+
+* A continuación enlazo las tres memorias en las que se explica el desarrollo realizado y se analizan los resultados obtenidos
+* [Primera Memoria](https://github.com/SergioQuijanoRey/PracticasMetaheuristicas/blob/master/analisis/Primera%20Memoria/Memoria%20Primera.pdf)
+* [Segunda Memoria](https://github.com/SergioQuijanoRey/PracticasMetaheuristicas/blob/master/analisis/Segunda%20Memoria/Memoria.pdf)
+* [Tercera Memoria](https://github.com/SergioQuijanoRey/PracticasMetaheuristicas/blob/master/analisis/Tercera%20Memoria/Memoria.pdf)
 
 # Fichero de instrucciones para los profesores de practicas
+
+* A continuación, el contenido LEEME para los profesores:
 
 ## Instalación de Rust
 
